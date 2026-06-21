@@ -1,6 +1,6 @@
 {
-    "name": "gosuccess/php-enhance-api-wrapper",
-    "description": "PHP Enhance API Wrapper",
+    "name": "gosuccess/enhance-api",
+    "description": "PHP wrapper for the Enhance API",
     "type": "library",
     "license": "MIT",
     "autoload": {
