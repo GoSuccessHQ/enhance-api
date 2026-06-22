@@ -5,3 +5,4 @@ composer.phar
 .phpunit.cache/
 /coverage/
 /build/
+/composer.lock
