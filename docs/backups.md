@@ -75,10 +75,12 @@ Download website backup
 | Parameter | Type | Required |
 | --------- | ---- | -------- |
 | `$websiteId` | `string` | yes |
-| `$backupDownloadKind` | `?BackupDownloadKind` | no |
+| `$backupDownloadKind` | `BackupDownloadKind` | yes |
 
 ```php
-$result = $enhance->backups->downloadWebsiteBackup('website-id');
+use GoSuccess\Enhance\Enum\BackupDownloadKind;
+
+$result = $enhance->backups->downloadWebsiteBackup('website-id', BackupDownloadKind::Website);
 ```
 
 ## getWebsiteBackup

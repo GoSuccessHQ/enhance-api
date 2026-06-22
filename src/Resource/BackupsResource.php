@@ -89,11 +89,11 @@ final class BackupsResource extends AbstractResource
      * GET /websites/{website_id}/backup/download
      *
      * @param string $websiteId The id of the website.
-     * @param BackupDownloadKind|null $backupDownloadKind
+     * @param BackupDownloadKind $backupDownloadKind Which data to download (required by the server)
      * @throws \GoSuccess\Enhance\Exception\ApiException
-     * @return string Raw response body
+     * @return string Raw gzip response body
      */
-    public function downloadWebsiteBackup(string $websiteId, ?BackupDownloadKind $backupDownloadKind = null): string
+    public function downloadWebsiteBackup(string $websiteId, BackupDownloadKind $backupDownloadKind): string
     {
         $query = [
             'backupDownloadKind' => $backupDownloadKind,
