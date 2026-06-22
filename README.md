@@ -88,6 +88,21 @@ $enhance->websites->getWebsites();                        // configured organiza
 $enhance->websites->getWebsites(orgId: 'other-org-uuid'); // another organization
 ```
 
+## Pagination
+
+Listing endpoints accept `offset`/`limit`. `Paginator::items()` transparently
+walks every page for you:
+
+```php
+use GoSuccess\Enhance\Util\Paginator;
+
+foreach (Paginator::items(
+    fn (int $offset, int $limit) => $enhance->websites->getWebsites(offset: $offset, limit: $limit),
+) as $website) {
+    echo $website->id . "\n";
+}
+```
+
 ## Configuration
 
 `Enhance::create()` covers the common case. For finer control, build a
