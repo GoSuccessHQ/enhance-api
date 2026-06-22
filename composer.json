@@ -50,10 +50,6 @@
         "analyse:baseline": "phpstan analyse --generate-baseline --memory-limit=2G",
         "cs:check": "php-cs-fixer fix --dry-run --diff --verbose",
         "cs:fix": "php-cs-fixer fix --verbose",
-        "generate": [
-            "php tools/generate.php",
-            "@cs:fix"
-        ],
         "check": [
             "@cs:check",
             "@analyse",

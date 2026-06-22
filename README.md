@@ -3,7 +3,7 @@
 A modern, dependency-free PHP client for the [Enhance](https://enhance.com) control panel API.
 
 - **Vanilla** – zero runtime dependencies, only the `curl` and `json` extensions.
-- **Complete** – all 470 operations across 33 resources, generated from the official OpenAPI specification.
+- **Complete** – all 470 operations across 33 resources, covering the full Enhance API (v12.23.0).
 - **Type-safe** – typed DTOs, enums, and resource methods built on PHP 8.4 features (property hooks, `readonly`, backed enums).
 
 ## Requirements
@@ -136,9 +136,9 @@ src/
   Client/              Configuration and the cURL ApiClient
   Contract/            HttpClientInterface
   Http/                Immutable Response
-  Resource/            33 generated resources (470 methods)
-  DTO/                 360 generated, hydratable data transfer objects
-  Enum/                66 generated enums + HttpMethod/HttpStatusCode
+  Resource/            33 resources (470 methods)
+  DTO/                 360 hydratable data transfer objects
+  Enum/                66 enums + HttpMethod/HttpStatusCode
   Exception/           Typed exception hierarchy
   Base/                AbstractResource, AbstractDto
   Attribute/           ArrayItemType
@@ -146,21 +146,15 @@ src/
 
 ## Development
 
-The `Resource`, `DTO`, and `Enum` classes are generated from the vendored
-OpenAPI specification (`spec/oas3-api.yaml`). The hand-written foundation
-(`Client`, `Http`, `Base`, `Contract`, `Exception`, `Attribute`) is never
-touched by the generator.
+The `Resource`, `DTO`, and `Enum` classes were originally derived from the
+Enhance OpenAPI specification (v12.23.0) and are now maintained by hand.
 
 ```bash
-composer generate     # regenerate from the spec, then format
 composer cs:fix       # apply coding standards
 composer analyse      # PHPStan
 composer test         # PHPUnit
 composer check        # all of the above
 ```
-
-To update against a new API version, replace `spec/oas3-api.yaml` (and the
-`spec/oas3-api.json` the generator reads) and run `composer generate`.
 
 ## License
 
