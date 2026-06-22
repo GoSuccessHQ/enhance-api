@@ -50,7 +50,7 @@ final class SubscriptionsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/subscriptions", $query);
 
-        return $response->decoded !== null ? SubscriptionsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SubscriptionsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -103,7 +103,7 @@ final class SubscriptionsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/subscriptions/{$subscriptionId}");
 
-        return $response->decoded !== null ? Subscription::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Subscription::fromArray($response->decoded) : null;
     }
 
     /**
@@ -179,7 +179,7 @@ final class SubscriptionsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/subscriptions/{$subscriptionId}/calculate-resource-usage");
 
-        return $response->decoded !== null ? UsedResourcesFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? UsedResourcesFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -216,7 +216,7 @@ final class SubscriptionsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/customers/{$customerOrgId}/subscriptions", $query);
 
-        return $response->decoded !== null ? SubscriptionsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SubscriptionsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -245,6 +245,6 @@ final class SubscriptionsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/customers/{$customerOrgId}/subscriptions", [], $newSubscription);
 
-        return $response->decoded !== null ? NewResourceId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceId::fromArray($response->decoded) : null;
     }
 }

@@ -35,7 +35,7 @@ final class AppsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/utils/installable-apps');
 
-        return $response->decoded !== null ? InstallableWebsiteAppsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? InstallableWebsiteAppsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -58,7 +58,7 @@ final class AppsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/subscriptions/{$subscriptionId}/installable-apps");
 
-        return $response->decoded !== null ? InstallableWebsiteAppsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? InstallableWebsiteAppsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -80,7 +80,7 @@ final class AppsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps");
 
-        return $response->decoded !== null ? WebsiteAppsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteAppsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -107,7 +107,7 @@ final class AppsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/apps", [], $newWebsiteApp);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**

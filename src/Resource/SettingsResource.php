@@ -37,7 +37,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings');
 
-        return $response->decoded !== null ? SettingsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SettingsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -70,7 +70,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/logs');
 
-        return $response->decoded !== null ? OrchdLogSettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLogSettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -136,7 +136,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/login-policy/settings');
 
-        return $response->decoded !== null ? OrchdLoginPolicySettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLoginPolicySettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -169,7 +169,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/login-policy/ip-whitelist');
 
-        return $response->decoded !== null ? OrchdLoginPolicyIpList::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLoginPolicyIpList::fromArray($response->decoded) : null;
     }
 
     /**
@@ -219,7 +219,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/login-policy/ip-blacklist');
 
-        return $response->decoded !== null ? OrchdLoginPolicyIpList::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLoginPolicyIpList::fromArray($response->decoded) : null;
     }
 
     /**
@@ -269,7 +269,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/login-policy/email-whitelist');
 
-        return $response->decoded !== null ? OrchdLoginPolicyEmailList::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLoginPolicyEmailList::fromArray($response->decoded) : null;
     }
 
     /**
@@ -319,7 +319,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/settings/orchd/login-policy/email-blacklist');
 
-        return $response->decoded !== null ? OrchdLoginPolicyEmailList::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OrchdLoginPolicyEmailList::fromArray($response->decoded) : null;
     }
 
     /**
@@ -436,7 +436,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/settings/{$name}");
 
-        return $response->decoded !== null ? Setting::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Setting::fromArray($response->decoded) : null;
     }
 
     /**
@@ -547,7 +547,7 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/v2/settings/backup/remote_storage/s3');
 
-        return $response->decoded !== null ? BackupRemoteStorageS3::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? BackupRemoteStorageS3::fromArray($response->decoded) : null;
     }
 
     /**
@@ -613,6 +613,6 @@ final class SettingsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/v2/settings/demo_mode');
 
-        return $response->decoded !== null ? DemoMode::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DemoMode::fromArray($response->decoded) : null;
     }
 }

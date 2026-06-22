@@ -70,6 +70,6 @@ final class LetsencryptResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/letsencrypt_preflight");
 
-        return $response->decoded !== null ? LetsEncryptPreflightResult::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LetsEncryptPreflightResult::fromArray($response->decoded) : null;
     }
 }

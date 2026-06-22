@@ -37,7 +37,7 @@ final class OrgsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}");
 
-        return $response->decoded !== null ? Org::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Org::fromArray($response->decoded) : null;
     }
 
     /**
@@ -286,7 +286,7 @@ final class OrgsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/activities", $query);
 
-        return $response->decoded !== null ? ActivitiesListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ActivitiesListing::fromArray($response->decoded) : null;
     }
 
     /**

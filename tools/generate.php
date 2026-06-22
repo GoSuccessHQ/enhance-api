@@ -878,7 +878,7 @@ final class Generator
             if ($kind === 'dto') {
                 return [
                     'type' => '?' . $class,
-                    'code' => "        return \$response->decoded !== null ? {$class}::fromArray(\$response->decoded) : null;",
+                    'code' => "        return \\is_array(\$response->decoded) ? {$class}::fromArray(\$response->decoded) : null;",
                     'docReturn' => $class . '|null',
                     'imports' => [NS_DTO . '\\' . $class],
                 ];

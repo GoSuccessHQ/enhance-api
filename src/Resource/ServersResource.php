@@ -149,7 +149,7 @@ final class ServersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/servers', $query);
 
-        return $response->decoded !== null ? ServersListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServersListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -169,7 +169,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}");
 
-        return $response->decoded !== null ? ServerInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -230,7 +230,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/specs");
 
-        return $response->decoded !== null ? ServerSpecs::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerSpecs::fromArray($response->decoded) : null;
     }
 
     /**
@@ -303,7 +303,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/appcd/screenshot/config");
 
-        return $response->decoded !== null ? ScreenshotConfig::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ScreenshotConfig::fromArray($response->decoded) : null;
     }
 
     /**
@@ -344,7 +344,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/domains");
 
-        return $response->decoded !== null ? ServerHostnameWebsite::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerHostnameWebsite::fromArray($response->decoded) : null;
     }
 
     /**
@@ -364,7 +364,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/domains", [], $value);
 
-        return $response->decoded !== null ? WebsiteAndDomainUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteAndDomainUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -587,7 +587,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/status");
 
-        return $response->decoded !== null ? ServerStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -846,7 +846,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/email/hostname_override");
 
-        return $response->decoded !== null ? EmailServerHostnameOverride::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailServerHostnameOverride::fromArray($response->decoded) : null;
     }
 
     /**
@@ -885,7 +885,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/email/spam/outbound_scanning");
 
-        return $response->decoded !== null ? OutboundSpamScanningSettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OutboundSpamScanningSettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -922,7 +922,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/modsec_status");
 
-        return $response->decoded !== null ? ModSecStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ModSecStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -959,7 +959,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/owasp");
 
-        return $response->decoded !== null ? OwaspVersion::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? OwaspVersion::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1061,7 +1061,7 @@ final class ServersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/historic-stats", $query);
 
-        return $response->decoded !== null ? ServerStatsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerStatsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1115,7 +1115,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/uptime");
 
-        return $response->decoded !== null ? ServerUptime::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerUptime::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1135,7 +1135,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/iowait");
 
-        return $response->decoded !== null ? ServerIowait::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerIowait::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1155,7 +1155,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/load");
 
-        return $response->decoded !== null ? ServerLoad::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerLoad::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1175,7 +1175,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/disk-usage");
 
-        return $response->decoded !== null ? ServerDiskUsage::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerDiskUsage::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1195,7 +1195,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/memory-usage");
 
-        return $response->decoded !== null ? ServerMemoryUsage::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerMemoryUsage::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1215,7 +1215,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/network-stats");
 
-        return $response->decoded !== null ? ServerNetworkStats::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerNetworkStats::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1235,7 +1235,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/interfaces");
 
-        return $response->decoded !== null ? ServerNetworkInterfaces::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerNetworkInterfaces::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1326,7 +1326,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/php/fpm/{$websiteId}");
 
-        return $response->decoded !== null ? PhpIni::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? PhpIni::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1347,7 +1347,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles");
 
-        return $response->decoded !== null ? RolesInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? RolesInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1460,7 +1460,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles/{$role->value}/httpd_status");
 
-        return $response->decoded !== null ? HttpdStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? HttpdStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1501,7 +1501,7 @@ final class ServersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, '/servers/registration-key/validate', $query);
 
-        return $response->decoded !== null ? ValidationResult::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ValidationResult::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1520,7 +1520,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/servers/install-cmd');
 
-        return $response->decoded !== null ? InstallCmd::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? InstallCmd::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1540,7 +1540,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/servers/groups');
 
-        return $response->decoded !== null ? ServerGroups::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ServerGroups::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1559,7 +1559,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, '/servers/groups', [], $newServerGroup);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1624,7 +1624,7 @@ final class ServersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/packages/update", $query);
 
-        return $response->decoded !== null ? UpgradableSystemPackage::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? UpgradableSystemPackage::fromArray($response->decoded) : null;
     }
 
     /**

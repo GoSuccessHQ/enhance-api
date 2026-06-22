@@ -43,7 +43,7 @@ final class WordpressResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/utils/wordpress/latest');
 
-        return $response->decoded !== null ? WpLatestVersion::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpLatestVersion::fromArray($response->decoded) : null;
     }
 
     /**
@@ -88,7 +88,7 @@ final class WordpressResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress");
 
-        return $response->decoded !== null ? WpSettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpSettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -192,7 +192,7 @@ final class WordpressResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/themes", $query);
 
-        return $response->decoded !== null ? WpThemesFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpThemesFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -338,7 +338,7 @@ final class WordpressResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users");
 
-        return $response->decoded !== null ? WpUsersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpUsersFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -388,7 +388,7 @@ final class WordpressResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users/default");
 
-        return $response->decoded !== null ? WpUser::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpUser::fromArray($response->decoded) : null;
     }
 
     /**
@@ -579,7 +579,7 @@ final class WordpressResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/plugins", $query);
 
-        return $response->decoded !== null ? WpPluginsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WpPluginsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -788,6 +788,6 @@ final class WordpressResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/info");
 
-        return $response->decoded !== null ? WordPressInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WordPressInfo::fromArray($response->decoded) : null;
     }
 }

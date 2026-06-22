@@ -61,7 +61,7 @@ final class CustomersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/customers", $query);
 
-        return $response->decoded !== null ? CustomersListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? CustomersListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -82,6 +82,6 @@ final class CustomersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/customers", [], $newCustomer);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 }

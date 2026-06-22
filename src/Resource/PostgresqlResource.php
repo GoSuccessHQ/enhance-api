@@ -36,7 +36,7 @@ final class PostgresqlResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-dbs");
 
-        return $response->decoded !== null ? MySQLDBsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MySQLDBsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -106,7 +106,7 @@ final class PostgresqlResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-users");
 
-        return $response->decoded !== null ? PostgresqlUsersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? PostgresqlUsersFullListing::fromArray($response->decoded) : null;
     }
 
     /**

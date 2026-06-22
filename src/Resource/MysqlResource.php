@@ -38,7 +38,7 @@ final class MysqlResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs");
 
-        return $response->decoded !== null ? MySQLDBsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MySQLDBsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -187,7 +187,7 @@ final class MysqlResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-users");
 
-        return $response->decoded !== null ? MySQLUsersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MySQLUsersFullListing::fromArray($response->decoded) : null;
     }
 
     /**

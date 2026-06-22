@@ -52,7 +52,7 @@ final class DomainsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains", $query);
 
-        return $response->decoded !== null ? DomainsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -94,7 +94,7 @@ final class DomainsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/auth-ns");
 
-        return $response->decoded !== null ? AuthNsResponse::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? AuthNsResponse::fromArray($response->decoded) : null;
     }
 
     /**
@@ -115,7 +115,7 @@ final class DomainsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/cloudflare");
 
-        return $response->decoded !== null ? CloudFlareApiKey::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? CloudFlareApiKey::fromArray($response->decoded) : null;
     }
 
     /**
@@ -179,7 +179,7 @@ final class DomainsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/cloudflare/nameservers");
 
-        return $response->decoded !== null ? CloudFlareNameServers::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? CloudFlareNameServers::fromArray($response->decoded) : null;
     }
 
     /**
@@ -200,7 +200,7 @@ final class DomainsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/domains/check", [], $newDomain);
 
-        return $response->decoded !== null ? DomainInUseStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainInUseStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -217,7 +217,7 @@ final class DomainsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/modsec_status");
 
-        return $response->decoded !== null ? ModSecStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ModSecStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -252,7 +252,7 @@ final class DomainsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/vhost");
 
-        return $response->decoded !== null ? Vhost::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Vhost::fromArray($response->decoded) : null;
     }
 
     /**

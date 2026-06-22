@@ -33,7 +33,7 @@ final class EmailClientResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/email-client/public-ip');
 
-        return $response->decoded !== null ? EmailPublicIp::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailPublicIp::fromArray($response->decoded) : null;
     }
 
     /**
@@ -70,7 +70,7 @@ final class EmailClientResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/email-client/forwarders');
 
-        return $response->decoded !== null ? ForwardersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ForwardersFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -108,7 +108,7 @@ final class EmailClientResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/email-client/autoresponders');
 
-        return $response->decoded !== null ? Autoresponder::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Autoresponder::fromArray($response->decoded) : null;
     }
 
     /**
@@ -128,7 +128,7 @@ final class EmailClientResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, '/email-client/autoresponders', [], $newAutoresponder);
 
-        return $response->decoded !== null ? NewResourceId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceId::fromArray($response->decoded) : null;
     }
 
     /**

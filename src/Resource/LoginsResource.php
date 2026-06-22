@@ -62,7 +62,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/logins', $query);
 
-        return $response->decoded !== null ? LoginsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -87,7 +87,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, '/logins', $query, $loginInfo);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -103,7 +103,7 @@ final class LoginsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/login/sessions');
 
-        return $response->decoded !== null ? SessionsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SessionsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -130,7 +130,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, '/login/sessions', $query, $loginCreds);
 
-        return $response->decoded !== null ? LoginMemberships::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginMemberships::fromArray($response->decoded) : null;
     }
 
     /**
@@ -185,7 +185,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/login/sessions/sso', $query);
 
-        return $response->decoded !== null ? LoginMemberships::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginMemberships::fromArray($response->decoded) : null;
     }
 
     /**
@@ -312,7 +312,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, '/login/password-recovery/validate', $query);
 
-        return $response->decoded !== null ? ValidatedPasswordRecovery::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ValidatedPasswordRecovery::fromArray($response->decoded) : null;
     }
 
     /**
@@ -330,7 +330,7 @@ final class LoginsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/login/memberships');
 
-        return $response->decoded !== null ? LoginMemberships::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginMemberships::fromArray($response->decoded) : null;
     }
 
     /**
@@ -346,7 +346,7 @@ final class LoginsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/login');
 
-        return $response->decoded !== null ? Login::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Login::fromArray($response->decoded) : null;
     }
 
     /**
@@ -368,7 +368,7 @@ final class LoginsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::PATCH, '/login', [], $updateLogin);
 
-        return $response->decoded !== null ? UpdateLoginResult::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? UpdateLoginResult::fromArray($response->decoded) : null;
     }
 
     /**
@@ -444,7 +444,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/logins", $query);
 
-        return $response->decoded !== null ? LoginsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -477,7 +477,7 @@ final class LoginsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/customers/logins", $query);
 
-        return $response->decoded !== null ? LoginsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LoginsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -515,7 +515,7 @@ final class LoginsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/logins/ui-preferences');
 
-        return $response->decoded !== null ? UiPreferences::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? UiPreferences::fromArray($response->decoded) : null;
     }
 
     /**

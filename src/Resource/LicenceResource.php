@@ -27,7 +27,7 @@ final class LicenceResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, '/licence');
 
-        return $response->decoded !== null ? LicenceInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LicenceInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -44,6 +44,6 @@ final class LicenceResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::PUT, '/licence', [], $licenceKey);
 
-        return $response->decoded !== null ? LicenceInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LicenceInfo::fromArray($response->decoded) : null;
     }
 }

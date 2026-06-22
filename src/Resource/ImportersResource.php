@@ -42,7 +42,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/import/server/settings");
 
-        return $response->decoded !== null ? ImportServerSettingsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportServerSettingsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -65,7 +65,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/import/server/settings", [], $newImportServerSettings);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -89,7 +89,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/import/server/{$serverId}/pull-domains");
 
-        return $response->decoded !== null ? ImportServerDomainsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportServerDomainsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -129,7 +129,7 @@ final class ImportersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/import/server/{$serverId}/cached-domains", $query);
 
-        return $response->decoded !== null ? ImportServerDomainsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportServerDomainsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -155,7 +155,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/import/plesk-server/{$serverId}/domain", [], $transferPleskDomainReqBody);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -183,7 +183,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/import/server/{$serverId}/account/{$userId}", [], $transferUserAccountReqBody);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -205,7 +205,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/import/server/{$serverId}/settings");
 
-        return $response->decoded !== null ? ImportServerSettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportServerSettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -291,7 +291,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import/{$importMigrationId}");
 
-        return $response->decoded !== null ? ImportMigrationEntry::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportMigrationEntry::fromArray($response->decoded) : null;
     }
 
     /**
@@ -369,7 +369,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/v2/orgs/{$orgId}/import/{$importMigrationId}/resource", [], $importerMigrationReqBody);
 
-        return $response->decoded !== null ? ResourceCheckError::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ResourceCheckError::fromArray($response->decoded) : null;
     }
 
     /**
@@ -393,7 +393,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import/{$importMigrationId}/analyze");
 
-        return $response->decoded !== null ? ImporterAnalyzedData::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImporterAnalyzedData::fromArray($response->decoded) : null;
     }
 
     /**
@@ -446,7 +446,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/v2/orgs/{$orgId}/import/upload/{$importMigrationKind}", [], $formData, 'multipart/form-data');
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -464,7 +464,7 @@ final class ImportersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import");
 
-        return $response->decoded !== null ? ImportMigrationFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ImportMigrationFullListing::fromArray($response->decoded) : null;
     }
 
     /**

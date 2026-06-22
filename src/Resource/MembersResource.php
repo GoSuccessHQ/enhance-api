@@ -61,7 +61,7 @@ final class MembersResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/members", $query);
 
-        return $response->decoded !== null ? MembersListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MembersListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -82,7 +82,7 @@ final class MembersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/members", [], $newMember);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -103,7 +103,7 @@ final class MembersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/members/{$memberId}");
 
-        return $response->decoded !== null ? Member::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Member::fromArray($response->decoded) : null;
     }
 
     /**
@@ -208,7 +208,7 @@ final class MembersResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/access_tokens", [], $newAccessToken);
 
-        return $response->decoded !== null ? NewAccessTokenResponse::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewAccessTokenResponse::fromArray($response->decoded) : null;
     }
 
     /**

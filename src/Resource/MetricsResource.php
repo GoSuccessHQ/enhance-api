@@ -45,6 +45,6 @@ final class MetricsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/metrics", $query);
 
-        return $response->decoded !== null ? WebsiteMetricsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteMetricsFullListing::fromArray($response->decoded) : null;
     }
 }

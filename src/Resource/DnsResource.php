@@ -118,7 +118,7 @@ final class DnsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-zone");
 
-        return $response->decoded !== null ? DnsZone::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DnsZone::fromArray($response->decoded) : null;
     }
 
     /**
@@ -174,7 +174,7 @@ final class DnsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-zone/records", [], $newDnsRecord);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**

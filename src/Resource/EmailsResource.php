@@ -86,7 +86,7 @@ final class EmailsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/emails", $query);
 
-        return $response->decoded !== null ? EmailsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -106,7 +106,7 @@ final class EmailsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/domains/{$domainName}/email-auth");
 
-        return $response->decoded !== null ? EmailAuth::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailAuth::fromArray($response->decoded) : null;
     }
 
     /**
@@ -150,7 +150,7 @@ final class EmailsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/domains/{$domainName}/email-auth/validate");
 
-        return $response->decoded !== null ? EmailAuthValidation::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailAuthValidation::fromArray($response->decoded) : null;
     }
 
     /**
@@ -172,7 +172,7 @@ final class EmailsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/local_remote");
 
-        return $response->decoded !== null ? LocalRemoteBody::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LocalRemoteBody::fromArray($response->decoded) : null;
     }
 
     /**
@@ -238,7 +238,7 @@ final class EmailsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails", $query);
 
-        return $response->decoded !== null ? EmailsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -268,7 +268,7 @@ final class EmailsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/emails", [], $newEmail);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -291,7 +291,7 @@ final class EmailsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}");
 
-        return $response->decoded !== null ? EmailDetailed::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? EmailDetailed::fromArray($response->decoded) : null;
     }
 
     /**
@@ -393,7 +393,7 @@ final class EmailsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}/autoresponder");
 
-        return $response->decoded !== null ? Autoresponder::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Autoresponder::fromArray($response->decoded) : null;
     }
 
     /**
@@ -421,7 +421,7 @@ final class EmailsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}/autoresponder", [], $newAutoresponder);
 
-        return $response->decoded !== null ? NewResourceId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceId::fromArray($response->decoded) : null;
     }
 
     /**
@@ -487,7 +487,7 @@ final class EmailsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/emails/{$emailAddress}/spam_thresholds");
 
-        return $response->decoded !== null ? SpamThresholds::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SpamThresholds::fromArray($response->decoded) : null;
     }
 
     /**

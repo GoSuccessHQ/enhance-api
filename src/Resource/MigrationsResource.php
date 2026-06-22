@@ -58,7 +58,7 @@ final class MigrationsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/migrations', $query);
 
-        return $response->decoded !== null ? MigrationsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MigrationsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -77,7 +77,7 @@ final class MigrationsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, '/migrations', [], $newMigrationDetails);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -96,7 +96,7 @@ final class MigrationsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/migrations/{$migrationId}");
 
-        return $response->decoded !== null ? MigrationDetails::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MigrationDetails::fromArray($response->decoded) : null;
     }
 
     /**
@@ -155,7 +155,7 @@ final class MigrationsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/migrations/sessions', $query);
 
-        return $response->decoded !== null ? MigrationSessionsListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MigrationSessionsListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -174,6 +174,6 @@ final class MigrationsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, '/migrations/sessions', [], $items);
 
-        return $response->decoded !== null ? MigrationSessionCreationOk::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? MigrationSessionCreationOk::fromArray($response->decoded) : null;
     }
 }

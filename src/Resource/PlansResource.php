@@ -53,7 +53,7 @@ final class PlansResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/plans", $query);
 
-        return $response->decoded !== null ? PlansListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? PlansListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -76,7 +76,7 @@ final class PlansResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/plans", [], $newPlan);
 
-        return $response->decoded !== null ? NewResourceId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceId::fromArray($response->decoded) : null;
     }
 
     /**
@@ -98,7 +98,7 @@ final class PlansResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/plans/{$planId}");
 
-        return $response->decoded !== null ? Plan::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Plan::fromArray($response->decoded) : null;
     }
 
     /**

@@ -123,7 +123,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites", $query);
 
-        return $response->decoded !== null ? WebsitesListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsitesListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -155,7 +155,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites", $query, $newWebsite);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -196,7 +196,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/clone");
 
-        return $response->decoded !== null ? WebsiteCloneFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteCloneFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -218,7 +218,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/clone", [], $websiteCloneRequest);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -239,7 +239,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/clone/{$cloneId}");
 
-        return $response->decoded !== null ? WebsiteCloneResponse::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteCloneResponse::fromArray($response->decoded) : null;
     }
 
     /**
@@ -282,7 +282,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}");
 
-        return $response->decoded !== null ? Website::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Website::fromArray($response->decoded) : null;
     }
 
     /**
@@ -358,7 +358,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/status/backup");
 
-        return $response->decoded !== null ? BackupStatus::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? BackupStatus::fromArray($response->decoded) : null;
     }
 
     /**
@@ -486,7 +486,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/validate-operation", [], $websiteOperationValidation);
 
-        return $response->decoded !== null ? ValidationResult::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ValidationResult::fromArray($response->decoded) : null;
     }
 
     /**
@@ -535,7 +535,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/htaccess");
 
-        return $response->decoded !== null ? RewriteChainFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? RewriteChainFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -584,7 +584,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/htaccess/ips");
 
-        return $response->decoded !== null ? RequireIpsRule::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? RequireIpsRule::fromArray($response->decoded) : null;
     }
 
     /**
@@ -632,7 +632,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/server_domains");
 
-        return $response->decoded !== null ? WebsiteServerDomains::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? WebsiteServerDomains::fromArray($response->decoded) : null;
     }
 
     /**
@@ -673,7 +673,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/cgroup_limits");
 
-        return $response->decoded !== null ? CgroupLimits::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? CgroupLimits::fromArray($response->decoded) : null;
     }
 
     /**
@@ -715,7 +715,7 @@ final class WebsitesResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/container_ip");
 
-        return $response->decoded !== null ? ContainerIpInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? ContainerIpInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -734,7 +734,7 @@ final class WebsitesResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/lsphp_settings");
 
-        return $response->decoded !== null ? LsphpSettings::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? LsphpSettings::fromArray($response->decoded) : null;
     }
 
     /**
@@ -810,7 +810,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/fs_quota_limits");
 
-        return $response->decoded !== null ? FsQuotaInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? FsQuotaInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -861,7 +861,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains", $query);
 
-        return $response->decoded !== null ? DomainMappingsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainMappingsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -886,7 +886,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/domains", [], $newMappedDomain);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
@@ -911,7 +911,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}");
 
-        return $response->decoded !== null ? DomainMapping::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainMapping::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1043,7 +1043,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-query", $query);
 
-        return $response->decoded !== null ? DnsQueryOutcome::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DnsQueryOutcome::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1085,7 +1085,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/screenshot/timestamp");
 
-        return $response->decoded !== null ? UnixTimestamp::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? UnixTimestamp::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1113,7 +1113,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/ssh/keys", $query);
 
-        return $response->decoded !== null ? SshKeyFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SshKeyFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1143,7 +1143,7 @@ final class WebsitesResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/ssh/keys", $query, $newSshKey);
 
-        return $response->decoded !== null ? NewSshKeyId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewSshKeyId::fromArray($response->decoded) : null;
     }
 
     /**
@@ -1239,7 +1239,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/crontab");
 
-        return $response->decoded !== null ? CrontabFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? CrontabFullListing::fromArray($response->decoded) : null;
     }
 
     /**

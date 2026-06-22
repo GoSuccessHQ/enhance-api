@@ -41,7 +41,7 @@ final class BackupsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/backups");
 
-        return $response->decoded !== null ? BackupsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? BackupsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -77,7 +77,7 @@ final class BackupsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/backups", $query, $backupOptions);
 
-        return $response->decoded !== null ? Backup::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Backup::fromArray($response->decoded) : null;
     }
 
     /**
@@ -131,7 +131,7 @@ final class BackupsResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/backups/{$backupId}", $query);
 
-        return $response->decoded !== null ? BackupDetailed::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? BackupDetailed::fromArray($response->decoded) : null;
     }
 
     /**
@@ -220,7 +220,7 @@ final class BackupsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/backups/{$backupId}/restore_status");
 
-        return $response->decoded !== null ? RestoreDetailed::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? RestoreDetailed::fromArray($response->decoded) : null;
     }
 
     /**

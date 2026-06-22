@@ -32,7 +32,7 @@ final class JoomlaResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/joomla/info");
 
-        return $response->decoded !== null ? JoomlaInfo::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? JoomlaInfo::fromArray($response->decoded) : null;
     }
 
     /**
@@ -52,7 +52,7 @@ final class JoomlaResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/joomla/users");
 
-        return $response->decoded !== null ? JoomlaUsersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? JoomlaUsersFullListing::fromArray($response->decoded) : null;
     }
 
     /**

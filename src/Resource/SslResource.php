@@ -31,7 +31,7 @@ final class SslResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/ssl");
 
-        return $response->decoded !== null ? DomainSslCertWithData::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainSslCertWithData::fromArray($response->decoded) : null;
     }
 
     /**
@@ -52,7 +52,7 @@ final class SslResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/ssl", [], $sslCert);
 
-        return $response->decoded !== null ? NewSslCert::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewSslCert::fromArray($response->decoded) : null;
     }
 
     /**
@@ -71,7 +71,7 @@ final class SslResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/mail_ssl");
 
-        return $response->decoded !== null ? DomainSslCertWithData::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? DomainSslCertWithData::fromArray($response->decoded) : null;
     }
 
     /**
@@ -89,7 +89,7 @@ final class SslResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/mail_ssl", [], $sslCert);
 
-        return $response->decoded !== null ? NewSslCert::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewSslCert::fromArray($response->decoded) : null;
     }
 
     /**

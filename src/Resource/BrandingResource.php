@@ -40,7 +40,7 @@ final class BrandingResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::GET, '/branding', $query);
 
-        return $response->decoded !== null ? Branding::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Branding::fromArray($response->decoded) : null;
     }
 
     /**
@@ -58,7 +58,7 @@ final class BrandingResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/branding/settings");
 
-        return $response->decoded !== null ? SettingsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? SettingsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -96,7 +96,7 @@ final class BrandingResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/branding/settings/{$name}");
 
-        return $response->decoded !== null ? Setting::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? Setting::fromArray($response->decoded) : null;
     }
 
     /**
@@ -428,7 +428,7 @@ final class BrandingResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/staging-domain");
 
-        return $response->decoded !== null ? StagingDomain::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? StagingDomain::fromArray($response->decoded) : null;
     }
 
     /**

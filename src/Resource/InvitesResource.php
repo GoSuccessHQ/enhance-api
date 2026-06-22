@@ -86,6 +86,6 @@ final class InvitesResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::POST, "/invites/{$inviteId}/validate");
 
-        return $response->decoded !== null ? InviteValidation::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? InviteValidation::fromArray($response->decoded) : null;
     }
 }

@@ -33,7 +33,7 @@ final class TagsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/tags");
 
-        return $response->decoded !== null ? TagsFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? TagsFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -55,6 +55,6 @@ final class TagsResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/tags", [], $newTag);
 
-        return $response->decoded !== null ? NewResourceId::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceId::fromArray($response->decoded) : null;
     }
 }

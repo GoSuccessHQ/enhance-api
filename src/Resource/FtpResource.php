@@ -35,7 +35,7 @@ final class FtpResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/ftp/users");
 
-        return $response->decoded !== null ? FtpUsersFullListing::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? FtpUsersFullListing::fromArray($response->decoded) : null;
     }
 
     /**
@@ -66,7 +66,7 @@ final class FtpResource extends AbstractResource
         ];
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/ftp/users", $query, $newFtpUser);
 
-        return $response->decoded !== null ? NewResourceUuid::fromArray($response->decoded) : null;
+        return \is_array($response->decoded) ? NewResourceUuid::fromArray($response->decoded) : null;
     }
 
     /**
