@@ -66,6 +66,17 @@ $created = $enhance->websites->createWebsite($website, WebsiteKind::Normal);
 echo $created->id; // NewResourceUuid::$id
 ```
 
+By default, properties left as `null` are omitted from the request body. To
+clear a field via an update endpoint, mark it with `setNull()` so it is sent as
+an explicit `null`:
+
+```php
+$update = new UpdateWebsite();
+$update->setNull('phpVersion');
+
+$enhance->websites->updateWebsite($update, $websiteId);
+```
+
 ### The organization id
 
 Most endpoints are scoped to an organization. The `orgId` you pass to

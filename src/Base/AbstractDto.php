@@ -31,6 +31,30 @@ abstract class AbstractDto implements JsonSerializable
     private static array $metaCache = [];
 
     /**
+     * Property names that should be serialized as an explicit null, even though
+     * their value is null. Used to clear fields in PATCH/update requests.
+     *
+     * @var array<string, true>
+     */
+    protected array $explicitNulls = [];
+
+    /**
+     * Mark one or more properties to be sent as an explicit null in the request
+     * body. Use this to clear a field via an update endpoint, since by default
+     * null properties are omitted.
+     *
+     * @return $this
+     */
+    public function setNull(string ...$properties): static
+    {
+        foreach ($properties as $property) {
+            $this->explicitNulls[$property] = true;
+        }
+
+        return $this;
+    }
+
+    /**
      * Create an instance from an API response payload.
      *
      * @param array<string, mixed>|object $data
@@ -52,7 +76,8 @@ abstract class AbstractDto implements JsonSerializable
     }
 
     /**
-     * Serialize the DTO for a JSON request body, omitting null/unset properties.
+     * Serialize the DTO for a JSON request body. Null properties are omitted
+     * unless they were marked via {@see setNull()}.
      *
      * @return array<string, mixed>
      */
@@ -61,11 +86,11 @@ abstract class AbstractDto implements JsonSerializable
         $out = [];
 
         foreach (array_keys(self::meta(static::class)) as $name) {
-            if (! isset($this->{$name})) {
-                continue;
+            if (isset($this->{$name})) {
+                $out[$name] = self::encode($this->{$name});
+            } elseif (isset($this->explicitNulls[$name])) {
+                $out[$name] = null;
             }
-
-            $out[$name] = self::encode($this->{$name});
         }
 
         return $out;

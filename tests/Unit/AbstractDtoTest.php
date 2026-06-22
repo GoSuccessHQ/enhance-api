@@ -70,6 +70,21 @@ final class AbstractDtoTest extends TestCase
         self::assertArrayNotHasKey('children', $json);
         self::assertArrayNotHasKey('codes', $json);
     }
+
+    public function testSetNullEmitsExplicitNulls(): void
+    {
+        $dto = new AbstractDtoTestChild();
+        $dto->name = 'x';
+        $dto->setNull('count', 'ratio');
+
+        $json = $dto->jsonSerialize();
+
+        self::assertSame('x', $json['name']);
+        self::assertArrayHasKey('count', $json);
+        self::assertNull($json['count']);
+        self::assertArrayHasKey('ratio', $json);
+        self::assertArrayNotHasKey('active', $json);
+    }
 }
 
 class AbstractDtoTestChild extends AbstractDto
