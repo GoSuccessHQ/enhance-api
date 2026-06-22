@@ -1,3 +1,7 @@
 composer.phar
 /vendor/
 .vscode/
+.php-cs-fixer.cache
+.phpunit.cache/
+/coverage/
+/build/

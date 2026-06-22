@@ -1,18 +1,69 @@
 {
     "name": "gosuccess/enhance-api",
-    "description": "PHP wrapper for the Enhance API",
+    "description": "Modern PHP API client for the Enhance control panel API with PHP 8.4 features",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "enhance",
+        "enhance.com",
+        "api",
+        "client",
+        "hosting",
+        "control-panel",
+        "php8.4"
+    ],
+    "homepage": "https://github.com/GoSuccessHQ/enhance-api",
+    "readme": "README.md",
     "autoload": {
         "psr-4": {
             "GoSuccess\\Enhance\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "GoSuccess\\Enhance\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
-            "name": "GoSuccess",
-            "homepage": "https://gosuccess.io"
+            "name": "GoSuccess GmbH",
+            "homepage": "https://gosuccess.io",
+            "role": "Developer"
         }
     ],
-    "require": {}
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.4",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.88",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage --coverage-text",
+        "analyse": "phpstan analyse --memory-limit=2G",
+        "analyse:baseline": "phpstan analyse --generate-baseline --memory-limit=2G",
+        "cs:check": "php-cs-fixer fix --dry-run --diff --verbose",
+        "cs:fix": "php-cs-fixer fix --verbose",
+        "generate": "php tools/generate.php",
+        "check": [
+            "@cs:check",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "support": {
+        "issues": "https://github.com/GoSuccessHQ/enhance-api/issues",
+        "source": "https://github.com/GoSuccessHQ/enhance-api"
+    }
 }
