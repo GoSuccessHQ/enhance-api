@@ -20,9 +20,9 @@ use GoSuccess\Enhance\Http\Response;
 /**
  * cURL-based HTTP client for the Enhance API.
  *
- * Handles authentication, JSON (and multipart/binary) payloads, retries with
- * exponential backoff for transient failures, and maps error responses onto
- * the typed exception hierarchy. Depends only on the cURL extension.
+ * Handles authentication, JSON (and multipart/binary) payloads, idempotency-aware
+ * retries with exponential backoff for transient failures, and maps error
+ * responses onto the typed exception hierarchy. Depends only on the cURL extension.
  */
 final class ApiClient implements HttpClientInterface
 {
@@ -67,13 +67,11 @@ final class ApiClient implements HttpClientInterface
 
             [$response, $curlError] = $this->execute($method, $url, $body, $contentType);
 
-            if ($response instanceof Response && ! $this->isRetryable($response->statusCode)) {
+            if ($curlError === null && $response instanceof Response && ! $this->isRetryable($response->statusCode)) {
                 return $this->handle($response);
             }
 
-            $retryable = $curlError !== null || ($response instanceof Response && $this->isRetryable($response->statusCode));
-
-            if ($retryable && $attempt <= $this->config->maxRetries) {
+            if ($attempt <= $this->config->maxRetries && $this->shouldRetry($method, $response, $curlError)) {
                 $this->wait($attempt, $response);
 
                 continue;
@@ -292,6 +290,38 @@ final class ApiClient implements HttpClientInterface
     private function isRetryable(int $statusCode): bool
     {
         return $statusCode === 429 || $statusCode >= 500;
+    }
+
+    /**
+     * Decide whether a failed attempt may be safely retried.
+     *
+     * A 429 is always safe (the request was rejected, not processed). Transport
+     * errors and 5xx responses are only retried for idempotent methods, so that
+     * a POST/PATCH that may already have been applied is never repeated.
+     */
+    private function shouldRetry(HttpMethod $method, ?Response $response, ?string $curlError): bool
+    {
+        if ($curlError !== null) {
+            return $this->isIdempotent($method);
+        }
+
+        if (! $response instanceof Response) {
+            return false;
+        }
+
+        if ($response->statusCode === 429) {
+            return true;
+        }
+
+        return $response->statusCode >= 500 && $this->isIdempotent($method);
+    }
+
+    private function isIdempotent(HttpMethod $method): bool
+    {
+        return match ($method) {
+            HttpMethod::GET, HttpMethod::PUT, HttpMethod::DELETE => true,
+            HttpMethod::POST, HttpMethod::PATCH => false,
+        };
     }
 
     /**
