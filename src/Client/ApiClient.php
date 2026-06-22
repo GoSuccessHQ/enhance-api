@@ -119,8 +119,8 @@ final class ApiClient implements HttpClientInterface
         $raw = curl_exec($ch);
         $errno = curl_errno($ch);
         $error = curl_error($ch);
-        $statusCode = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        $headerSize = (int) curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $statusCode = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $headerSize = (int)curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
 
         if ($errno !== 0 || ! \is_string($raw)) {
@@ -156,7 +156,7 @@ final class ApiClient implements HttpClientInterface
         if ($contentType !== null && $contentType !== 'application/json') {
             $headers[] = 'Content-Type: ' . $contentType;
 
-            return \is_string($body) ? $body : (string) $body;
+            return \is_string($body) ? $body : (string)$body;
         }
 
         $headers[] = 'Content-Type: application/json';
@@ -200,25 +200,34 @@ final class ApiClient implements HttpClientInterface
     }
 
     /**
-     * @param array<string, scalar|\BackedEnum|null> $query
+     * Build a query string, expanding array values into repeated keys
+     * (OpenAPI "form"/explode style) and normalizing enums and booleans.
+     *
+     * @param array<string, scalar|\BackedEnum|array<int, scalar|\BackedEnum>|null> $query
      */
     private function buildQuery(array $query): string
     {
-        $normalized = [];
+        $pairs = [];
 
         foreach ($query as $key => $value) {
             if ($value === null) {
                 continue;
             }
 
-            if ($value instanceof \BackedEnum) {
-                $value = $value->value;
-            }
+            foreach (\is_array($value) ? $value : [$value] as $item) {
+                if ($item instanceof \BackedEnum) {
+                    $item = $item->value;
+                }
 
-            $normalized[$key] = \is_bool($value) ? ($value ? 'true' : 'false') : $value;
+                if (\is_bool($item)) {
+                    $item = $item ? 'true' : 'false';
+                }
+
+                $pairs[] = rawurlencode($key) . '=' . rawurlencode((string)$item);
+            }
         }
 
-        return http_build_query($normalized);
+        return implode('&', $pairs);
     }
 
     private function handle(Response $response): Response
@@ -270,6 +279,6 @@ final class ApiClient implements HttpClientInterface
     private function backoff(int $attempt): void
     {
         // Exponential backoff: 100ms, 200ms, 400ms, ...
-        usleep((int) (100_000 * 2 ** ($attempt - 1)));
+        usleep((int)(100_000 * 2 ** ($attempt - 1)));
     }
 }

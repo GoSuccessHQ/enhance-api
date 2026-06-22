@@ -18,6 +18,8 @@ use ReflectionProperty;
  * Provides reflection-based hydration from API responses ({@see fromArray})
  * and JSON serialization for request bodies ({@see jsonSerialize}). Property
  * metadata is reflected once per class and cached.
+ *
+ * @phpstan-consistent-constructor
  */
 abstract class AbstractDto implements JsonSerializable
 {
@@ -35,10 +37,10 @@ abstract class AbstractDto implements JsonSerializable
      */
     public static function fromArray(array|object $data): static
     {
-        $data = (array) $data;
+        $data = (array)$data;
         $dto = new static();
 
-        foreach (static::meta() as $name => $meta) {
+        foreach (self::meta(static::class) as $name => $meta) {
             if (! \array_key_exists($name, $data)) {
                 continue;
             }
@@ -58,7 +60,7 @@ abstract class AbstractDto implements JsonSerializable
     {
         $out = [];
 
-        foreach (array_keys(static::meta()) as $name) {
+        foreach (array_keys(self::meta(static::class)) as $name) {
             if (! isset($this->{$name})) {
                 continue;
             }
@@ -79,9 +81,9 @@ abstract class AbstractDto implements JsonSerializable
         }
 
         return match ($meta['kind']) {
-            'int' => \is_numeric($value) ? (int) $value : null,
-            'float' => \is_numeric($value) ? (float) $value : null,
-            'string' => \is_scalar($value) ? (string) $value : null,
+            'int' => \is_numeric($value) ? (int)$value : null,
+            'float' => \is_numeric($value) ? (float)$value : null,
+            'string' => \is_scalar($value) ? (string)$value : null,
             'bool' => self::toBool($value),
             'datetime' => self::toDateTime($value),
             'enum' => self::toEnum($meta['class'], $value),
@@ -104,9 +106,9 @@ abstract class AbstractDto implements JsonSerializable
         return match ($meta['itemKind']) {
             'dto' => array_map(static fn (mixed $item): mixed => self::toDto($meta['itemClass'], $item), $value),
             'enum' => array_map(static fn (mixed $item): mixed => self::toEnum($meta['itemClass'], $item), $value),
-            'int' => array_map(static fn (mixed $item): ?int => \is_numeric($item) ? (int) $item : null, $value),
-            'float' => array_map(static fn (mixed $item): ?float => \is_numeric($item) ? (float) $item : null, $value),
-            'string' => array_map(static fn (mixed $item): ?string => \is_scalar($item) ? (string) $item : null, $value),
+            'int' => array_map(static fn (mixed $item): ?int => \is_numeric($item) ? (int)$item : null, $value),
+            'float' => array_map(static fn (mixed $item): ?float => \is_numeric($item) ? (float)$item : null, $value),
+            'string' => array_map(static fn (mixed $item): ?string => \is_scalar($item) ? (string)$item : null, $value),
             default => $value,
         };
     }
@@ -183,19 +185,20 @@ abstract class AbstractDto implements JsonSerializable
     }
 
     /**
-     * Reflect and cache property metadata for the current class.
+     * Reflect and cache property metadata for the given class.
      *
+     * @param class-string<self> $class
      * @return array<string, array{kind: string, class: class-string|null, itemKind: string|null, itemClass: class-string|null}>
      */
-    private static function meta(): array
+    private static function meta(string $class): array
     {
-        if (isset(self::$metaCache[static::class])) {
-            return self::$metaCache[static::class];
+        if (isset(self::$metaCache[$class])) {
+            return self::$metaCache[$class];
         }
 
         $meta = [];
 
-        foreach ((new \ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+        foreach (new \ReflectionClass($class)->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
             if ($property->isStatic()) {
                 continue;
             }
@@ -223,7 +226,7 @@ abstract class AbstractDto implements JsonSerializable
             $meta[$property->getName()] = $entry;
         }
 
-        return self::$metaCache[static::class] = $meta;
+        return self::$metaCache[$class] = $meta;
     }
 
     /**

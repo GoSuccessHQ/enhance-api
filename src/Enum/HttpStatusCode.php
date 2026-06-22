@@ -43,7 +43,8 @@ enum HttpStatusCode: int
 
     public function isSuccess(): bool
     {
-        return $this->value >= 200 && $this->value < 300;
+        // Every case in this enum is >= 200, so a single upper bound suffices.
+        return $this->value < 300;
     }
 
     public function isClientError(): bool
@@ -53,6 +54,7 @@ enum HttpStatusCode: int
 
     public function isServerError(): bool
     {
-        return $this->value >= 500 && $this->value < 600;
+        // Every case in this enum is < 600, so a single lower bound suffices.
+        return $this->value >= 500;
     }
 }
