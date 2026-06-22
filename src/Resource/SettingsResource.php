@@ -432,7 +432,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Setting|null
      */
-    public function getSetting(?string $name): ?Setting
+    public function getSetting(string $name): ?Setting
     {
         $response = $this->client->request(HttpMethod::GET, "/settings/{$name}");
 
@@ -450,7 +450,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateSetting(?string $name, mixed $body): bool
+    public function updateSetting(string $name, mixed $body): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/settings/{$name}", [], $body);
 
@@ -467,7 +467,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteSetting(?string $name): bool
+    public function deleteSetting(string $name): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/settings/{$name}");
 
@@ -486,7 +486,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getGlobalServiceSetting(?SettingKind $settingKind): mixed
+    public function getGlobalServiceSetting(SettingKind $settingKind): mixed
     {
         $response = $this->client->request(HttpMethod::GET, "/settings/service/{$settingKind->value}");
 
@@ -507,7 +507,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Outcome|null
      */
-    public function setGlobalServiceSetting(?SettingKind $settingKind, ?string $settingKey, mixed $body): ?Outcome
+    public function setGlobalServiceSetting(SettingKind $settingKind, string $settingKey, mixed $body): ?Outcome
     {
         $response = $this->client->request(HttpMethod::PUT, "/settings/service/{$settingKind->value}/{$settingKey}", [], $body);
 
@@ -527,7 +527,7 @@ final class SettingsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Outcome|null
      */
-    public function deleteGlobalServiceSetting(?SettingKind $settingKind, ?string $settingKey): ?Outcome
+    public function deleteGlobalServiceSetting(SettingKind $settingKind, string $settingKey): ?Outcome
     {
         $response = $this->client->request(HttpMethod::DELETE, "/settings/service/{$settingKind->value}/{$settingKey}");
 

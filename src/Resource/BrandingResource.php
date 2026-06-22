@@ -91,7 +91,7 @@ final class BrandingResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Setting|null
      */
-    public function getBrandingSetting(?string $name, ?string $orgId = null): ?Setting
+    public function getBrandingSetting(string $name, ?string $orgId = null): ?Setting
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/branding/settings/{$name}");
@@ -111,7 +111,7 @@ final class BrandingResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateBrandingSetting(?string $name, ?string $value, ?string $orgId = null): bool
+    public function updateBrandingSetting(string $name, ?string $value, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/branding/settings/{$name}", [], $value);
@@ -130,7 +130,7 @@ final class BrandingResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteBrandingSetting(?string $name, ?string $orgId = null): bool
+    public function deleteBrandingSetting(string $name, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/branding/settings/{$name}");
@@ -386,7 +386,7 @@ final class BrandingResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateNameServerDomain(?string $domain, NewDomain $newDomain, ?string $orgId = null): bool
+    public function updateNameServerDomain(string $domain, NewDomain $newDomain, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PATCH, "/orgs/{$orgId}/name-servers/{$domain}", [], $newDomain);
@@ -405,7 +405,7 @@ final class BrandingResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteNameServerDomain(?string $domain, ?string $orgId = null): bool
+    public function deleteNameServerDomain(string $domain, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/name-servers/{$domain}");

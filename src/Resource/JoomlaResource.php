@@ -27,7 +27,7 @@ final class JoomlaResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return JoomlaInfo|null
      */
-    public function getJoomlaInfo(?string $websiteId, ?string $appId, ?string $orgId = null): ?JoomlaInfo
+    public function getJoomlaInfo(string $websiteId, string $appId, ?string $orgId = null): ?JoomlaInfo
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/joomla/info");
@@ -47,7 +47,7 @@ final class JoomlaResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return JoomlaUsersFullListing|null
      */
-    public function getJoomlaUsers(?string $websiteId, ?string $appId, ?string $orgId = null): ?JoomlaUsersFullListing
+    public function getJoomlaUsers(string $websiteId, string $appId, ?string $orgId = null): ?JoomlaUsersFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/joomla/users");
@@ -71,8 +71,8 @@ final class JoomlaResource extends AbstractResource
      * @return bool True on success
      */
     public function createJoomlaUser(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         NewJoomlaUser $newJoomlaUser,
         ?string $orgId = null,
     ): bool {
@@ -95,12 +95,8 @@ final class JoomlaResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteJoomlaUser(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $username,
-        ?string $orgId = null,
-    ): bool {
+    public function deleteJoomlaUser(string $websiteId, string $appId, string $username, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/joomla/users/{$username}");
 
@@ -122,9 +118,9 @@ final class JoomlaResource extends AbstractResource
      * @return bool True on success
      */
     public function resetJoomlaUserPassword(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $username,
+        string $websiteId,
+        string $appId,
+        string $username,
         ?string $value,
         ?string $orgId = null,
     ): bool {
@@ -149,9 +145,9 @@ final class JoomlaResource extends AbstractResource
      * @return bool True on success
      */
     public function updateJoomlaUsername(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $username,
+        string $websiteId,
+        string $appId,
+        string $username,
         ?string $value,
         ?string $orgId = null,
     ): bool {
@@ -176,9 +172,9 @@ final class JoomlaResource extends AbstractResource
      * @return bool True on success
      */
     public function updateJoomlaEmailAddress(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $username,
+        string $websiteId,
+        string $appId,
+        string $username,
         ?string $value,
         ?string $orgId = null,
     ): bool {

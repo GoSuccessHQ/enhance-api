@@ -28,7 +28,7 @@ final class LetsencryptResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsiteDomainLetsencryptCerts(?string $domainId): bool
+    public function createWebsiteDomainLetsencryptCerts(string $domainId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/letsencrypt");
 
@@ -47,7 +47,7 @@ final class LetsencryptResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsiteMailDomainLetsencryptCerts(?string $domainId): bool
+    public function createWebsiteMailDomainLetsencryptCerts(string $domainId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/letsencrypt_mail");
 
@@ -66,7 +66,7 @@ final class LetsencryptResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return LetsEncryptPreflightResult|null
      */
-    public function performLetsEncryptPreflightCheck(?string $domainId): ?LetsEncryptPreflightResult
+    public function performLetsEncryptPreflightCheck(string $domainId): ?LetsEncryptPreflightResult
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/letsencrypt_preflight");
 

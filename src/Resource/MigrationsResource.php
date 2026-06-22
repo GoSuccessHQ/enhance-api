@@ -92,7 +92,7 @@ final class MigrationsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MigrationDetails|null
      */
-    public function getMigration(?string $migrationId): ?MigrationDetails
+    public function getMigration(string $migrationId): ?MigrationDetails
     {
         $response = $this->client->request(HttpMethod::GET, "/migrations/{$migrationId}");
 
@@ -111,7 +111,7 @@ final class MigrationsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MigrationLog[]
      */
-    public function getMigrationLog(?string $migrationId): array
+    public function getMigrationLog(string $migrationId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/migrations/{$migrationId}/log");
 

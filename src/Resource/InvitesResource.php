@@ -61,7 +61,7 @@ final class InvitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function acceptInvite(?string $inviteId, ?AcceptInviteBody $acceptInviteBody = null): bool
+    public function acceptInvite(string $inviteId, ?AcceptInviteBody $acceptInviteBody = null): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/invites/{$inviteId}", [], $acceptInviteBody);
 
@@ -82,7 +82,7 @@ final class InvitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return InviteValidation|null
      */
-    public function validateInvite(?string $inviteId): ?InviteValidation
+    public function validateInvite(string $inviteId): ?InviteValidation
     {
         $response = $this->client->request(HttpMethod::POST, "/invites/{$inviteId}/validate");
 

@@ -102,7 +102,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return EmailAuth|null
      */
-    public function getDomainEmailAuth(?string $websiteId, ?string $domainName): ?EmailAuth
+    public function getDomainEmailAuth(string $websiteId, string $domainName): ?EmailAuth
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/domains/{$domainName}/email-auth");
 
@@ -124,8 +124,8 @@ final class EmailsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateDomainEmailAuth(
-        ?string $websiteId,
-        ?string $domainName,
+        string $websiteId,
+        string $domainName,
         EmailAuthUpdate $emailAuthUpdate,
     ): bool {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/domains/{$domainName}/email-auth", [], $emailAuthUpdate);
@@ -146,7 +146,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return EmailAuthValidation|null
      */
-    public function validateDomainEmailAuth(?string $websiteId, ?string $domainName): ?EmailAuthValidation
+    public function validateDomainEmailAuth(string $websiteId, string $domainName): ?EmailAuthValidation
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/domains/{$domainName}/email-auth/validate");
 
@@ -167,11 +167,8 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return LocalRemoteBody|null
      */
-    public function getDomainLocalRemote(
-        ?string $websiteId,
-        ?string $domainId,
-        ?string $orgId = null,
-    ): ?LocalRemoteBody {
+    public function getDomainLocalRemote(string $websiteId, string $domainId, ?string $orgId = null): ?LocalRemoteBody
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/local_remote");
 
@@ -194,8 +191,8 @@ final class EmailsResource extends AbstractResource
      * @return bool True on success
      */
     public function setDomainLocalRemote(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         LocalRemoteBody $localRemoteBody,
         ?string $orgId = null,
     ): bool {
@@ -225,7 +222,7 @@ final class EmailsResource extends AbstractResource
      * @return EmailsListing|null
      */
     public function getWebsiteEmails(
-        ?string $websiteId,
+        string $websiteId,
         ?string $sortBy = null,
         ?string $sortOrder = null,
         ?string $search = null,
@@ -263,8 +260,8 @@ final class EmailsResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function createWebsiteEmail(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         NewEmail $newEmail,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -289,7 +286,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return EmailDetailed|null
      */
-    public function getWebsiteEmail(?string $websiteId, ?string $emailAddress, ?string $orgId = null): ?EmailDetailed
+    public function getWebsiteEmail(string $websiteId, string $emailAddress, ?string $orgId = null): ?EmailDetailed
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}");
@@ -316,8 +313,8 @@ final class EmailsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteEmail(
-        ?string $websiteId,
-        ?string $emailAddress,
+        string $websiteId,
+        string $emailAddress,
         UpdateEmail $updateEmail,
         ?string $orgId = null,
     ): bool {
@@ -342,7 +339,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsiteEmail(?string $websiteId, ?string $emailAddress, ?string $orgId = null): bool
+    public function deleteWebsiteEmail(string $websiteId, string $emailAddress, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}");
@@ -365,7 +362,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getWebsiteEmailClientConf(?string $websiteId, ?string $emailAddress, ?string $orgId = null): mixed
+    public function getWebsiteEmailClientConf(string $websiteId, string $emailAddress, ?string $orgId = null): mixed
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}/client-conf");
@@ -389,8 +386,8 @@ final class EmailsResource extends AbstractResource
      * @return Autoresponder|null
      */
     public function getWebsiteEmailAutoresponder(
-        ?string $websiteId,
-        ?string $emailAddress,
+        string $websiteId,
+        string $emailAddress,
         ?string $orgId = null,
     ): ?Autoresponder {
         $orgId = $this->orgId($orgId);
@@ -416,8 +413,8 @@ final class EmailsResource extends AbstractResource
      * @return NewResourceId|null
      */
     public function createWebsiteEmailAutoresponder(
-        ?string $websiteId,
-        ?string $emailAddress,
+        string $websiteId,
+        string $emailAddress,
         NewAutoresponder $newAutoresponder,
         ?string $orgId = null,
     ): ?NewResourceId {
@@ -443,8 +440,8 @@ final class EmailsResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteEmailAutoresponder(
-        ?string $websiteId,
-        ?string $emailAddress,
+        string $websiteId,
+        string $emailAddress,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -467,7 +464,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function ssoToRoundcube(?string $websiteId, ?string $emailAddress, ?string $orgId = null): bool
+    public function ssoToRoundcube(string $websiteId, string $emailAddress, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}/sso");
@@ -486,7 +483,7 @@ final class EmailsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return SpamThresholds|null
      */
-    public function getEmailSpamThresholds(?string $websiteId, ?string $emailAddress): ?SpamThresholds
+    public function getEmailSpamThresholds(string $websiteId, string $emailAddress): ?SpamThresholds
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/emails/{$emailAddress}/spam_thresholds");
 
@@ -506,8 +503,8 @@ final class EmailsResource extends AbstractResource
      * @return bool True on success
      */
     public function setEmailSpamThresholds(
-        ?string $websiteId,
-        ?string $emailAddress,
+        string $websiteId,
+        string $emailAddress,
         SpamThresholds $spamThresholds,
     ): bool {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/emails/{$emailAddress}/spam_thresholds", [], $spamThresholds);

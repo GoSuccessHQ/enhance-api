@@ -165,7 +165,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerInfo|null
      */
-    public function getServerInfo(?string $serverId): ?ServerInfo
+    public function getServerInfo(string $serverId): ?ServerInfo
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}");
 
@@ -186,7 +186,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function configureServer(?string $serverId, ServerConf $serverConf): bool
+    public function configureServer(string $serverId, ServerConf $serverConf): bool
     {
         $response = $this->client->request(HttpMethod::PATCH, "/servers/{$serverId}", [], $serverConf);
 
@@ -207,7 +207,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteSlave(?string $serverId): bool
+    public function deleteSlave(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}");
 
@@ -226,7 +226,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerSpecs|null
      */
-    public function getServerSpecs(?string $serverId): ?ServerSpecs
+    public function getServerSpecs(string $serverId): ?ServerSpecs
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/specs");
 
@@ -245,7 +245,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getAppcdVersion(?string $serverId): ?string
+    public function getAppcdVersion(string $serverId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/appcd/version");
 
@@ -262,7 +262,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool|null
      */
-    public function getRoundcubeSsoEnabled(?string $serverId): ?bool
+    public function getRoundcubeSsoEnabled(string $serverId): ?bool
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roundcube_sso_enabled");
 
@@ -280,7 +280,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setRoundcubeSsoEnabled(?string $serverId, ?bool $value): bool
+    public function setRoundcubeSsoEnabled(string $serverId, ?bool $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/roundcube_sso_enabled", [], $value);
 
@@ -299,7 +299,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ScreenshotConfig|null
      */
-    public function getAppcdScreenshotConfig(?string $serverId): ?ScreenshotConfig
+    public function getAppcdScreenshotConfig(string $serverId): ?ScreenshotConfig
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/appcd/screenshot/config");
 
@@ -320,7 +320,7 @@ final class ServersResource extends AbstractResource
      * @return bool True on success
      */
     public function updateAppcdScreenshotConfig(
-        ?string $serverId,
+        string $serverId,
         ScreenshotConfigUpdate $screenshotConfigUpdate,
     ): bool {
         $response = $this->client->request(HttpMethod::PATCH, "/servers/{$serverId}/appcd/screenshot/config", [], $screenshotConfigUpdate);
@@ -340,7 +340,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerHostnameWebsite|null
      */
-    public function getServerHostnameWebsite(?string $serverId): ?ServerHostnameWebsite
+    public function getServerHostnameWebsite(string $serverId): ?ServerHostnameWebsite
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/domains");
 
@@ -360,7 +360,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsiteAndDomainUuid|null
      */
-    public function createServerDomain(?string $serverId, ?string $value): ?WebsiteAndDomainUuid
+    public function createServerDomain(string $serverId, ?string $value): ?WebsiteAndDomainUuid
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/domains", [], $value);
 
@@ -380,7 +380,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteServerDomain(?string $serverId, ?string $domainId): bool
+    public function deleteServerDomain(string $serverId, string $domainId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/domains/{$domainId}");
 
@@ -398,7 +398,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateServerPrimaryIp(?string $serverId, ?string $value): bool
+    public function updateServerPrimaryIp(string $serverId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/primary-ip", [], $value);
 
@@ -416,7 +416,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateServerPrimaryIpv6(?string $serverId, ?string $value): bool
+    public function updateServerPrimaryIpv6(string $serverId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/servers/{$serverId}/primary-ipv6", [], $value);
 
@@ -433,7 +433,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteServerPrimaryIpv6(?string $serverId): bool
+    public function deleteServerPrimaryIpv6(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/v2/servers/{$serverId}/primary-ipv6");
 
@@ -451,7 +451,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MysqlKind|null
      */
-    public function getDatabaseRoleMysqlKind(?string $serverId, ?MysqlKind $mysqlKind = null): ?MysqlKind
+    public function getDatabaseRoleMysqlKind(string $serverId, ?MysqlKind $mysqlKind = null): ?MysqlKind
     {
         $query = [
             'mysqlKind' => $mysqlKind,
@@ -472,7 +472,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function installDatabaseRole(?string $serverId, ?MysqlKind $mysqlKind = null): bool
+    public function installDatabaseRole(string $serverId, ?MysqlKind $mysqlKind = null): bool
     {
         $query = [
             'mysqlKind' => $mysqlKind,
@@ -492,7 +492,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function restartMysql(?string $serverId): bool
+    public function restartMysql(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/servers/{$serverId}/database-role/restart");
 
@@ -509,7 +509,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getMysqlMyCnf(?string $serverId): ?string
+    public function getMysqlMyCnf(string $serverId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/my-cnf");
 
@@ -527,7 +527,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function saveMysqlMyCnf(?string $serverId, ?string $value): bool
+    public function saveMysqlMyCnf(string $serverId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/servers/{$serverId}/my-cnf", [], $value);
 
@@ -563,7 +563,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteServerFromGroup(?string $serverId): bool
+    public function deleteServerFromGroup(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/group");
 
@@ -583,7 +583,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerStatus|null
      */
-    public function getServerStatus(?string $serverId): ?ServerStatus
+    public function getServerStatus(string $serverId): ?ServerStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/status");
 
@@ -603,7 +603,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setServerStatus(?string $serverId, SetServerStatus $setServerStatus): bool
+    public function setServerStatus(string $serverId, SetServerStatus $setServerStatus): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/status", [], $setServerStatus);
 
@@ -622,7 +622,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setServerDecommissioned(?string $serverId): bool
+    public function setServerDecommissioned(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/decommissioned");
 
@@ -641,7 +641,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebserverKind|null
      */
-    public function getWebserverKind(?string $serverId): ?WebserverKind
+    public function getWebserverKind(string $serverId): ?WebserverKind
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/webserver");
 
@@ -661,7 +661,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebserverKind(?string $serverId, SetWebserverKind $setWebserverKind): bool
+    public function setWebserverKind(string $serverId, SetWebserverKind $setWebserverKind): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/webserver", [], $setWebserverKind);
 
@@ -680,7 +680,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function resetWebServerConfig(?string $serverId): bool
+    public function resetWebServerConfig(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/webserver/config/reset");
 
@@ -700,7 +700,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setLiteSpeedAdminPassword(?string $serverId, ?string $value): bool
+    public function setLiteSpeedAdminPassword(string $serverId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/webserver/litespeed/password", [], $value);
 
@@ -717,7 +717,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getSpamIpWhitelist(?string $serverId): array
+    public function getSpamIpWhitelist(string $serverId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/spam/ip_whitelist");
 
@@ -735,7 +735,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function addSpamIpWhitelist(?string $serverId, ?string $value = null): bool
+    public function addSpamIpWhitelist(string $serverId, ?string $value = null): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/spam/ip_whitelist", [], $value);
 
@@ -753,7 +753,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteFromSpamIpWhitelist(?string $serverId, ?string $value = null): bool
+    public function deleteFromSpamIpWhitelist(string $serverId, ?string $value = null): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/spam/ip_whitelist", [], $value);
 
@@ -770,7 +770,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return float|null
      */
-    public function getSmtpRateLimitHourly(?string $serverId): ?float
+    public function getSmtpRateLimitHourly(string $serverId): ?float
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/spam/smtp_rate_limit_hourly");
 
@@ -788,7 +788,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setSmtpRateLimitHourly(?string $serverId, ?float $value = null): bool
+    public function setSmtpRateLimitHourly(string $serverId, ?float $value = null): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/spam/smtp_rate_limit_hourly", [], $value);
 
@@ -805,7 +805,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return float|null
      */
-    public function getWebsiteGeneratedRateLimitHourly(?string $serverId): ?float
+    public function getWebsiteGeneratedRateLimitHourly(string $serverId): ?float
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/spam/website_generated_rate_limit_hourly");
 
@@ -823,7 +823,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteGeneratedRateLimitHourly(?string $serverId, ?float $value = null): bool
+    public function setWebsiteGeneratedRateLimitHourly(string $serverId, ?float $value = null): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/spam/website_generated_rate_limit_hourly", [], $value);
 
@@ -842,7 +842,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return EmailServerHostnameOverride|null
      */
-    public function getEmailServerHostnameOverride(?string $serverId): ?EmailServerHostnameOverride
+    public function getEmailServerHostnameOverride(string $serverId): ?EmailServerHostnameOverride
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/email/hostname_override");
 
@@ -863,7 +863,7 @@ final class ServersResource extends AbstractResource
      * @return bool True on success
      */
     public function setEmailServerHostnameOverride(
-        ?string $serverId,
+        string $serverId,
         ?EmailServerHostnameOverride $emailServerHostnameOverride = null,
     ): bool {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/email/hostname_override", [], $emailServerHostnameOverride);
@@ -881,7 +881,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return OutboundSpamScanningSettings|null
      */
-    public function getOutboundSpamScanningSettings(?string $serverId): ?OutboundSpamScanningSettings
+    public function getOutboundSpamScanningSettings(string $serverId): ?OutboundSpamScanningSettings
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/email/spam/outbound_scanning");
 
@@ -900,7 +900,7 @@ final class ServersResource extends AbstractResource
      * @return bool True on success
      */
     public function setOutboundSpamScanningSettings(
-        ?string $serverId,
+        string $serverId,
         ?OutboundSpamScanningSettings $outboundSpamScanningSettings = null,
     ): bool {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/email/spam/outbound_scanning", [], $outboundSpamScanningSettings);
@@ -918,7 +918,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ModSecStatus|null
      */
-    public function getServerModSecurityStatus(?string $serverId): ?ModSecStatus
+    public function getServerModSecurityStatus(string $serverId): ?ModSecStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/modsec_status");
 
@@ -938,7 +938,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setServerModSecurityStatus(?string $serverId, ModSecStatus $modSecStatus): bool
+    public function setServerModSecurityStatus(string $serverId, ModSecStatus $modSecStatus): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/servers/{$serverId}/modsec_status", [], $modSecStatus);
 
@@ -955,7 +955,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return OwaspVersion|null
      */
-    public function getOwaspRulesVersion(?string $serverId): ?OwaspVersion
+    public function getOwaspRulesVersion(string $serverId): ?OwaspVersion
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/owasp");
 
@@ -974,7 +974,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateOwaspRules(?string $serverId): bool
+    public function updateOwaspRules(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/servers/{$serverId}/owasp");
 
@@ -991,7 +991,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getServerModSecurityConfig(?string $serverId): ?string
+    public function getServerModSecurityConfig(string $serverId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/modsec_conf");
 
@@ -1011,7 +1011,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setServerModSecurityConfig(?string $serverId, ?string $value): bool
+    public function setServerModSecurityConfig(string $serverId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/servers/{$serverId}/modsec_conf", [], $value);
 
@@ -1028,7 +1028,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function resetServerModSecurityConfig(?string $serverId): bool
+    public function resetServerModSecurityConfig(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/v2/servers/{$serverId}/modsec_conf");
 
@@ -1051,7 +1051,7 @@ final class ServersResource extends AbstractResource
      * @return ServerStatsFullListing|null
      */
     public function getServerStats(
-        ?string $serverId,
+        string $serverId,
         ?string $start = null,
         ?string $end = null,
     ): ?ServerStatsFullListing {
@@ -1074,7 +1074,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return FsQuotaStatus|null
      */
-    public function getFsQuotaStatus(?string $serverId): ?FsQuotaStatus
+    public function getFsQuotaStatus(string $serverId): ?FsQuotaStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/fs-quota-limits");
 
@@ -1091,7 +1091,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function enableFsQuotaLimits(?string $serverId): bool
+    public function enableFsQuotaLimits(string $serverId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/fs-quota-limits");
 
@@ -1111,7 +1111,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerUptime|null
      */
-    public function getServerUptime(?string $serverId): ?ServerUptime
+    public function getServerUptime(string $serverId): ?ServerUptime
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/uptime");
 
@@ -1131,7 +1131,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerIowait|null
      */
-    public function getServerIowait(?string $serverId): ?ServerIowait
+    public function getServerIowait(string $serverId): ?ServerIowait
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/iowait");
 
@@ -1151,7 +1151,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerLoad|null
      */
-    public function getServerLoad(?string $serverId): ?ServerLoad
+    public function getServerLoad(string $serverId): ?ServerLoad
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/load");
 
@@ -1171,7 +1171,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerDiskUsage|null
      */
-    public function getServerDiskUsage(?string $serverId): ?ServerDiskUsage
+    public function getServerDiskUsage(string $serverId): ?ServerDiskUsage
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/disk-usage");
 
@@ -1191,7 +1191,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerMemoryUsage|null
      */
-    public function getServerMemoryUsage(?string $serverId): ?ServerMemoryUsage
+    public function getServerMemoryUsage(string $serverId): ?ServerMemoryUsage
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/memory-usage");
 
@@ -1211,7 +1211,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerNetworkStats|null
      */
-    public function getServerNetworkStats(?string $serverId): ?ServerNetworkStats
+    public function getServerNetworkStats(string $serverId): ?ServerNetworkStats
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/network-stats");
 
@@ -1231,7 +1231,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ServerNetworkInterfaces|null
      */
-    public function getServerNetworkInterfaces(?string $serverId): ?ServerNetworkInterfaces
+    public function getServerNetworkInterfaces(string $serverId): ?ServerNetworkInterfaces
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/interfaces");
 
@@ -1254,8 +1254,8 @@ final class ServersResource extends AbstractResource
      * @return bool True on success
      */
     public function createServerNetworkInterfaceIp(
-        ?string $serverId,
-        ?string $interface,
+        string $serverId,
+        string $interface,
         NewServerIp $newServerIp,
     ): bool {
         $response = $this->client->request(HttpMethod::POST, "/servers/{$serverId}/interfaces/{$interface}/ips", [], $newServerIp);
@@ -1279,7 +1279,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteServerNetworkInterfaceIp(?string $serverId, ?string $interface, ?string $ip): bool
+    public function deleteServerNetworkInterfaceIp(string $serverId, string $interface, string $ip): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/interfaces/{$interface}/ips/{$ip}");
 
@@ -1300,7 +1300,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsitePhpSettings[]
      */
-    public function getServerFpmSettings(?string $serverId): array
+    public function getServerFpmSettings(string $serverId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/php/fpm");
 
@@ -1322,7 +1322,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return PhpIni|null
      */
-    public function getWebsiteFpmSettings(?string $serverId, ?string $websiteId): ?PhpIni
+    public function getWebsiteFpmSettings(string $serverId, string $websiteId): ?PhpIni
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/php/fpm/{$websiteId}");
 
@@ -1343,7 +1343,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return RolesInfo|null
      */
-    public function getServerRoles(?string $serverId): ?RolesInfo
+    public function getServerRoles(string $serverId): ?RolesInfo
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles");
 
@@ -1365,7 +1365,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getServerRole(?string $serverId, ?ServerRole $role): mixed
+    public function getServerRole(string $serverId, ServerRole $role): mixed
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles/{$role->value}");
 
@@ -1391,11 +1391,8 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function installServerRole(
-        ?string $serverId,
-        ?ServerRole $role,
-        ?NewBackupRole $newBackupRole = null,
-    ): bool {
+    public function installServerRole(string $serverId, ServerRole $role, ?NewBackupRole $newBackupRole = null): bool
+    {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/roles/{$role->value}", [], $newBackupRole);
 
         return $response->isSuccess;
@@ -1417,7 +1414,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateServerRole(?string $serverId, ?ServerRole $role, mixed $body): bool
+    public function updateServerRole(string $serverId, ServerRole $role, mixed $body): bool
     {
         $response = $this->client->request(HttpMethod::PATCH, "/servers/{$serverId}/roles/{$role->value}", [], $body);
 
@@ -1439,7 +1436,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function uninstallServerRole(?string $serverId, ?ServerRole $role): bool
+    public function uninstallServerRole(string $serverId, ServerRole $role): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/roles/{$role->value}");
 
@@ -1459,7 +1456,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return HttpdStatus|null
      */
-    public function getHttpdStatus(?string $serverId, ?ServerRole $role): ?HttpdStatus
+    public function getHttpdStatus(string $serverId, ServerRole $role): ?HttpdStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles/{$role->value}/httpd_status");
 
@@ -1578,7 +1575,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateServerGroup(?string $groupId, ServerGroupUpdate $serverGroupUpdate): bool
+    public function updateServerGroup(string $groupId, ServerGroupUpdate $serverGroupUpdate): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/servers/groups/{$groupId}", [], $serverGroupUpdate);
 
@@ -1598,7 +1595,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteServerGroup(?string $groupId): bool
+    public function deleteServerGroup(string $groupId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/groups/{$groupId}");
 
@@ -1619,7 +1616,7 @@ final class ServersResource extends AbstractResource
      * @return UpgradableSystemPackage|null
      */
     public function getSystemPackageUpdateInfo(
-        ?string $serverId,
+        string $serverId,
         ?SystemPackageName $systemPackageName = null,
     ): ?UpgradableSystemPackage {
         $query = [
@@ -1645,7 +1642,7 @@ final class ServersResource extends AbstractResource
      * @return bool True on success
      */
     public function updateSystemPackage(
-        ?string $serverId,
+        string $serverId,
         SystemPackage $systemPackage,
         ?SystemPackageName $systemPackageName = null,
     ): bool {
@@ -1670,7 +1667,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getServiceSetting(?string $serverId, ?SettingKind $settingKind): mixed
+    public function getServiceSetting(string $serverId, SettingKind $settingKind): mixed
     {
         $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/settings/{$settingKind->value}");
 
@@ -1693,9 +1690,9 @@ final class ServersResource extends AbstractResource
      * @return Outcome|null
      */
     public function setServiceSetting(
-        ?string $serverId,
-        ?SettingKind $settingKind,
-        ?string $settingKey,
+        string $serverId,
+        SettingKind $settingKind,
+        string $settingKey,
         mixed $body,
     ): ?Outcome {
         $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/settings/{$settingKind->value}/{$settingKey}", [], $body);
@@ -1717,7 +1714,7 @@ final class ServersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Outcome|null
      */
-    public function deleteServiceSetting(?string $serverId, ?SettingKind $settingKind, ?string $settingKey): ?Outcome
+    public function deleteServiceSetting(string $serverId, SettingKind $settingKind, string $settingKey): ?Outcome
     {
         $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/settings/{$settingKind->value}/{$settingKey}");
 

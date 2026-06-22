@@ -30,7 +30,7 @@ final class FtpResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return FtpUsersFullListing|null
      */
-    public function getFtpUsers(?string $websiteId, ?string $orgId = null): ?FtpUsersFullListing
+    public function getFtpUsers(string $websiteId, ?string $orgId = null): ?FtpUsersFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/ftp/users");
@@ -55,7 +55,7 @@ final class FtpResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function createFtpUser(
-        ?string $websiteId,
+        string $websiteId,
         NewFtpUser $newFtpUser,
         ?bool $createHome = null,
         ?string $orgId = null,
@@ -86,8 +86,8 @@ final class FtpResource extends AbstractResource
      * @return bool True on success
      */
     public function updateFtpUser(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         FtpUserUpdate $ftpUserUpdate,
         ?string $orgId = null,
     ): bool {
@@ -114,8 +114,8 @@ final class FtpResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteFtpUser(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         ?bool $deleteHome = null,
         ?string $orgId = null,
     ): bool {

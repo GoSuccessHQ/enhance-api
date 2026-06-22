@@ -145,7 +145,7 @@ final class EmailClientResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateEmailAutoresponder(?string $autoresponderId, UpdateAutoresponder $updateAutoresponder): bool
+    public function updateEmailAutoresponder(string $autoresponderId, UpdateAutoresponder $updateAutoresponder): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/email-client/autoresponders/{$autoresponderId}", [], $updateAutoresponder);
 
@@ -166,7 +166,7 @@ final class EmailClientResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteEmailAutoresponder(?string $autoresponderId): bool
+    public function deleteEmailAutoresponder(string $autoresponderId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/email-client/autoresponders/{$autoresponderId}");
 

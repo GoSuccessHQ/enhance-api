@@ -93,7 +93,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Plan|null
      */
-    public function getPlan(?int $planId, ?string $orgId = null): ?Plan
+    public function getPlan(int $planId, ?string $orgId = null): ?Plan
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/plans/{$planId}");
@@ -116,7 +116,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updatePlan(?int $planId, UpdatePlan $updatePlan, ?string $orgId = null): bool
+    public function updatePlan(int $planId, UpdatePlan $updatePlan, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PATCH, "/orgs/{$orgId}/plans/{$planId}", [], $updatePlan);
@@ -138,7 +138,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deletePlan(?int $planId, ?string $orgId = null): bool
+    public function deletePlan(int $planId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/plans/{$planId}");
@@ -162,7 +162,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createPlanResources(?int $planId, ?array $items, ?string $orgId = null): bool
+    public function createPlanResources(int $planId, ?array $items, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/plans/{$planId}/resources", [], $items);
@@ -187,7 +187,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updatePlanResource(?int $planId, ?string $name, Resource $resource, ?string $orgId = null): bool
+    public function updatePlanResource(int $planId, string $name, Resource $resource, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/plans/{$planId}/resources/{$name}", [], $resource);
@@ -211,7 +211,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createPlanAllowances(?int $planId, ?array $items, ?string $orgId = null): bool
+    public function createPlanAllowances(int $planId, ?array $items, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/plans/{$planId}/allowances", [], $items);
@@ -236,12 +236,8 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updatePlanAllowance(
-        ?int $planId,
-        ?string $name,
-        Allowance $allowance,
-        ?string $orgId = null,
-    ): bool {
+    public function updatePlanAllowance(int $planId, string $name, Allowance $allowance, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/plans/{$planId}/allowances/{$name}", [], $allowance);
 
@@ -263,7 +259,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deletePlanAllowance(?int $planId, ?string $name, ?string $orgId = null): bool
+    public function deletePlanAllowance(int $planId, string $name, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/plans/{$planId}/allowances/{$name}");
@@ -287,7 +283,7 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createPlanSelections(?int $planId, ?array $items, ?string $orgId = null): bool
+    public function createPlanSelections(int $planId, ?array $items, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/plans/{$planId}/selections", [], $items);
@@ -312,12 +308,8 @@ final class PlansResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updatePlanSelection(
-        ?int $planId,
-        ?string $name,
-        Selection $selection,
-        ?string $orgId = null,
-    ): bool {
+    public function updatePlanSelection(int $planId, string $name, Selection $selection, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/plans/{$planId}/selections/{$name}", [], $selection);
 

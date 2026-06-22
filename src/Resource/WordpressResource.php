@@ -60,7 +60,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WpInstallation[]
      */
-    public function getWordpressInstallations(?string $websiteId, ?string $orgId = null): array
+    public function getWordpressInstallations(string $websiteId, ?string $orgId = null): array
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/wordpress");
@@ -83,7 +83,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WpSettings|null
      */
-    public function getWordpressSettings(?string $websiteId, ?string $appId, ?string $orgId = null): ?WpSettings
+    public function getWordpressSettings(string $websiteId, string $appId, ?string $orgId = null): ?WpSettings
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress");
@@ -108,8 +108,8 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWordpressSettings(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         UpdateWpSettings $updateWpSettings,
         ?string $orgId = null,
     ): bool {
@@ -133,7 +133,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getWordpressAppVersion(?string $websiteId, ?string $appId, ?string $orgId = null): mixed
+    public function getWordpressAppVersion(string $websiteId, string $appId, ?string $orgId = null): mixed
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/version");
@@ -156,7 +156,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateWordpressAppVersion(?string $websiteId, ?string $appId, ?string $orgId = null): bool
+    public function updateWordpressAppVersion(string $websiteId, string $appId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PATCH, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/version");
@@ -181,8 +181,8 @@ final class WordpressResource extends AbstractResource
      * @return WpThemesFullListing|null
      */
     public function getWordpressThemes(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         ?bool $refreshCache = null,
         ?string $orgId = null,
     ): ?WpThemesFullListing {
@@ -210,8 +210,8 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function installWordpressTheme(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         InstallWpThemeRequest $installWpThemeRequest,
         ?bool $refreshCache = null,
         ?string $orgId = null,
@@ -238,12 +238,8 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWordpressTheme(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $theme,
-        ?string $orgId = null,
-    ): bool {
+    public function deleteWordpressTheme(string $websiteId, string $appId, string $theme, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/themes/{$theme}");
 
@@ -263,12 +259,8 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateWordpressTheme(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $theme,
-        ?string $orgId = null,
-    ): bool {
+    public function updateWordpressTheme(string $websiteId, string $appId, string $theme, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/themes/{$theme}/update");
 
@@ -289,9 +281,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function activateWordpressTheme(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $theme,
+        string $websiteId,
+        string $appId,
+        string $theme,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -315,9 +307,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function setWordpressThemeAutoUpdateStatus(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $theme,
+        string $websiteId,
+        string $appId,
+        string $theme,
         ?bool $value,
         ?string $orgId = null,
     ): bool {
@@ -341,7 +333,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WpUsersFullListing|null
      */
-    public function getWordpressUsers(?string $websiteId, ?string $appId, ?string $orgId = null): ?WpUsersFullListing
+    public function getWordpressUsers(string $websiteId, string $appId, ?string $orgId = null): ?WpUsersFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users");
@@ -367,8 +359,8 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function createWordpressUser(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         NewWpUser $newWpUser,
         ?string $orgId = null,
     ): bool {
@@ -391,7 +383,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WpUser|null
      */
-    public function getDefaultWpSsoUser(?string $websiteId, ?string $appId, ?string $orgId = null): ?WpUser
+    public function getDefaultWpSsoUser(string $websiteId, string $appId, ?string $orgId = null): ?WpUser
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users/default");
@@ -416,7 +408,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setDefaultWpSsoUser(?string $websiteId, ?string $appId, mixed $body, ?string $orgId = null): bool
+    public function setDefaultWpSsoUser(string $websiteId, string $appId, mixed $body, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users/default", [], $body);
@@ -442,9 +434,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWordpressUser(
-        ?string $websiteId,
-        ?string $appId,
-        ?int $userId,
+        string $websiteId,
+        string $appId,
+        int $userId,
         UpdateWpUser $updateWpUser,
         ?string $orgId = null,
     ): bool {
@@ -470,7 +462,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWordpressUser(?string $websiteId, ?string $appId, ?int $userId, ?string $orgId = null): bool
+    public function deleteWordpressUser(string $websiteId, string $appId, int $userId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users/{$userId}");
@@ -495,9 +487,9 @@ final class WordpressResource extends AbstractResource
      * @return string|null
      */
     public function getWordpressUserSsoUrl(
-        ?string $websiteId,
-        ?string $appId,
-        ?int $userId,
+        string $websiteId,
+        string $appId,
+        int $userId,
         ?bool $shouldRedirect = null,
         ?string $orgId = null,
     ): ?string {
@@ -526,9 +518,9 @@ final class WordpressResource extends AbstractResource
      * @return mixed
      */
     public function getWordpressConfig(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $wpOption,
+        string $websiteId,
+        string $appId,
+        string $wpOption,
         ?string $orgId = null,
     ): mixed {
         $orgId = $this->orgId($orgId);
@@ -550,7 +542,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWordpressConfig(?string $websiteId, ?string $appId, mixed $body, ?string $orgId = null): bool
+    public function setWordpressConfig(string $websiteId, string $appId, mixed $body, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/wp-config", [], $body);
@@ -576,8 +568,8 @@ final class WordpressResource extends AbstractResource
      * @return WpPluginsFullListing|null
      */
     public function getWordpressPlugins(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         ?bool $refreshCache = null,
         ?string $orgId = null,
     ): ?WpPluginsFullListing {
@@ -608,8 +600,8 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function installWordpressPlugin(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         InstallWpPlugin $installWpPlugin,
         ?bool $refreshCache = null,
         ?string $orgId = null,
@@ -641,9 +633,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWordpressPluginSettings(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $plugin,
+        string $websiteId,
+        string $appId,
+        string $plugin,
         UpdateWpPlugin $updateWpPlugin,
         ?string $orgId = null,
     ): bool {
@@ -670,9 +662,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWordpressPlugin(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $plugin,
+        string $websiteId,
+        string $appId,
+        string $plugin,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -698,9 +690,9 @@ final class WordpressResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWordpressPluginToLatest(
-        ?string $websiteId,
-        ?string $appId,
-        ?string $plugin,
+        string $websiteId,
+        string $appId,
+        string $plugin,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -719,7 +711,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getWordPressSiteurl(?string $appId): ?string
+    public function getWordPressSiteurl(string $appId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/apps/{$appId}/wordpress/url");
 
@@ -737,7 +729,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWordPressSiteurl(?string $appId, ?string $value): bool
+    public function setWordPressSiteurl(string $appId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/apps/{$appId}/wordpress/url", [], $value);
 
@@ -754,7 +746,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MaintenanceModeStatus|null
      */
-    public function getWordPressMaintenanceMode(?string $appId): ?MaintenanceModeStatus
+    public function getWordPressMaintenanceMode(string $appId): ?MaintenanceModeStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/apps/{$appId}/wordpress/maintenance-mode");
 
@@ -772,7 +764,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWordPressMaintenanceMode(?string $appId, MaintenanceMode $value): bool
+    public function setWordPressMaintenanceMode(string $appId, MaintenanceMode $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/apps/{$appId}/wordpress/maintenance-mode", [], $value);
 
@@ -791,7 +783,7 @@ final class WordpressResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WordPressInfo|null
      */
-    public function getWordpressInfo(?string $websiteId, ?string $appId, ?string $orgId = null): ?WordPressInfo
+    public function getWordpressInfo(string $websiteId, string $appId, ?string $orgId = null): ?WordPressInfo
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/info");

@@ -187,7 +187,7 @@ final class OrgsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getCloudFlareKeyAffectedDomains(?string $cloudflareKey, ?string $orgId = null): array
+    public function getCloudFlareKeyAffectedDomains(string $cloudflareKey, ?string $orgId = null): array
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/cloudflare/{$cloudflareKey}");
@@ -210,7 +210,7 @@ final class OrgsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateCloudflareApiKey(
-        ?string $cloudflareKey,
+        string $cloudflareKey,
         UpdateCloudFlareApiKey $updateCloudFlareApiKey,
         ?string $orgId = null,
     ): bool {
@@ -233,7 +233,7 @@ final class OrgsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteCloudflareApiKey(?string $cloudflareKey, ?string $orgId = null): bool
+    public function deleteCloudflareApiKey(string $cloudflareKey, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/cloudflare/{$cloudflareKey}");

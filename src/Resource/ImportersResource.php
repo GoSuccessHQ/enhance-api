@@ -83,7 +83,7 @@ final class ImportersResource extends AbstractResource
      * @return ImportServerDomainsFullListing|null
      */
     public function getImportServerPullDomains(
-        ?string $serverId,
+        string $serverId,
         ?string $orgId = null,
     ): ?ImportServerDomainsFullListing {
         $orgId = $this->orgId($orgId);
@@ -111,7 +111,7 @@ final class ImportersResource extends AbstractResource
      * @return ImportServerDomainsListing|null
      */
     public function getImportServerDomainsCached(
-        ?string $serverId,
+        string $serverId,
         ?int $offset = null,
         ?int $limit = null,
         ?string $sortOrder = null,
@@ -148,7 +148,7 @@ final class ImportersResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function transferPleskDomain(
-        ?string $serverId,
+        string $serverId,
         ?TransferPleskDomainReqBody $transferPleskDomainReqBody = null,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -175,8 +175,8 @@ final class ImportersResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function transferCPanelUserAccount(
-        ?string $serverId,
-        ?string $userId,
+        string $serverId,
+        string $userId,
         ?TransferUserAccountReqBody $transferUserAccountReqBody = null,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -200,7 +200,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ImportServerSettings|null
      */
-    public function getImportServerSettings(?string $serverId, ?string $orgId = null): ?ImportServerSettings
+    public function getImportServerSettings(string $serverId, ?string $orgId = null): ?ImportServerSettings
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/import/server/{$serverId}/settings");
@@ -223,7 +223,7 @@ final class ImportersResource extends AbstractResource
      * @return bool True on success
      */
     public function updateImportServerSettings(
-        ?string $serverId,
+        string $serverId,
         UpdateImportServerSettings $updateImportServerSettings,
         ?string $orgId = null,
     ): bool {
@@ -246,7 +246,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteImportServerSettings(?string $serverId, ?string $orgId = null): bool
+    public function deleteImportServerSettings(string $serverId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/import/server/{$serverId}/settings");
@@ -267,7 +267,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ImportMigrationLogEntry[]
      */
-    public function getImportMigrationLog(?string $importMigrationId, ?string $orgId = null): array
+    public function getImportMigrationLog(string $importMigrationId, ?string $orgId = null): array
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import/{$importMigrationId}/log");
@@ -286,7 +286,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ImportMigrationEntry|null
      */
-    public function getImportMigration(?string $importMigrationId, ?string $orgId = null): ?ImportMigrationEntry
+    public function getImportMigration(string $importMigrationId, ?string $orgId = null): ?ImportMigrationEntry
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import/{$importMigrationId}");
@@ -309,7 +309,7 @@ final class ImportersResource extends AbstractResource
      * @return bool True on success
      */
     public function createImportMigration(
-        ?string $importMigrationId,
+        string $importMigrationId,
         ?ImporterMigrationReqBody $importerMigrationReqBody = null,
         ?string $orgId = null,
     ): bool {
@@ -332,7 +332,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteImportMigration(?string $importMigrationId, ?string $orgId = null): bool
+    public function deleteImportMigration(string $importMigrationId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/v2/orgs/{$orgId}/import/{$importMigrationId}");
@@ -362,7 +362,7 @@ final class ImportersResource extends AbstractResource
      * @return ResourceCheckError|null
      */
     public function checkImportMigrationResources(
-        ?string $importMigrationId,
+        string $importMigrationId,
         ?ImporterMigrationReqBody $importerMigrationReqBody = null,
         ?string $orgId = null,
     ): ?ResourceCheckError {
@@ -388,7 +388,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ImporterAnalyzedData|null
      */
-    public function getImportMigrationData(?string $importMigrationId, ?string $orgId = null): ?ImporterAnalyzedData
+    public function getImportMigrationData(string $importMigrationId, ?string $orgId = null): ?ImporterAnalyzedData
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/v2/orgs/{$orgId}/import/{$importMigrationId}/analyze");
@@ -413,7 +413,7 @@ final class ImportersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function analyzeImportMigration(?string $importMigrationId, ?string $orgId = null): bool
+    public function analyzeImportMigration(string $importMigrationId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/v2/orgs/{$orgId}/import/{$importMigrationId}/analyze");
@@ -439,7 +439,7 @@ final class ImportersResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function uploadImportMigration(
-        ?string $importMigrationKind,
+        string $importMigrationKind,
         ?array $formData = null,
         ?string $orgId = null,
     ): ?NewResourceUuid {

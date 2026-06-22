@@ -445,8 +445,10 @@ final class Generator
                 $imports[$import] = true;
             }
 
+            // Path parameters are always required, so make them non-nullable.
+            $bare = $type['phpBare'] === 'mixed' ? 'mixed' : ltrim($type['phpBare'], '?');
             $var = $this->camel($token);
-            $required[] = "{$type['phpBare']} \${$var}";
+            $required[] = "{$bare} \${$var}";
             $docParams[] = "@param {$type['docBare']} \${$var} " . $this->oneLine($def['description'] ?? '');
             $endpointReplacements['{' . $token . '}'] = $type['isEnum'] ? '{$' . $var . '->value}' : '{$' . $var . '}';
         }

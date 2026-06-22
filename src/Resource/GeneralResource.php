@@ -23,7 +23,7 @@ final class GeneralResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function uploadWebsiteBackup(?string $websiteId, string $contents): bool
+    public function uploadWebsiteBackup(string $websiteId, string $contents): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/backup/upload", [], $contents, 'application/gzip');
 

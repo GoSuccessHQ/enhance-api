@@ -31,7 +31,7 @@ final class MetricsResource extends AbstractResource
      * @return WebsiteMetricsFullListing|null
      */
     public function getWebsiteMetrics(
-        ?string $websiteId,
+        string $websiteId,
         ?string $start = null,
         ?string $end = null,
         ?string $granularity = null,

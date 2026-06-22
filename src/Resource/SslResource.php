@@ -27,7 +27,7 @@ final class SslResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return DomainSslCertWithData|null
      */
-    public function getWebsiteDomainSslCert(?string $domainId): ?DomainSslCertWithData
+    public function getWebsiteDomainSslCert(string $domainId): ?DomainSslCertWithData
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/ssl");
 
@@ -48,7 +48,7 @@ final class SslResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return NewSslCert|null
      */
-    public function uploadWebsiteDomainSslCert(?string $domainId, SslCert $sslCert): ?NewSslCert
+    public function uploadWebsiteDomainSslCert(string $domainId, SslCert $sslCert): ?NewSslCert
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/ssl", [], $sslCert);
 
@@ -67,7 +67,7 @@ final class SslResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return DomainSslCertWithData|null
      */
-    public function getWebsiteMailDomainSslCert(?string $domainId): ?DomainSslCertWithData
+    public function getWebsiteMailDomainSslCert(string $domainId): ?DomainSslCertWithData
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/mail_ssl");
 
@@ -85,7 +85,7 @@ final class SslResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return NewSslCert|null
      */
-    public function uploadWebsiteMailDomainSslCert(?string $domainId, SslCert $sslCert): ?NewSslCert
+    public function uploadWebsiteMailDomainSslCert(string $domainId, SslCert $sslCert): ?NewSslCert
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/mail_ssl", [], $sslCert);
 
@@ -103,7 +103,7 @@ final class SslResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteDomainForceSsl(?string $domainId, ?bool $value): bool
+    public function setWebsiteDomainForceSsl(string $domainId, ?bool $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/domains/{$domainId}/ssl/force_ssl", [], $value);
 

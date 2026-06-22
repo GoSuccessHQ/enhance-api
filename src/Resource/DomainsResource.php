@@ -68,7 +68,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteDomain(?string $domainId, ?string $orgId = null): bool
+    public function deleteDomain(string $domainId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/domains/{$domainId}");
@@ -89,7 +89,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return AuthNsResponse|null
      */
-    public function getDomainAuthNs(?string $domainId, ?string $orgId = null): ?AuthNsResponse
+    public function getDomainAuthNs(string $domainId, ?string $orgId = null): ?AuthNsResponse
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/auth-ns");
@@ -110,7 +110,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return CloudFlareApiKey|null
      */
-    public function getCloudflareApiKeyDomain(?string $domainId, ?string $orgId = null): ?CloudFlareApiKey
+    public function getCloudflareApiKeyDomain(string $domainId, ?string $orgId = null): ?CloudFlareApiKey
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/cloudflare");
@@ -132,7 +132,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setCloudflareApiKeyId(?string $domainId, ?string $value, ?string $orgId = null): bool
+    public function setCloudflareApiKeyId(string $domainId, ?string $value, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/domains/{$domainId}/cloudflare", [], $value);
@@ -153,7 +153,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteCloudflareApiKeyId(?string $domainId, ?string $orgId = null): bool
+    public function deleteCloudflareApiKeyId(string $domainId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/domains/{$domainId}/cloudflare");
@@ -174,7 +174,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return CloudFlareNameServers|null
      */
-    public function getCloudflareNameServers(?string $domainId, ?string $orgId = null): ?CloudFlareNameServers
+    public function getCloudflareNameServers(string $domainId, ?string $orgId = null): ?CloudFlareNameServers
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/domains/{$domainId}/cloudflare/nameservers");
@@ -213,7 +213,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ModSecStatus|null
      */
-    public function getWebsiteDomainModSecStatus(?string $domainId): ?ModSecStatus
+    public function getWebsiteDomainModSecStatus(string $domainId): ?ModSecStatus
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/modsec_status");
 
@@ -231,7 +231,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteDomainModSecStatus(?string $domainId, ModSecStatus $modSecStatus): bool
+    public function setWebsiteDomainModSecStatus(string $domainId, ModSecStatus $modSecStatus): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/domains/{$domainId}/modsec_status", [], $modSecStatus);
 
@@ -248,7 +248,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Vhost|null
      */
-    public function getWebsiteDomainVhost(?string $domainId): ?Vhost
+    public function getWebsiteDomainVhost(string $domainId): ?Vhost
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/vhost");
 
@@ -266,7 +266,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteDomainVhost(?string $domainId, Vhost $vhost): bool
+    public function setWebsiteDomainVhost(string $domainId, Vhost $vhost): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/domains/{$domainId}/vhost", [], $vhost);
 
@@ -284,7 +284,7 @@ final class DomainsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsiteDomainVhost(?string $domainId, mixed $body): bool
+    public function deleteWebsiteDomainVhost(string $domainId, mixed $body): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/v2/domains/{$domainId}/vhost", [], $body);
 

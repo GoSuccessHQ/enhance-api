@@ -234,7 +234,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsiteCloneResponse|null
      */
-    public function getWebsiteClone(?string $cloneId, ?string $orgId = null): ?WebsiteCloneResponse
+    public function getWebsiteClone(string $cloneId, ?string $orgId = null): ?WebsiteCloneResponse
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/clone/{$cloneId}");
@@ -255,7 +255,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsiteCloneLogEntry[]
      */
-    public function getWebsiteCloneLog(?string $cloneId, ?string $orgId = null): array
+    public function getWebsiteCloneLog(string $cloneId, ?string $orgId = null): array
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/clone/{$cloneId}/log");
@@ -277,7 +277,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Website|null
      */
-    public function getWebsite(?string $websiteId, ?string $orgId = null): ?Website
+    public function getWebsite(string $websiteId, ?string $orgId = null): ?Website
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}");
@@ -304,7 +304,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateWebsite(?string $websiteId, UpdateWebsite $updateWebsite, ?string $orgId = null): bool
+    public function updateWebsite(string $websiteId, UpdateWebsite $updateWebsite, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PATCH, "/orgs/{$orgId}/websites/{$websiteId}", [], $updateWebsite);
@@ -328,7 +328,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsite(?string $websiteId, ?bool $force = null, ?string $orgId = null): bool
+    public function deleteWebsite(string $websiteId, ?bool $force = null, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $query = [
@@ -353,7 +353,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return BackupStatus|null
      */
-    public function getWebsiteBackupStatus(?string $websiteId, ?string $orgId = null): ?BackupStatus
+    public function getWebsiteBackupStatus(string $websiteId, ?string $orgId = null): ?BackupStatus
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/status/backup");
@@ -376,7 +376,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function pushWebsiteLive(?string $websiteId, ?string $orgId = null): bool
+    public function pushWebsiteLive(string $websiteId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/push-live");
@@ -398,7 +398,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getWebsiteSetting(?string $websiteId, ?SettingKind $settingKind, ?string $orgId = null): mixed
+    public function getWebsiteSetting(string $websiteId, SettingKind $settingKind, ?string $orgId = null): mixed
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/settings/{$settingKind->value}");
@@ -423,9 +423,9 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function setWebsiteSetting(
-        ?string $websiteId,
-        ?SettingKind $settingKind,
-        ?string $settingKey,
+        string $websiteId,
+        SettingKind $settingKind,
+        string $settingKey,
         mixed $body,
         ?string $orgId = null,
     ): bool {
@@ -451,9 +451,9 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteSetting(
-        ?string $websiteId,
-        ?SettingKind $settingKind,
-        ?string $settingKey,
+        string $websiteId,
+        SettingKind $settingKind,
+        string $settingKey,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -479,7 +479,7 @@ final class WebsitesResource extends AbstractResource
      * @return ValidationResult|null
      */
     public function validateWebsiteOperation(
-        ?string $websiteId,
+        string $websiteId,
         WebsiteOperationValidation $websiteOperationValidation,
         ?string $orgId = null,
     ): ?ValidationResult {
@@ -505,7 +505,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getSiteAccessToken(?string $websiteId, ?string $orgId = null): ?string
+    public function getSiteAccessToken(string $websiteId, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/access-tokens");
@@ -530,7 +530,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return RewriteChainFullListing|null
      */
-    public function getWebsiteHtaccessRewrites(?string $websiteId, ?string $orgId = null): ?RewriteChainFullListing
+    public function getWebsiteHtaccessRewrites(string $websiteId, ?string $orgId = null): ?RewriteChainFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/htaccess");
@@ -554,7 +554,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteHtaccessRewrites(
-        ?string $websiteId,
+        string $websiteId,
         UpdateRewriteChainFullListing $updateRewriteChainFullListing,
         ?string $orgId = null,
     ): bool {
@@ -579,7 +579,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return RequireIpsRule|null
      */
-    public function getWebsiteHtaccessIpsRule(?string $websiteId, ?string $orgId = null): ?RequireIpsRule
+    public function getWebsiteHtaccessIpsRule(string $websiteId, ?string $orgId = null): ?RequireIpsRule
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/htaccess/ips");
@@ -604,7 +604,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteHtaccessIpsRule(
-        ?string $websiteId,
+        string $websiteId,
         RequireIpsRule $requireIpsRule,
         ?string $orgId = null,
     ): bool {
@@ -627,7 +627,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsiteServerDomains|null
      */
-    public function getWebsiteServerDomains(?string $websiteId, ?string $orgId = null): ?WebsiteServerDomains
+    public function getWebsiteServerDomains(string $websiteId, ?string $orgId = null): ?WebsiteServerDomains
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/server_domains");
@@ -649,7 +649,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function createPreviewDomain(?string $websiteId, ?string $orgId = null): ?string
+    public function createPreviewDomain(string $websiteId, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/preview");
@@ -668,7 +668,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return CgroupLimits|null
      */
-    public function getWebsiteCgroupLimits(?string $websiteId, ?string $orgId = null): ?CgroupLimits
+    public function getWebsiteCgroupLimits(string $websiteId, ?string $orgId = null): ?CgroupLimits
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/cgroup_limits");
@@ -689,7 +689,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function setWebsiteCgroupLimits(
-        ?string $websiteId,
+        string $websiteId,
         SetCgroupLimits $setCgroupLimits,
         ?string $orgId = null,
     ): bool {
@@ -711,7 +711,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ContainerIpInfo|null
      */
-    public function getWebsiteContainerIp(?string $websiteId): ?ContainerIpInfo
+    public function getWebsiteContainerIp(string $websiteId): ?ContainerIpInfo
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/container_ip");
 
@@ -730,7 +730,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return LsphpSettings|null
      */
-    public function getWebsiteLsphpSettings(?string $websiteId): ?LsphpSettings
+    public function getWebsiteLsphpSettings(string $websiteId): ?LsphpSettings
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/lsphp_settings");
 
@@ -750,7 +750,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteLsphpSettings(?string $websiteId, LsphpSettings $lsphpSettings): bool
+    public function setWebsiteLsphpSettings(string $websiteId, LsphpSettings $lsphpSettings): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/lsphp_settings", [], $lsphpSettings);
 
@@ -767,7 +767,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool|null
      */
-    public function getWebsiteBackupsDisabledStatus(?string $websiteId): ?bool
+    public function getWebsiteBackupsDisabledStatus(string $websiteId): ?bool
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/backups_disabled");
 
@@ -787,7 +787,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteBackupsDisabledStatus(?string $websiteId, ?bool $value): bool
+    public function setWebsiteBackupsDisabledStatus(string $websiteId, ?bool $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/backups_disabled", [], $value);
 
@@ -805,7 +805,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return FsQuotaInfo|null
      */
-    public function getWebsiteFsQuotaLimits(?string $websiteId, ?string $orgId = null): ?FsQuotaInfo
+    public function getWebsiteFsQuotaLimits(string $websiteId, ?string $orgId = null): ?FsQuotaInfo
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/fs_quota_limits");
@@ -826,7 +826,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function setWebsiteFsQuotaLimits(
-        ?string $websiteId,
+        string $websiteId,
         FsQuotaLimit $fsQuotaLimit,
         ?string $orgId = null,
     ): bool {
@@ -851,7 +851,7 @@ final class WebsitesResource extends AbstractResource
      * @return DomainMappingsFullListing|null
      */
     public function getWebsiteDomainMappings(
-        ?string $websiteId,
+        string $websiteId,
         ?bool $withSsl = null,
         ?string $orgId = null,
     ): ?DomainMappingsFullListing {
@@ -879,7 +879,7 @@ final class WebsitesResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function createWebsiteMappedDomain(
-        ?string $websiteId,
+        string $websiteId,
         NewMappedDomain $newMappedDomain,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -904,8 +904,8 @@ final class WebsitesResource extends AbstractResource
      * @return DomainMapping|null
      */
     public function getWebsiteDomainMapping(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         ?string $orgId = null,
     ): ?DomainMapping {
         $orgId = $this->orgId($orgId);
@@ -931,8 +931,8 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteDomainMapping(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         DomainMappingUpdate $domainMappingUpdate,
         ?string $orgId = null,
     ): bool {
@@ -957,7 +957,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsiteDomainMapping(?string $websiteId, ?string $domainId, ?string $orgId = null): bool
+    public function deleteWebsiteDomainMapping(string $websiteId, string $domainId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}");
@@ -980,8 +980,8 @@ final class WebsitesResource extends AbstractResource
      * @return DnsStatus|null
      */
     public function getWebsiteDomainMappingDnsStatus(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         ?string $orgId = null,
     ): ?DnsStatus {
         $orgId = $this->orgId($orgId);
@@ -1005,7 +1005,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsitePrimaryDomain(
-        ?string $websiteId,
+        string $websiteId,
         NewPrimaryDomainMapping $newPrimaryDomainMapping,
         ?string $orgId = null,
     ): bool {
@@ -1032,8 +1032,8 @@ final class WebsitesResource extends AbstractResource
      * @return DnsQueryOutcome|null
      */
     public function getWebsiteDomainDnsQuery(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         ?string $resolveDepth = null,
         ?string $orgId = null,
     ): ?DnsQueryOutcome {
@@ -1058,7 +1058,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function takeScreenshot(?string $websiteId, ?string $domainId, ?string $orgId = null): bool
+    public function takeScreenshot(string $websiteId, string $domainId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/screenshot/take");
@@ -1080,11 +1080,8 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return UnixTimestamp|null
      */
-    public function getScreenshotTimestamp(
-        ?string $websiteId,
-        ?string $domainId,
-        ?string $orgId = null,
-    ): ?UnixTimestamp {
+    public function getScreenshotTimestamp(string $websiteId, string $domainId, ?string $orgId = null): ?UnixTimestamp
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/screenshot/timestamp");
 
@@ -1106,7 +1103,7 @@ final class WebsitesResource extends AbstractResource
      * @return SshKeyFullListing|null
      */
     public function getWebsiteSshKeys(
-        ?string $websiteId,
+        string $websiteId,
         ?bool $sanitize = null,
         ?string $orgId = null,
     ): ?SshKeyFullListing {
@@ -1135,7 +1132,7 @@ final class WebsitesResource extends AbstractResource
      * @return NewSshKeyId|null
      */
     public function authorizeWebsiteSshKey(
-        ?string $websiteId,
+        string $websiteId,
         NewSshKey $newSshKey,
         ?bool $sanitize = null,
         ?string $orgId = null,
@@ -1165,8 +1162,8 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteSshKey(
-        ?string $websiteId,
-        ?string $keyId,
+        string $websiteId,
+        string $keyId,
         SshKeyUpdate $sshKeyUpdate,
         ?string $orgId = null,
     ): bool {
@@ -1190,7 +1187,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function unauthorizeWebsiteSshKey(?string $websiteId, ?string $keyId, ?string $orgId = null): bool
+    public function unauthorizeWebsiteSshKey(string $websiteId, string $keyId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/ssh/keys/{$keyId}");
@@ -1213,7 +1210,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function authorizeWebsiteSshPassword(
-        ?string $websiteId,
+        string $websiteId,
         NewPassword $newPassword,
         ?string $orgId = null,
     ): bool {
@@ -1237,7 +1234,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return CrontabFullListing|null
      */
-    public function getUserCrontab(?string $websiteId, ?string $orgId = null): ?CrontabFullListing
+    public function getUserCrontab(string $websiteId, ?string $orgId = null): ?CrontabFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/crontab");
@@ -1261,7 +1258,7 @@ final class WebsitesResource extends AbstractResource
      * @return bool True on success
      */
     public function updateUserCrontab(
-        ?string $websiteId,
+        string $websiteId,
         UpdateCrontabFullListing $updateCrontabFullListing,
         ?string $orgId = null,
     ): bool {
@@ -1285,7 +1282,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteUserCrontab(?string $websiteId, ?string $orgId = null): bool
+    public function deleteUserCrontab(string $websiteId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/crontab");
@@ -1303,7 +1300,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool|null
      */
-    public function getDomainNginxFastCgi(?string $domainId): ?bool
+    public function getDomainNginxFastCgi(string $domainId): ?bool
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/nginx_fastcgi");
 
@@ -1321,7 +1318,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setDomainNginxFastCgi(?string $domainId, ?bool $value): bool
+    public function setDomainNginxFastCgi(string $domainId, ?bool $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/domains/{$domainId}/nginx_fastcgi", [], $value);
 
@@ -1338,7 +1335,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function clearDomainNginxFastCgi(?string $domainId): bool
+    public function clearDomainNginxFastCgi(string $domainId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/v2/domains/{$domainId}/nginx_fastcgi");
 
@@ -1355,7 +1352,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getDomainNginxFastCgiExcludedPaths(?string $domainId): array
+    public function getDomainNginxFastCgiExcludedPaths(string $domainId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/nginx_fastcgi_excluded_paths");
 
@@ -1373,7 +1370,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function addDomainNginxFastCgiExcludedPath(?string $domainId, ?string $value): bool
+    public function addDomainNginxFastCgiExcludedPath(string $domainId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/domains/{$domainId}/nginx_fastcgi_excluded_paths", [], $value);
 
@@ -1391,7 +1388,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteDomainNginxFastCgiExcludedPath(?string $domainId, ?string $path = null): bool
+    public function deleteDomainNginxFastCgiExcludedPath(string $domainId, ?string $path = null): bool
     {
         $query = [
             'path' => $path,
@@ -1411,7 +1408,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebServerRewrite[]
      */
-    public function getDomainWebserverRewrites(?string $domainId): array
+    public function getDomainWebserverRewrites(string $domainId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/domains/{$domainId}/webserver_rewrites");
 
@@ -1429,7 +1426,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setDomainWebserverRewrite(?string $domainId, WebServerRewrite $webServerRewrite): bool
+    public function setDomainWebserverRewrite(string $domainId, WebServerRewrite $webServerRewrite): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/domains/{$domainId}/webserver_rewrites", [], $webServerRewrite);
 
@@ -1447,7 +1444,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteDomainWebserverRewrite(?string $domainId, ?string $path = null): bool
+    public function deleteDomainWebserverRewrite(string $domainId, ?string $path = null): bool
     {
         $query = [
             'path' => $path,
@@ -1467,7 +1464,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebserverKind|null
      */
-    public function getWebsiteWebserverKind(?string $websiteId): ?WebserverKind
+    public function getWebsiteWebserverKind(string $websiteId): ?WebserverKind
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/websites/{$websiteId}/webserver_kind");
 
@@ -1484,7 +1481,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool|null
      */
-    public function getWebsiteIoncubeStatus(?string $websiteId): ?bool
+    public function getWebsiteIoncubeStatus(string $websiteId): ?bool
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/websites/{$websiteId}/ioncube");
 
@@ -1502,7 +1499,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteIoncubeStatus(?string $websiteId, ?bool $value = null): bool
+    public function setWebsiteIoncubeStatus(string $websiteId, ?bool $value = null): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/websites/{$websiteId}/ioncube", [], $value);
 
@@ -1519,7 +1516,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool|null
      */
-    public function getWebsiteRedisState(?string $websiteId): ?bool
+    public function getWebsiteRedisState(string $websiteId): ?bool
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/websites/{$websiteId}/redis");
 
@@ -1537,7 +1534,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setWebsiteRedisState(?string $websiteId, ?bool $value = null): bool
+    public function setWebsiteRedisState(string $websiteId, ?bool $value = null): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/websites/{$websiteId}/redis", [], $value);
 
@@ -1554,7 +1551,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function restartWebsitePhp(?string $websiteId): bool
+    public function restartWebsitePhp(string $websiteId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/v2/websites/{$websiteId}/restart_php");
 
@@ -1571,7 +1568,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getWebsitePhpErrorLog(?string $websiteId): ?string
+    public function getWebsitePhpErrorLog(string $websiteId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/php_error_log");
 
@@ -1588,7 +1585,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getWebsiteEnabledPhpExtensions(?string $websiteId): array
+    public function getWebsiteEnabledPhpExtensions(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/php_extensions");
 
@@ -1606,7 +1603,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function enableWebsitePhpExtension(?string $websiteId, ?string $value = null): bool
+    public function enableWebsitePhpExtension(string $websiteId, ?string $value = null): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/php_extensions", [], $value);
 
@@ -1624,7 +1621,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function disableWebsitePhpExtension(?string $websiteId, ?string $value = null): bool
+    public function disableWebsitePhpExtension(string $websiteId, ?string $value = null): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/websites/{$websiteId}/php_extensions", [], $value);
 
@@ -1641,7 +1638,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getWebsiteAvailablePhpExtensions(?string $websiteId): array
+    public function getWebsiteAvailablePhpExtensions(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/available_php_extensions");
 
@@ -1658,7 +1655,7 @@ final class WebsitesResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getBuiltInPhpExtensions(?string $websiteId): array
+    public function getBuiltInPhpExtensions(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/built_in_php_extensions");
 

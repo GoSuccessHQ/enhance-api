@@ -72,7 +72,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateDefaultDnsRecord(?string $recordId, UpdateDefaultDnsRecord $updateDefaultDnsRecord): bool
+    public function updateDefaultDnsRecord(string $recordId, UpdateDefaultDnsRecord $updateDefaultDnsRecord): bool
     {
         $response = $this->client->request(HttpMethod::PATCH, "/v2/settings/dns/default-records/{$recordId}", [], $updateDefaultDnsRecord);
 
@@ -91,7 +91,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteDefaultDnsRecord(?string $recordId): bool
+    public function deleteDefaultDnsRecord(string $recordId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/v2/settings/dns/default-records/{$recordId}");
 
@@ -113,7 +113,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return DnsZone|null
      */
-    public function getWebsiteDomainDnsZone(?string $websiteId, ?string $domainId, ?string $orgId = null): ?DnsZone
+    public function getWebsiteDomainDnsZone(string $websiteId, string $domainId, ?string $orgId = null): ?DnsZone
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-zone");
@@ -138,8 +138,8 @@ final class DnsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteDomainDnsZone(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         UpdateDnsZone $updateDnsZone,
         ?string $orgId = null,
     ): bool {
@@ -166,8 +166,8 @@ final class DnsResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function createWebsiteDomainDnsZoneRecord(
-        ?string $websiteId,
-        ?string $domainId,
+        string $websiteId,
+        string $domainId,
         NewDnsRecord $newDnsRecord,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -195,9 +195,9 @@ final class DnsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteDomainDnsZoneRecord(
-        ?string $websiteId,
-        ?string $domainId,
-        ?string $recordId,
+        string $websiteId,
+        string $domainId,
+        string $recordId,
         UpdateDnsRecord $updateDnsRecord,
         ?string $orgId = null,
     ): bool {
@@ -224,9 +224,9 @@ final class DnsResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteDomainDnsZoneRecord(
-        ?string $websiteId,
-        ?string $domainId,
-        ?string $recordId,
+        string $websiteId,
+        string $domainId,
+        string $recordId,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);
@@ -249,7 +249,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function enableDomainDnsSec(?string $websiteId, ?string $domainId, ?string $orgId = null): ?string
+    public function enableDomainDnsSec(string $websiteId, string $domainId, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-zone/dnssec");
@@ -271,7 +271,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function disableDomainDnsSec(?string $websiteId, ?string $domainId, ?string $orgId = null): bool
+    public function disableDomainDnsSec(string $websiteId, string $domainId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/domains/{$domainId}/dns-zone/dnssec");
@@ -332,7 +332,7 @@ final class DnsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteDnsThirdPartyProvider(?int $providerId): bool
+    public function deleteDnsThirdPartyProvider(int $providerId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/dns/third-party-providers/{$providerId}");
 

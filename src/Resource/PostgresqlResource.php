@@ -31,7 +31,7 @@ final class PostgresqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MySQLDBsFullListing|null
      */
-    public function getWebsitePostgresqlDbs(?string $websiteId, ?string $orgId = null): ?MySQLDBsFullListing
+    public function getWebsitePostgresqlDbs(string $websiteId, ?string $orgId = null): ?MySQLDBsFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-dbs");
@@ -55,7 +55,7 @@ final class PostgresqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsitePostgresqlDb(?string $websiteId, NewMySQLDB $newMySQLDB, ?string $orgId = null): bool
+    public function createWebsitePostgresqlDb(string $websiteId, NewMySQLDB $newMySQLDB, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-dbs", [], $newMySQLDB);
@@ -79,7 +79,7 @@ final class PostgresqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsitePostgresqlDb(?string $websiteId, ?string $dbName, ?string $orgId = null): bool
+    public function deleteWebsitePostgresqlDb(string $websiteId, string $dbName, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-dbs/{$dbName}");
@@ -101,7 +101,7 @@ final class PostgresqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return PostgresqlUsersFullListing|null
      */
-    public function getWebsitePostgresqlUsers(?string $websiteId, ?string $orgId = null): ?PostgresqlUsersFullListing
+    public function getWebsitePostgresqlUsers(string $websiteId, ?string $orgId = null): ?PostgresqlUsersFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-users");
@@ -125,7 +125,7 @@ final class PostgresqlResource extends AbstractResource
      * @return bool True on success
      */
     public function createWebsitePostgresqlUser(
-        ?string $websiteId,
+        string $websiteId,
         NewPostgresqlUser $newPostgresqlUser,
         ?string $orgId = null,
     ): bool {
@@ -152,8 +152,8 @@ final class PostgresqlResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsitePostgresqlUser(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         PostgresqlUserUpdate $postgresqlUserUpdate,
         ?string $orgId = null,
     ): bool {
@@ -178,7 +178,7 @@ final class PostgresqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsitePostgresqlUser(?string $websiteId, ?string $username, ?string $orgId = null): bool
+    public function deleteWebsitePostgresqlUser(string $websiteId, string $username, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/postgresql-users/{$username}");
@@ -202,8 +202,8 @@ final class PostgresqlResource extends AbstractResource
      * @return bool True on success
      */
     public function grantPostgresqlUserDbPrivileges(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         ?string $value,
         ?string $orgId = null,
     ): bool {
@@ -227,9 +227,9 @@ final class PostgresqlResource extends AbstractResource
      * @return bool True on success
      */
     public function revokePostgresqlUserDbPrivileges(
-        ?string $websiteId,
-        ?string $username,
-        ?string $dbName,
+        string $websiteId,
+        string $username,
+        string $dbName,
         ?string $orgId = null,
     ): bool {
         $orgId = $this->orgId($orgId);

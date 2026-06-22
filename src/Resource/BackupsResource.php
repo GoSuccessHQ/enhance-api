@@ -36,7 +36,7 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return BackupsFullListing|null
      */
-    public function getWebsiteBackups(?string $websiteId, ?string $orgId = null): ?BackupsFullListing
+    public function getWebsiteBackups(string $websiteId, ?string $orgId = null): ?BackupsFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/backups");
@@ -66,7 +66,7 @@ final class BackupsResource extends AbstractResource
      * @return Backup|null
      */
     public function backupWebsite(
-        ?string $websiteId,
+        string $websiteId,
         ?BackupOptions $backupOptions = null,
         ?bool $includeEmails = null,
         ?string $orgId = null,
@@ -93,7 +93,7 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string Raw response body
      */
-    public function downloadWebsiteBackup(?string $websiteId, ?BackupDownloadKind $backupDownloadKind = null): string
+    public function downloadWebsiteBackup(string $websiteId, ?BackupDownloadKind $backupDownloadKind = null): string
     {
         $query = [
             'backupDownloadKind' => $backupDownloadKind,
@@ -120,8 +120,8 @@ final class BackupsResource extends AbstractResource
      * @return BackupDetailed|null
      */
     public function getWebsiteBackup(
-        ?string $websiteId,
-        ?int $backupId,
+        string $websiteId,
+        int $backupId,
         ?BackupStorageKind $storageKind = null,
         ?string $orgId = null,
     ): ?BackupDetailed {
@@ -153,8 +153,8 @@ final class BackupsResource extends AbstractResource
      * @return bool True on success
      */
     public function restoreWebsite(
-        ?string $websiteId,
-        ?int $backupId,
+        string $websiteId,
+        int $backupId,
         ?BackupRestoreOptions $backupRestoreOptions = null,
         ?BackupStorageKind $storageKind = null,
         ?string $orgId = null,
@@ -186,8 +186,8 @@ final class BackupsResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteBackup(
-        ?string $websiteId,
-        ?int $backupId,
+        string $websiteId,
+        int $backupId,
         ?BackupStorageKind $storageKind = null,
         ?string $orgId = null,
     ): bool {
@@ -215,11 +215,8 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return RestoreDetailed|null
      */
-    public function getWebsiteRestoreStatus(
-        ?string $websiteId,
-        ?int $backupId,
-        ?string $orgId = null,
-    ): ?RestoreDetailed {
+    public function getWebsiteRestoreStatus(string $websiteId, int $backupId, ?string $orgId = null): ?RestoreDetailed
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/backups/{$backupId}/restore_status");
 
@@ -242,8 +239,8 @@ final class BackupsResource extends AbstractResource
      * @return DirectoryTreeNode[]
      */
     public function getWebsiteBackupDirectoryTree(
-        ?string $websiteId,
-        ?int $backupId,
+        string $websiteId,
+        int $backupId,
         ?string $offset = null,
         ?string $orgId = null,
     ): array {
@@ -287,7 +284,7 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function restoreHardDeletedBackup(?string $serverId, ?string $websiteId): ?string
+    public function restoreHardDeletedBackup(string $serverId, string $websiteId): ?string
     {
         $response = $this->client->request(HttpMethod::PUT, "/backups/{$serverId}/{$websiteId}");
 
@@ -305,7 +302,7 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteAllWebsiteBackups(?string $serverId, ?string $websiteId): bool
+    public function deleteAllWebsiteBackups(string $serverId, string $websiteId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/backups/{$serverId}/{$websiteId}");
 
@@ -322,7 +319,7 @@ final class BackupsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getWebsiteRestoreLog(?string $websiteId): array
+    public function getWebsiteRestoreLog(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/backups/{$websiteId}/restore/log");
 

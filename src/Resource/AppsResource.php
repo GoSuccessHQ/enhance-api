@@ -52,7 +52,7 @@ final class AppsResource extends AbstractResource
      * @return InstallableWebsiteAppsFullListing|null
      */
     public function getInstallableApps(
-        ?float $subscriptionId,
+        float $subscriptionId,
         ?string $orgId = null,
     ): ?InstallableWebsiteAppsFullListing {
         $orgId = $this->orgId($orgId);
@@ -75,7 +75,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return WebsiteAppsFullListing|null
      */
-    public function getWebsiteApps(?string $websiteId, ?string $orgId = null): ?WebsiteAppsFullListing
+    public function getWebsiteApps(string $websiteId, ?string $orgId = null): ?WebsiteAppsFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/apps");
@@ -100,7 +100,7 @@ final class AppsResource extends AbstractResource
      * @return NewResourceUuid|null
      */
     public function createWebsiteApp(
-        ?string $websiteId,
+        string $websiteId,
         NewWebsiteApp $newWebsiteApp,
         ?string $orgId = null,
     ): ?NewResourceUuid {
@@ -127,8 +127,8 @@ final class AppsResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteApp(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         ?bool $backupBeforeOperation = null,
         ?string $orgId = null,
     ): bool {
@@ -153,7 +153,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return ListedPersistentApp[]
      */
-    public function getWebsitePersistentApps(?string $websiteId): array
+    public function getWebsitePersistentApps(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/apps/persistent");
 
@@ -173,7 +173,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsitePersistentApp(?string $websiteId, PersistentApp $persistentApp): bool
+    public function createWebsitePersistentApp(string $websiteId, PersistentApp $persistentApp): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/apps/persistent", [], $persistentApp);
 
@@ -191,7 +191,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getWebsitePersistentAppLog(?string $websiteId, ?string $appId): ?string
+    public function getWebsitePersistentAppLog(string $websiteId, string $appId): ?string
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/apps/persistent/{$appId}");
 
@@ -213,8 +213,8 @@ final class AppsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsitePersistentApp(
-        ?string $websiteId,
-        ?string $appId,
+        string $websiteId,
+        string $appId,
         UpdatePersistentApp $updatePersistentApp,
     ): bool {
         $response = $this->client->request(HttpMethod::PATCH, "/websites/{$websiteId}/apps/persistent/{$appId}", [], $updatePersistentApp);
@@ -233,7 +233,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsitePersistentApp(?string $websiteId, ?string $appId): bool
+    public function deleteWebsitePersistentApp(string $websiteId, string $appId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/websites/{$websiteId}/apps/persistent/{$appId}");
 
@@ -250,7 +250,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function installNvm(?string $websiteId): bool
+    public function installNvm(string $websiteId): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/apps/node");
 
@@ -267,7 +267,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function getPossibleNodeVersions(?string $websiteId): array
+    public function getPossibleNodeVersions(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/apps/node/possible_versions");
 
@@ -284,7 +284,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return array<int, mixed>
      */
-    public function listInstalledNodeVersions(?string $websiteId): array
+    public function listInstalledNodeVersions(string $websiteId): array
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/apps/node/versions");
 
@@ -302,7 +302,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function installNodeVersion(?string $websiteId, ?string $value): bool
+    public function installNodeVersion(string $websiteId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/apps/node/versions", [], $value);
 
@@ -320,7 +320,7 @@ final class AppsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setDefaultNodeVersion(?string $websiteId, ?string $value): bool
+    public function setDefaultNodeVersion(string $websiteId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/apps/node/versions/default", [], $value);
 

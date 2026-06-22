@@ -98,7 +98,7 @@ final class MembersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Member|null
      */
-    public function getMember(?string $memberId, ?string $orgId = null): ?Member
+    public function getMember(string $memberId, ?string $orgId = null): ?Member
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/members/{$memberId}");
@@ -120,7 +120,7 @@ final class MembersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateMember(?string $memberId, UpdateMember $updateMember, ?string $orgId = null): bool
+    public function updateMember(string $memberId, UpdateMember $updateMember, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/members/{$memberId}", [], $updateMember);
@@ -141,7 +141,7 @@ final class MembersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteMember(?string $memberId, ?string $orgId = null): bool
+    public function deleteMember(string $memberId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/members/{$memberId}");
@@ -162,7 +162,7 @@ final class MembersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function getOrgMemberLogin(?string $memberId, ?string $orgId = null): ?string
+    public function getOrgMemberLogin(string $memberId, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/members/{$memberId}/sso");
@@ -226,7 +226,7 @@ final class MembersResource extends AbstractResource
      * @return bool True on success
      */
     public function updateAccessToken(
-        ?string $tokenId,
+        string $tokenId,
         UpdateAccessToken $updateAccessToken,
         ?string $orgId = null,
     ): bool {
@@ -249,7 +249,7 @@ final class MembersResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteAccessToken(?string $tokenId, ?string $orgId = null): bool
+    public function deleteAccessToken(string $tokenId, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/access_tokens/{$tokenId}");

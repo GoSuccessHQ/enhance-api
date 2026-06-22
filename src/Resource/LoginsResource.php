@@ -198,7 +198,7 @@ final class LoginsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteSession(?string $sessionId): bool
+    public function deleteSession(string $sessionId): bool
     {
         $response = $this->client->request(HttpMethod::DELETE, "/login/sessions/{$sessionId}");
 
@@ -493,7 +493,7 @@ final class LoginsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setCustomerLoginPassword(?string $loginId, NewPassword $newPassword): bool
+    public function setCustomerLoginPassword(string $loginId, NewPassword $newPassword): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/v2/logins/{$loginId}/password", [], $newPassword);
 

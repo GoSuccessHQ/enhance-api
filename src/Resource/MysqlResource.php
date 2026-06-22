@@ -33,7 +33,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MySQLDBsFullListing|null
      */
-    public function getWebsiteMySQLDBs(?string $websiteId, ?string $orgId = null): ?MySQLDBsFullListing
+    public function getWebsiteMySQLDBs(string $websiteId, ?string $orgId = null): ?MySQLDBsFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs");
@@ -57,7 +57,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsiteMySQLDB(?string $websiteId, NewMySQLDB $newMySQLDB, ?string $orgId = null): bool
+    public function createWebsiteMySQLDB(string $websiteId, NewMySQLDB $newMySQLDB, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs", [], $newMySQLDB);
@@ -81,7 +81,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsiteMySQLDB(?string $websiteId, ?string $dbName, ?string $orgId = null): bool
+    public function deleteWebsiteMySQLDB(string $websiteId, string $dbName, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs/{$dbName}");
@@ -105,8 +105,8 @@ final class MysqlResource extends AbstractResource
      * @return string|null
      */
     public function getPhpMyAdminSSOUrl(
-        ?string $websiteId,
-        ?string $dbName,
+        string $websiteId,
+        string $dbName,
         ?bool $shouldRedirect = null,
         ?string $orgId = null,
     ): ?string {
@@ -136,7 +136,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function uploadSql(?string $websiteId, ?string $dbId, ?array $formData = null, ?bool $force = null): bool
+    public function uploadSql(string $websiteId, string $dbId, ?array $formData = null, ?bool $force = null): bool
     {
         $query = [
             'force' => $force,
@@ -160,7 +160,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return string|null
      */
-    public function downloadSql(?string $websiteId, ?string $dbName, ?string $orgId = null): ?string
+    public function downloadSql(string $websiteId, string $dbName, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs/{$dbName}/sql");
@@ -182,7 +182,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return MySQLUsersFullListing|null
      */
-    public function getWebsiteMySQLUsers(?string $websiteId, ?string $orgId = null): ?MySQLUsersFullListing
+    public function getWebsiteMySQLUsers(string $websiteId, ?string $orgId = null): ?MySQLUsersFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-users");
@@ -205,11 +205,8 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function createWebsiteMySQLUser(
-        ?string $websiteId,
-        NewMySQLUser $newMySQLUser,
-        ?string $orgId = null,
-    ): bool {
+    public function createWebsiteMySQLUser(string $websiteId, NewMySQLUser $newMySQLUser, ?string $orgId = null): bool
+    {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/mysql-users", [], $newMySQLUser);
 
@@ -233,8 +230,8 @@ final class MysqlResource extends AbstractResource
      * @return bool True on success
      */
     public function updateWebsiteMySQLUser(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         MySQLUserUpdate $mySQLUserUpdate,
         ?string $orgId = null,
     ): bool {
@@ -259,7 +256,7 @@ final class MysqlResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteWebsiteMySQLUser(?string $websiteId, ?string $username, ?string $orgId = null): bool
+    public function deleteWebsiteMySQLUser(string $websiteId, string $username, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/mysql-users/{$username}");
@@ -284,8 +281,8 @@ final class MysqlResource extends AbstractResource
      * @return bool True on success
      */
     public function setWebsiteMySQLUserPrivileges(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         MySQLUserGrants $mySQLUserGrants,
         ?string $orgId = null,
     ): bool {
@@ -312,8 +309,8 @@ final class MysqlResource extends AbstractResource
      * @return bool True on success
      */
     public function createWebsiteMySQLUserAccessHosts(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         MySQLUserAccessHosts $mySQLUserAccessHosts,
         ?string $orgId = null,
     ): bool {
@@ -340,8 +337,8 @@ final class MysqlResource extends AbstractResource
      * @return bool True on success
      */
     public function deleteWebsiteMySQLUserAccessHosts(
-        ?string $websiteId,
-        ?string $username,
+        string $websiteId,
+        string $username,
         MySQLUserAccessHosts $mySQLUserAccessHosts,
         ?string $orgId = null,
     ): bool {

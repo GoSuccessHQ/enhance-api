@@ -71,7 +71,7 @@ final class SubscriptionsResource extends AbstractResource
      * @return int|null
      */
     public function getSubscriptionBandwidthUsage(
-        ?float $subscriptionId,
+        float $subscriptionId,
         ?bool $refreshCache = null,
         ?string $orgId = null,
     ): ?int {
@@ -98,7 +98,7 @@ final class SubscriptionsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return Subscription|null
      */
-    public function getSubscription(?float $subscriptionId, ?string $orgId = null): ?Subscription
+    public function getSubscription(float $subscriptionId, ?string $orgId = null): ?Subscription
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/subscriptions/{$subscriptionId}");
@@ -122,7 +122,7 @@ final class SubscriptionsResource extends AbstractResource
      * @return bool True on success
      */
     public function updateSubscription(
-        ?float $subscriptionId,
+        float $subscriptionId,
         UpdateSubscription $updateSubscription,
         ?string $orgId = null,
     ): bool {
@@ -149,7 +149,7 @@ final class SubscriptionsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function deleteSubscription(?float $subscriptionId, ?bool $force = null, ?string $orgId = null): bool
+    public function deleteSubscription(float $subscriptionId, ?bool $force = null, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $query = [
@@ -174,7 +174,7 @@ final class SubscriptionsResource extends AbstractResource
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return UsedResourcesFullListing|null
      */
-    public function calculateResourceUsage(?float $subscriptionId, ?string $orgId = null): ?UsedResourcesFullListing
+    public function calculateResourceUsage(float $subscriptionId, ?string $orgId = null): ?UsedResourcesFullListing
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/subscriptions/{$subscriptionId}/calculate-resource-usage");
@@ -200,7 +200,7 @@ final class SubscriptionsResource extends AbstractResource
      * @return SubscriptionsListing|null
      */
     public function getCustomerSubscriptions(
-        ?string $customerOrgId,
+        string $customerOrgId,
         ?int $offset = null,
         ?int $limit = null,
         ?string $sortBy = null,
@@ -238,7 +238,7 @@ final class SubscriptionsResource extends AbstractResource
      * @return NewResourceId|null
      */
     public function createCustomerSubscription(
-        ?string $customerOrgId,
+        string $customerOrgId,
         NewSubscription $newSubscription,
         ?string $orgId = null,
     ): ?NewResourceId {
