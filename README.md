@@ -40,6 +40,13 @@ Every API section is exposed as a resource on the `Enhance` object, e.g.
 `$enhance->subscriptions`, `$enhance->domains`, `$enhance->dns`,
 `$enhance->emails`, `$enhance->backups`, `$enhance->ssl`, and so on.
 
+## Documentation & examples
+
+- **[docs/](docs/README.md)** – one reference page per resource, listing every
+  method with its route, parameters, and a usage example.
+- **[examples/](examples/README.md)** – runnable scripts (account overview,
+  error handling, a full create/read/delete lifecycle).
+
 ## Working with DTOs
 
 Request bodies are typed DTOs; only the properties you set are sent. Responses
