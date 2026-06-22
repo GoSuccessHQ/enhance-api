@@ -58,6 +58,19 @@ final class Configuration
     }
 
     /**
+     * Connection timeout in seconds (minimum 1).
+     */
+    public int $connectTimeout = 10 {
+        set {
+            if ($value < 1) {
+                throw new \InvalidArgumentException('Connect timeout must be at least 1 second');
+            }
+
+            $this->connectTimeout = $value;
+        }
+    }
+
+    /**
      * Maximum number of retry attempts for transient failures (minimum 0).
      */
     public int $maxRetries = 2 {

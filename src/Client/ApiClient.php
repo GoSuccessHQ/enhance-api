@@ -26,11 +26,23 @@ use GoSuccess\Enhance\Http\Response;
  */
 final class ApiClient implements HttpClientInterface
 {
+    /**
+     * Reused cURL handle, enabling connection keep-alive across requests.
+     */
+    private ?\CurlHandle $handle = null;
+
     public function __construct(
         private readonly Configuration $config,
     ) {
         if (! \extension_loaded('curl')) {
             throw new RequestException('The cURL extension is required but not loaded');
+        }
+    }
+
+    public function __destruct()
+    {
+        if ($this->handle instanceof \CurlHandle) {
+            curl_close($this->handle);
         }
     }
 
@@ -62,7 +74,7 @@ final class ApiClient implements HttpClientInterface
             $retryable = $curlError !== null || ($response instanceof Response && $this->isRetryable($response->statusCode));
 
             if ($retryable && $attempt <= $this->config->maxRetries) {
-                $this->backoff($attempt);
+                $this->wait($attempt, $response);
 
                 continue;
             }
@@ -97,6 +109,7 @@ final class ApiClient implements HttpClientInterface
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_ENCODING => '',
+            CURLOPT_CONNECTTIMEOUT => $this->config->connectTimeout,
             CURLOPT_TIMEOUT => $this->config->timeout,
             CURLOPT_SSL_VERIFYPEER => $this->config->verifySsl,
             CURLOPT_SSL_VERIFYHOST => $this->config->verifySsl ? 2 : 0,
@@ -113,7 +126,9 @@ final class ApiClient implements HttpClientInterface
 
         $options[CURLOPT_HTTPHEADER] = $headers;
 
-        $ch = curl_init();
+        // Reuse the handle across requests so cURL can keep the connection alive.
+        $ch = $this->handle ??= curl_init();
+        curl_reset($ch);
         curl_setopt_array($ch, $options);
 
         $raw = curl_exec($ch);
@@ -121,7 +136,6 @@ final class ApiClient implements HttpClientInterface
         $error = curl_error($ch);
         $statusCode = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         $headerSize = (int)curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        curl_close($ch);
 
         if ($errno !== 0 || ! \is_string($raw)) {
             return [null, $error !== '' ? $error : 'unknown cURL error'];
@@ -276,8 +290,26 @@ final class ApiClient implements HttpClientInterface
         return $statusCode === 429 || $statusCode >= 500;
     }
 
-    private function backoff(int $attempt): void
+    /**
+     * Wait before the next retry. Honors a Retry-After header (seconds or an
+     * HTTP date) on 429 responses, otherwise uses exponential backoff.
+     */
+    private function wait(int $attempt, ?Response $response): void
     {
+        $retryAfter = $response?->header('retry-after');
+
+        if ($retryAfter !== null) {
+            $seconds = is_numeric($retryAfter)
+                ? (int)$retryAfter
+                : max(0, ((int)strtotime($retryAfter)) - time());
+
+            if ($seconds > 0) {
+                sleep(min($seconds, 60));
+
+                return;
+            }
+        }
+
         // Exponential backoff: 100ms, 200ms, 400ms, ...
         usleep((int)(100_000 * 2 ** ($attempt - 1)));
     }
