@@ -43,6 +43,7 @@ final class AbstractDtoTest extends TestCase
             'codes' => [200, 404],
         ]);
 
+        self::assertNotNull($dto->children);
         self::assertCount(2, $dto->children);
         self::assertSame('b', $dto->children[1]->name);
         self::assertSame([HttpStatusCode::Ok, HttpStatusCode::NotFound], $dto->codes);

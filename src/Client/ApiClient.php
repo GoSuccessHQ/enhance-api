@@ -99,6 +99,10 @@ final class ApiClient implements HttpClientInterface
      */
     private function execute(HttpMethod $method, string $url, mixed $body, ?string $contentType): array
     {
+        if ($url === '') {
+            throw new RequestException('Request URL must not be empty');
+        }
+
         $headers = [
             'Accept: application/json',
             'Authorization: Bearer ' . $this->config->accessToken,
