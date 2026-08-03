@@ -1661,4 +1661,43 @@ final class WebsitesResource extends AbstractResource
 
         return (array)($response->decoded ?? []);
     }
+
+    /**
+     * Get container cron status for a website
+     *
+     * This setting controls whether or not a website can change its own crontab from inside the container.
+     *
+     * @link https://apidocs.enhance.com/#/websites/getContainerCronEnabledStatus
+     * GET /websites/{website_id}/container_cron_enabled
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool|null
+     */
+    public function getContainerCronEnabledStatus(string $websiteId): ?bool
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/container_cron_enabled");
+
+        return $response->decoded === null ? null : (bool)$response->decoded;
+    }
+
+    /**
+     * Set container cron status on a website
+     *
+     * This setting controls whether or not a website can change its own crontab from inside the container.
+     *
+     * @link https://apidocs.enhance.com/#/websites/setContainerCronEnabledStatus
+     * PUT /websites/{website_id}/container_cron_enabled
+     *
+     * @param string $websiteId The id of the website.
+     * @param bool $value Cron enabled boolean.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setContainerCronEnabledStatus(string $websiteId, bool $value): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/container_cron_enabled", [], $value);
+
+        return $response->isSuccess;
+    }
 }

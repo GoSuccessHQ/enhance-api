@@ -1362,12 +1362,16 @@ final class ServersResource extends AbstractResource
      *
      * @param string $serverId The UUID of the server
      * @param ServerRole $role The role of the server.
+     * @param bool|null $disableRoleOnInstallation Disable placement immediately after installation
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return mixed
      */
-    public function getServerRole(string $serverId, ServerRole $role): mixed
+    public function getServerRole(string $serverId, ServerRole $role, ?bool $disableRoleOnInstallation = null): mixed
     {
-        $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles/{$role->value}");
+        $query = [
+            'disable_role_on_installation' => $disableRoleOnInstallation,
+        ];
+        $response = $this->client->request(HttpMethod::GET, "/servers/{$serverId}/roles/{$role->value}", $query);
 
         return $response->decoded;
     }
@@ -1388,12 +1392,20 @@ final class ServersResource extends AbstractResource
      * @param string $serverId The UUID of the server
      * @param ServerRole $role The role of the server.
      * @param NewBackupRole $newBackupRole Information for the backup role.
+     * @param bool|null $disableRoleOnInstallation Disable placement immediately after installation
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function installServerRole(string $serverId, ServerRole $role, ?NewBackupRole $newBackupRole = null): bool
-    {
-        $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/roles/{$role->value}", [], $newBackupRole);
+    public function installServerRole(
+        string $serverId,
+        ServerRole $role,
+        ?NewBackupRole $newBackupRole = null,
+        ?bool $disableRoleOnInstallation = null,
+    ): bool {
+        $query = [
+            'disable_role_on_installation' => $disableRoleOnInstallation,
+        ];
+        $response = $this->client->request(HttpMethod::PUT, "/servers/{$serverId}/roles/{$role->value}", $query, $newBackupRole);
 
         return $response->isSuccess;
     }
@@ -1411,12 +1423,20 @@ final class ServersResource extends AbstractResource
      * @param string $serverId The UUID of the server
      * @param ServerRole $role The role of the server.
      * @param mixed $body Info for updating the server role.
+     * @param bool|null $disableRoleOnInstallation Disable placement immediately after installation
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function updateServerRole(string $serverId, ServerRole $role, mixed $body): bool
-    {
-        $response = $this->client->request(HttpMethod::PATCH, "/servers/{$serverId}/roles/{$role->value}", [], $body);
+    public function updateServerRole(
+        string $serverId,
+        ServerRole $role,
+        mixed $body,
+        ?bool $disableRoleOnInstallation = null,
+    ): bool {
+        $query = [
+            'disable_role_on_installation' => $disableRoleOnInstallation,
+        ];
+        $response = $this->client->request(HttpMethod::PATCH, "/servers/{$serverId}/roles/{$role->value}", $query, $body);
 
         return $response->isSuccess;
     }
@@ -1433,12 +1453,16 @@ final class ServersResource extends AbstractResource
      *
      * @param string $serverId The UUID of the server
      * @param ServerRole $role The role of the server.
+     * @param bool|null $disableRoleOnInstallation Disable placement immediately after installation
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function uninstallServerRole(string $serverId, ServerRole $role): bool
+    public function uninstallServerRole(string $serverId, ServerRole $role, ?bool $disableRoleOnInstallation = null): bool
     {
-        $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/roles/{$role->value}");
+        $query = [
+            'disable_role_on_installation' => $disableRoleOnInstallation,
+        ];
+        $response = $this->client->request(HttpMethod::DELETE, "/servers/{$serverId}/roles/{$role->value}", $query);
 
         return $response->isSuccess;
     }

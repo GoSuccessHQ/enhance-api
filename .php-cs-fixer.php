@@ -12,7 +12,7 @@ $finder = PhpCsFixer\Finder::create()
 return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
-        '@PHP84Migration' => true,
+        '@PHP8x4Migration' => true,
 
         // Import statements
         'ordered_imports' => [

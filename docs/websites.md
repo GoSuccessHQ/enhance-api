@@ -22,6 +22,7 @@ Accessed via `$enhance->websites`.
 | [`disableWebsitePhpExtension`](#disablewebsitephpextension) | `DELETE /websites/{website_id}/php_extensions` |
 | [`enableWebsitePhpExtension`](#enablewebsitephpextension) | `POST /websites/{website_id}/php_extensions` |
 | [`getBuiltInPhpExtensions`](#getbuiltinphpextensions) | `GET /websites/{website_id}/built_in_php_extensions` |
+| [`getContainerCronEnabledStatus`](#getcontainercronenabledstatus) | `GET /websites/{website_id}/container_cron_enabled` |
 | [`getDomainNginxFastCgi`](#getdomainnginxfastcgi) | `GET /v2/domains/{domain_id}/nginx_fastcgi` |
 | [`getDomainNginxFastCgiExcludedPaths`](#getdomainnginxfastcgiexcludedpaths) | `GET /v2/domains/{domain_id}/nginx_fastcgi_excluded_paths` |
 | [`getDomainWebserverRewrites`](#getdomainwebserverrewrites) | `GET /v2/domains/{domain_id}/webserver_rewrites` |
@@ -56,6 +57,7 @@ Accessed via `$enhance->websites`.
 | [`getWebsites`](#getwebsites) | `GET /orgs/{org_id}/websites` |
 | [`pushWebsiteLive`](#pushwebsitelive) | `POST /orgs/{org_id}/websites/{website_id}/push-live` |
 | [`restartWebsitePhp`](#restartwebsitephp) | `POST /v2/websites/{website_id}/restart_php` |
+| [`setContainerCronEnabledStatus`](#setcontainercronenabledstatus) | `PUT /websites/{website_id}/container_cron_enabled` |
 | [`setDomainNginxFastCgi`](#setdomainnginxfastcgi) | `PUT /v2/domains/{domain_id}/nginx_fastcgi` |
 | [`setDomainWebserverRewrite`](#setdomainwebserverrewrite) | `PUT /v2/domains/{domain_id}/webserver_rewrites` |
 | [`setWebsiteBackupsDisabledStatus`](#setwebsitebackupsdisabledstatus) | `PUT /websites/{website_id}/backups_disabled` |
@@ -392,6 +394,23 @@ Get a list of the PHP extensions compiled in to the currently selected version o
 
 ```php
 $result = $enhance->websites->getBuiltInPhpExtensions('website-id');
+```
+
+## getContainerCronEnabledStatus
+
+Get container cron status for a website
+
+`GET /websites/{website_id}/container_cron_enabled`
+
+This setting controls whether or not a website can change its own crontab from
+inside the container.
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$result = $enhance->websites->getContainerCronEnabledStatus('website-id');
 ```
 
 ## getDomainNginxFastCgi
@@ -912,6 +931,24 @@ Restart PHP container for a website
 
 ```php
 $result = $enhance->websites->restartWebsitePhp('website-id');
+```
+
+## setContainerCronEnabledStatus
+
+Set container cron status on a website
+
+`PUT /websites/{website_id}/container_cron_enabled`
+
+This setting controls whether or not a website can change its own crontab from
+inside the container.
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$value` | `bool` | yes |
+
+```php
+$result = $enhance->websites->setContainerCronEnabledStatus('website-id', true);
 ```
 
 ## setDomainNginxFastCgi

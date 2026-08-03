@@ -26,6 +26,9 @@ class UpdatePlan extends AbstractDto
     #[ArrayItemType('enum', \GoSuccess\Enhance\Enum\PhpVersion::class)]
     public ?array $allowedPhpVersions = null;
 
+    /** If unset, all current and future apps are allowed. Accepts an array of {@see \GoSuccess\Enhance\Enum\WebsiteAppKind} or an {@see UnsetType}. */
+    public mixed $allowedApps = null;
+
     public ?PhpVersion $defaultPhpVersion = null;
 
     public ?bool $redisAllowed = null;

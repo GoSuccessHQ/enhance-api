@@ -691,6 +691,7 @@ Get server role info
 | --------- | ---- | -------- |
 | `$serverId` | `string` | yes |
 | `$role` | `ServerRole` | yes |
+| `$disableRoleOnInstallation` | `?bool` | no |
 
 ```php
 use GoSuccess\Enhance\Enum\ServerRole;
@@ -916,6 +917,7 @@ Install server role
 | `$serverId` | `string` | yes |
 | `$role` | `ServerRole` | yes |
 | `$newBackupRole` | `?NewBackupRole` | no |
+| `$disableRoleOnInstallation` | `?bool` | no |
 
 ```php
 use GoSuccess\Enhance\Enum\ServerRole;
@@ -1191,6 +1193,7 @@ Uninstall a server role
 | --------- | ---- | -------- |
 | `$serverId` | `string` | yes |
 | `$role` | `ServerRole` | yes |
+| `$disableRoleOnInstallation` | `?bool` | no |
 
 ```php
 use GoSuccess\Enhance\Enum\ServerRole;
@@ -1294,6 +1297,7 @@ Update server role
 | `$serverId` | `string` | yes |
 | `$role` | `ServerRole` | yes |
 | `$body` | `mixed` | yes |
+| `$disableRoleOnInstallation` | `?bool` | no |
 
 ```php
 use GoSuccess\Enhance\Enum\ServerRole;

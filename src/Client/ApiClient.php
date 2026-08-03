@@ -244,7 +244,9 @@ final class ApiClient implements HttpClientInterface
 
     private function handle(Response $response): Response
     {
-        if ($response->isSuccess) {
+        // Redirects are a documented outcome for the SSO endpoints rather than
+        // an error, so they are handed back instead of raising an exception.
+        if ($response->isSuccess || $response->isRedirect) {
             return $response;
         }
 

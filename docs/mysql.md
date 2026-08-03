@@ -12,6 +12,7 @@ Accessed via `$enhance->mysql`.
 | [`deleteWebsiteMySQLUserAccessHosts`](#deletewebsitemysqluseraccesshosts) | `DELETE /orgs/{org_id}/websites/{website_id}/mysql-users/{username}/access-hosts` |
 | [`downloadSql`](#downloadsql) | `GET /orgs/{org_id}/websites/{website_id}/mysql-dbs/{db_name}/sql` |
 | [`getPhpMyAdminSSOUrl`](#getphpmyadminssourl) | `GET /orgs/{org_id}/websites/{website_id}/mysql-dbs/{db_name}/sso` |
+| [`getPhpMyAdminWebsiteSSOUrl`](#getphpmyadminwebsitessourl) | `GET /orgs/{org_id}/websites/{website_id}/phpmyadmin` |
 | [`getWebsiteMySQLDBs`](#getwebsitemysqldbs) | `GET /orgs/{org_id}/websites/{website_id}/mysql-dbs` |
 | [`getWebsiteMySQLUsers`](#getwebsitemysqlusers) | `GET /orgs/{org_id}/websites/{website_id}/mysql-users` |
 | [`setWebsiteMySQLUserPrivileges`](#setwebsitemysqluserprivileges) | `PUT /orgs/{org_id}/websites/{website_id}/mysql-users/{username}/privileges` |
@@ -168,6 +169,25 @@ Get phpMyAdmin SSO URL
 
 ```php
 $result = $enhance->mysql->getPhpMyAdminSSOUrl('website-id', 'example');
+```
+
+## getPhpMyAdminWebsiteSSOUrl
+
+Get phpMyAdmin SSO URL (per website)
+
+`GET /orgs/{org_id}/websites/{website_id}/phpmyadmin`
+
+Fetches a single sign-on URL to access phpMyAdmin for this website without the
+need to log in.
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$shouldRedirect` | `?bool` | no |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->mysql->getPhpMyAdminWebsiteSSOUrl('website-id');
 ```
 
 ## getWebsiteMySQLDBs

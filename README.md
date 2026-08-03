@@ -3,7 +3,7 @@
 A modern, dependency-free PHP client for the [Enhance](https://enhance.com) control panel API.
 
 - **Vanilla** – zero runtime dependencies, only the `curl` and `json` extensions.
-- **Complete** – all 470 operations across 33 resources, covering the full Enhance API (v12.23.0).
+- **Complete** – all 482 operations across 33 resources, covering the full Enhance API (v12.25.4).
 - **Type-safe** – typed DTOs, enums, and resource methods built on PHP 8.4 features (property hooks, `readonly`, backed enums).
 
 ## Requirements
@@ -151,6 +151,10 @@ try {
 | 5xx | `ServerException` |
 | transport error | `RequestException` |
 
+Redirects are never followed and are not treated as errors: the SSO endpoints
+document a 3xx as their success case, so the response is returned and its
+target can be read from `Response::$location`.
+
 ## Custom HTTP client
 
 The client talks to the API through `GoSuccess\Enhance\Contract\HttpClientInterface`.
@@ -169,9 +173,9 @@ src/
   Client/              Configuration and the cURL ApiClient
   Contract/            HttpClientInterface
   Http/                Immutable Response
-  Resource/            33 resources (470 methods)
-  DTO/                 360 hydratable data transfer objects
-  Enum/                66 enums + HttpMethod/HttpStatusCode
+  Resource/            33 resources (482 methods)
+  DTO/                 364 hydratable data transfer objects
+  Enum/                67 enums + HttpMethod/HttpStatusCode
   Exception/           Typed exception hierarchy
   Base/                AbstractResource, AbstractDto
   Attribute/           ArrayItemType
@@ -180,7 +184,7 @@ src/
 ## Development
 
 The `Resource`, `DTO`, and `Enum` classes were originally derived from the
-Enhance OpenAPI specification (v12.23.0) and are now maintained by hand.
+Enhance OpenAPI specification (v12.25.4) and are now maintained by hand.
 
 ```bash
 composer cs:fix       # apply coding standards

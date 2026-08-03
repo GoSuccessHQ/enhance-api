@@ -13,6 +13,7 @@ Accessed via `$enhance->dns`.
 | [`disableDomainDnsSec`](#disabledomaindnssec) | `DELETE /orgs/{org_id}/websites/{website_id}/domains/{domain_id}/dns-zone/dnssec` |
 | [`enableDomainDnsSec`](#enabledomaindnssec) | `POST /orgs/{org_id}/websites/{website_id}/domains/{domain_id}/dns-zone/dnssec` |
 | [`getDnsThirdPartyProviders`](#getdnsthirdpartyproviders) | `GET /dns/third-party-providers` |
+| [`updateDnsThirdPartyProvider`](#updatednsthirdpartyprovider) | `PATCH /dns/third-party-providers/{provider_id}` |
 | [`getWebsiteDomainDnsZone`](#getwebsitedomaindnszone) | `GET /orgs/{org_id}/websites/{website_id}/domains/{domain_id}/dns-zone` |
 | [`listDefaultDnsRecords`](#listdefaultdnsrecords) | `GET /v2/settings/dns/default-records` |
 | [`updateDefaultDnsRecord`](#updatedefaultdnsrecord) | `PATCH /v2/settings/dns/default-records/{record_id}` |
@@ -222,6 +223,28 @@ $updateDefaultDnsRecord->value = 'example';
 // ... set further properties as needed
 
 $result = $enhance->dns->updateDefaultDnsRecord('record-id', $updateDefaultDnsRecord);
+```
+
+## updateDnsThirdPartyProvider
+
+Update a third party dns provider.
+
+`PATCH /dns/third-party-providers/{provider_id}`
+
+Update the URL or headers for a DNS third party provider.
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$providerId` | `int` | yes |
+| `$newDnsThirdPartyProvider` | `NewDnsThirdPartyProvider` | yes |
+
+```php
+use GoSuccess\Enhance\DTO\NewDnsThirdPartyProvider;
+
+$newDnsThirdPartyProvider = new NewDnsThirdPartyProvider();
+$newDnsThirdPartyProvider->url = 'example';
+
+$result = $enhance->dns->updateDnsThirdPartyProvider(123, $newDnsThirdPartyProvider);
 ```
 
 ## updateWebsiteDomainDnsZone

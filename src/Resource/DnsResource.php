@@ -338,4 +338,24 @@ final class DnsResource extends AbstractResource
 
         return $response->isSuccess;
     }
+
+    /**
+     * Update a third party dns provider.
+     *
+     * Update the URL or headers for a DNS third party provider
+     *
+     * @link https://apidocs.enhance.com/#/dns/updateDnsThirdPartyProvider
+     * PATCH /dns/third-party-providers/{provider_id}
+     *
+     * @param int $providerId The id of the third party provider which can be obtained by querying the GET /dns/third-party-providers endpoint.
+     * @param NewDnsThirdPartyProvider $newDnsThirdPartyProvider Url where the updates are sent and map of header names to their values.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function updateDnsThirdPartyProvider(int $providerId, NewDnsThirdPartyProvider $newDnsThirdPartyProvider): bool
+    {
+        $response = $this->client->request(HttpMethod::PATCH, "/dns/third-party-providers/{$providerId}", [], $newDnsThirdPartyProvider);
+
+        return $response->isSuccess;
+    }
 }

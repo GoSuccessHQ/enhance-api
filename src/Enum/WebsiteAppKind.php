@@ -12,4 +12,6 @@ enum WebsiteAppKind: string
     case Wordpress = 'wordpress';
 
     case Joomla = 'joomla';
+
+    case Openclaw = 'openclaw';
 }

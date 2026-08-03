@@ -43,6 +43,7 @@ Get organization customers
 | `$maxDepth` | `?int` | no |
 | `$status` | `?string` | no |
 | `$planId` | `?int` | no |
+| `$search` | `?string` | no |
 | `$orgId` | `?string` | no |
 
 ```php

@@ -49,6 +49,13 @@ class Subscription extends AbstractDto
     #[ArrayItemType('enum', \GoSuccess\Enhance\Enum\PhpVersion::class)]
     public ?array $allowedPhpVersions = null;
 
+    /**
+     * If unset, all current and future apps are allowed.
+     * @var array<int, \GoSuccess\Enhance\Enum\WebsiteAppKind>
+     */
+    #[ArrayItemType('enum', \GoSuccess\Enhance\Enum\WebsiteAppKind::class)]
+    public ?array $allowedApps = null;
+
     public ?PhpVersion $defaultPhpVersion = null;
 
     public ?bool $redisAllowed = null;

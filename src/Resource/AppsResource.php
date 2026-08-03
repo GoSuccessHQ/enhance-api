@@ -9,6 +9,9 @@ use GoSuccess\Enhance\DTO\InstallableWebsiteAppsFullListing;
 use GoSuccess\Enhance\DTO\ListedPersistentApp;
 use GoSuccess\Enhance\DTO\NewResourceUuid;
 use GoSuccess\Enhance\DTO\NewWebsiteApp;
+use GoSuccess\Enhance\DTO\OpenclawDeviceList;
+use GoSuccess\Enhance\DTO\OpenclawInfo;
+use GoSuccess\Enhance\DTO\OpenclawProviderKeys;
 use GoSuccess\Enhance\DTO\PersistentApp;
 use GoSuccess\Enhance\DTO\UpdatePersistentApp;
 use GoSuccess\Enhance\DTO\WebsiteAppsFullListing;
@@ -323,6 +326,148 @@ final class AppsResource extends AbstractResource
     public function setDefaultNodeVersion(string $websiteId, ?string $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/apps/node/versions/default", [], $value);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Get Openclaw info (if installed)
+     *
+     * @link https://apidocs.enhance.com/#/apps/getWebsiteOpenclawInfo
+     * GET /websites/{website_id}/openclaw/info
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return OpenclawInfo|null
+     */
+    public function getWebsiteOpenclawInfo(string $websiteId): ?OpenclawInfo
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/openclaw/info");
+
+        return \is_array($response->decoded) ? OpenclawInfo::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Generate SSO URL for Openclaw and 302 redirect
+     *
+     * The redirect is not followed, so the generated SSO URL is returned from
+     * the response's Location header.
+     *
+     * @link https://apidocs.enhance.com/#/apps/openclawSso
+     * GET /websites/{website_id}/openclaw/sso
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string|null The SSO URL, or null if the response carried no Location header
+     */
+    public function openclawSso(string $websiteId): ?string
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/openclaw/sso");
+
+        return $response->location;
+    }
+
+    /**
+     * List Openclaw devices
+     *
+     * @link https://apidocs.enhance.com/#/apps/openclawDeviceList
+     * GET /websites/{website_id}/openclaw/devices
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return OpenclawDeviceList|null
+     */
+    public function openclawDeviceList(string $websiteId): ?OpenclawDeviceList
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/openclaw/devices");
+
+        return \is_array($response->decoded) ? OpenclawDeviceList::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Approve a device request
+     *
+     * @link https://apidocs.enhance.com/#/apps/approveOpenclawDevice
+     * PUT /websites/{website_id}/openclaw/approve
+     *
+     * @param string $websiteId The id of the website.
+     * @param string $value Device request ID.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function approveOpenclawDevice(string $websiteId, string $value): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/openclaw/approve", [], $value);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Set device auth for Openclaw installation
+     *
+     * @link https://apidocs.enhance.com/#/apps/setOpenclawDeviceAuth
+     * PUT /websites/{website_id}/openclaw/device_auth_enabled
+     *
+     * @param string $websiteId The id of the website.
+     * @param bool $value Device enabled boolean.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setOpenclawDeviceAuth(string $websiteId, bool $value): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/openclaw/device_auth_enabled", [], $value);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Rotate the auth token for Openclaw to a new random token
+     *
+     * @link https://apidocs.enhance.com/#/apps/rotateOpenclawAuthToken
+     * POST /websites/{website_id}/openclaw/rotate_token
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string|null The new token
+     */
+    public function rotateOpenclawAuthToken(string $websiteId): ?string
+    {
+        $response = $this->client->request(HttpMethod::POST, "/websites/{$websiteId}/openclaw/rotate_token");
+
+        return $response->decoded === null ? null : (string)$response->decoded;
+    }
+
+    /**
+     * List configured provider keys
+     *
+     * @link https://apidocs.enhance.com/#/apps/getOpenclawProviderKeys
+     * GET /websites/{website_id}/openclaw/provider_keys
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return OpenclawProviderKeys|null
+     */
+    public function getOpenclawProviderKeys(string $websiteId): ?OpenclawProviderKeys
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/openclaw/provider_keys");
+
+        return \is_array($response->decoded) ? OpenclawProviderKeys::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Set configured provider keys
+     *
+     * @link https://apidocs.enhance.com/#/apps/setOpenclawProviderKeys
+     * PUT /websites/{website_id}/openclaw/provider_keys
+     *
+     * @param string $websiteId The id of the website.
+     * @param OpenclawProviderKeys $openclawProviderKeys Openclaw API provider keys.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setOpenclawProviderKeys(string $websiteId, OpenclawProviderKeys $openclawProviderKeys): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/openclaw/provider_keys", [], $openclawProviderKeys);
 
         return $response->isSuccess;
     }

@@ -26,6 +26,23 @@ final class Response
     }
 
     /**
+     * Whether the response has a 3xx status code.
+     */
+    public bool $isRedirect {
+        get => $this->statusCode >= 300 && $this->statusCode < 400;
+    }
+
+    /**
+     * Target of a redirect, taken from the Location header.
+     *
+     * Redirects are never followed, so SSO endpoints can hand back the URL
+     * they point at instead of the client fetching it.
+     */
+    public ?string $location {
+        get => $this->header('location');
+    }
+
+    /**
      * @param int $statusCode HTTP status code
      * @param mixed $decoded JSON-decoded response body (array, scalar, or null)
      * @param string $rawBody Raw response body

@@ -33,6 +33,7 @@ final class CustomersResource extends AbstractResource
      * @param int|null $maxDepth If recursive is set to true, this can be specified to limit the recursion depth. By default there is no recursion bound.
      * @param string|null $status Filters the customers list by its status.
      * @param int|null $planId Limit the result set to resources under subscriptions to the plan.
+     * @param string|null $search Limit the result set to the resources whose names, partially and case insensitively, match the specified search term. E.g. for websites, this is their domain or tag, for databases the database name, for emails the email address or mailbox name, etc. A website will also be returned if the search term exactly matches the website's uuid.
      * @param string|null $orgId Organization id (defaults to the configured organization)
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return CustomersListing|null
@@ -46,6 +47,7 @@ final class CustomersResource extends AbstractResource
         ?int $maxDepth = null,
         ?string $status = null,
         ?int $planId = null,
+        ?string $search = null,
         ?string $orgId = null,
     ): ?CustomersListing {
         $orgId = $this->orgId($orgId);
@@ -58,6 +60,7 @@ final class CustomersResource extends AbstractResource
             'maxDepth' => $maxDepth,
             'status' => $status,
             'planId' => $planId,
+            'search' => $search,
         ];
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/customers", $query);
 

@@ -60,6 +60,36 @@ final class ResourceRequestTest extends TestCase
 
         self::assertSame('/orgs/OTHER-ORG/websites', $client->calls[0]['endpoint']);
     }
+
+    public function testOpenclawSsoReturnsTheRedirectTarget(): void
+    {
+        $client = new SpyHttpClient(new Response(302, null, '', ['location' => 'https://openclaw.example/sso?t=abc']));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        self::assertSame('https://openclaw.example/sso?t=abc', $enhance->apps->openclawSso('website-id'));
+        self::assertSame('/websites/website-id/openclaw/sso', $client->calls[0]['endpoint']);
+    }
+
+    public function testScalarBodyIsSentVerbatim(): void
+    {
+        $client = new SpyHttpClient(new Response(200, null, ''));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        $enhance->websites->setContainerCronEnabledStatus('website-id', false);
+
+        $call = $client->calls[0];
+        self::assertSame(HttpMethod::PUT, $call['method']);
+        self::assertSame('/websites/website-id/container_cron_enabled', $call['endpoint']);
+        self::assertFalse($call['body']);
+    }
+
+    public function testBareBooleanResponseIsDecoded(): void
+    {
+        $client = new SpyHttpClient(new Response(200, false, 'false'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        self::assertFalse($enhance->websites->getContainerCronEnabledStatus('website-id'));
+    }
 }
 
 /**

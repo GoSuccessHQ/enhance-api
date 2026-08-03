@@ -347,4 +347,32 @@ final class MysqlResource extends AbstractResource
 
         return $response->isSuccess;
     }
+
+    /**
+     * Get phpMyAdmin SSO URL (per website)
+     *
+     * Fetches a single sign-on URL to access phpMyAdmin for this website without the need to log in.
+     *
+     * @link https://apidocs.enhance.com/#/mysql/getPhpMyAdminWebsiteSSOUrl
+     * GET /orgs/{org_id}/websites/{website_id}/phpmyadmin
+     *
+     * @param string $websiteId The id of the website.
+     * @param bool|null $shouldRedirect If set to true, the endpoint will send a 307 redirect to the SSO URL.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string|null
+     */
+    public function getPhpMyAdminWebsiteSSOUrl(
+        string $websiteId,
+        ?bool $shouldRedirect = null,
+        ?string $orgId = null,
+    ): ?string {
+        $orgId = $this->orgId($orgId);
+        $query = [
+            'shouldRedirect' => $shouldRedirect,
+        ];
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/phpmyadmin", $query);
+
+        return $response->decoded === null ? null : (string)$response->decoded;
+    }
 }

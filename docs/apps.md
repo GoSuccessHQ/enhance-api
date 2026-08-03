@@ -4,21 +4,44 @@ Accessed via `$enhance->apps`.
 
 | Method | Route |
 | ------ | ----- |
+| [`approveOpenclawDevice`](#approveopenclawdevice) | `PUT /websites/{website_id}/openclaw/approve` |
 | [`createWebsiteApp`](#createwebsiteapp) | `POST /orgs/{org_id}/websites/{website_id}/apps` |
 | [`createWebsitePersistentApp`](#createwebsitepersistentapp) | `POST /websites/{website_id}/apps/persistent` |
 | [`deleteWebsiteApp`](#deletewebsiteapp) | `DELETE /orgs/{org_id}/websites/{website_id}/apps/{app_id}` |
 | [`deleteWebsitePersistentApp`](#deletewebsitepersistentapp) | `DELETE /websites/{website_id}/apps/persistent/{app_id}` |
 | [`getGlobalInstallableApps`](#getglobalinstallableapps) | `GET /utils/installable-apps` |
 | [`getInstallableApps`](#getinstallableapps) | `GET /orgs/{org_id}/subscriptions/{subscription_id}/installable-apps` |
+| [`getOpenclawProviderKeys`](#getopenclawproviderkeys) | `GET /websites/{website_id}/openclaw/provider_keys` |
 | [`getPossibleNodeVersions`](#getpossiblenodeversions) | `GET /websites/{website_id}/apps/node/possible_versions` |
 | [`getWebsiteApps`](#getwebsiteapps) | `GET /orgs/{org_id}/websites/{website_id}/apps` |
+| [`getWebsiteOpenclawInfo`](#getwebsiteopenclawinfo) | `GET /websites/{website_id}/openclaw/info` |
 | [`getWebsitePersistentAppLog`](#getwebsitepersistentapplog) | `GET /websites/{website_id}/apps/persistent/{app_id}` |
 | [`getWebsitePersistentApps`](#getwebsitepersistentapps) | `GET /websites/{website_id}/apps/persistent` |
 | [`installNodeVersion`](#installnodeversion) | `POST /websites/{website_id}/apps/node/versions` |
 | [`installNvm`](#installnvm) | `POST /websites/{website_id}/apps/node` |
 | [`listInstalledNodeVersions`](#listinstallednodeversions) | `GET /websites/{website_id}/apps/node/versions` |
+| [`openclawDeviceList`](#openclawdevicelist) | `GET /websites/{website_id}/openclaw/devices` |
+| [`openclawSso`](#openclawsso) | `GET /websites/{website_id}/openclaw/sso` |
+| [`rotateOpenclawAuthToken`](#rotateopenclawauthtoken) | `POST /websites/{website_id}/openclaw/rotate_token` |
 | [`setDefaultNodeVersion`](#setdefaultnodeversion) | `PUT /websites/{website_id}/apps/node/versions/default` |
+| [`setOpenclawDeviceAuth`](#setopenclawdeviceauth) | `PUT /websites/{website_id}/openclaw/device_auth_enabled` |
+| [`setOpenclawProviderKeys`](#setopenclawproviderkeys) | `PUT /websites/{website_id}/openclaw/provider_keys` |
 | [`updateWebsitePersistentApp`](#updatewebsitepersistentapp) | `PATCH /websites/{website_id}/apps/persistent/{app_id}` |
+
+## approveOpenclawDevice
+
+Approve a device request
+
+`PUT /websites/{website_id}/openclaw/approve`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$value` | `string` | yes |
+
+```php
+$result = $enhance->apps->approveOpenclawDevice('website-id', 'device-request-id');
+```
 
 ## createWebsiteApp
 
@@ -126,6 +149,20 @@ Get installable website applications
 $result = $enhance->apps->getInstallableApps(1.0);
 ```
 
+## getOpenclawProviderKeys
+
+List configured provider keys
+
+`GET /websites/{website_id}/openclaw/provider_keys`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$result = $enhance->apps->getOpenclawProviderKeys('website-id');
+```
+
 ## getPossibleNodeVersions
 
 Get possible versions of node to install from nvm
@@ -153,6 +190,20 @@ Get website applications
 
 ```php
 $result = $enhance->apps->getWebsiteApps('website-id');
+```
+
+## getWebsiteOpenclawInfo
+
+Get Openclaw info (if installed)
+
+`GET /websites/{website_id}/openclaw/info`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$result = $enhance->apps->getWebsiteOpenclawInfo('website-id');
 ```
 
 ## getWebsitePersistentAppLog
@@ -227,6 +278,51 @@ List installed Node versions with NVM
 $result = $enhance->apps->listInstalledNodeVersions('website-id');
 ```
 
+## openclawDeviceList
+
+List Openclaw devices
+
+`GET /websites/{website_id}/openclaw/devices`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$result = $enhance->apps->openclawDeviceList('website-id');
+```
+
+## openclawSso
+
+Generate SSO URL for Openclaw and 302 redirect
+
+`GET /websites/{website_id}/openclaw/sso`
+
+The redirect is not followed; the generated SSO URL is returned from the
+response's `Location` header.
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$ssoUrl = $enhance->apps->openclawSso('website-id');
+```
+
+## rotateOpenclawAuthToken
+
+Rotate the auth token for Openclaw to a new random token
+
+`POST /websites/{website_id}/openclaw/rotate_token`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$newToken = $enhance->apps->rotateOpenclawAuthToken('website-id');
+```
+
 ## setDefaultNodeVersion
 
 Set default node version
@@ -240,6 +336,42 @@ Set default node version
 
 ```php
 $result = $enhance->apps->setDefaultNodeVersion('website-id', 'example');
+```
+
+## setOpenclawDeviceAuth
+
+Set device auth for Openclaw installation
+
+`PUT /websites/{website_id}/openclaw/device_auth_enabled`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$value` | `bool` | yes |
+
+```php
+$result = $enhance->apps->setOpenclawDeviceAuth('website-id', true);
+```
+
+## setOpenclawProviderKeys
+
+Set configured provider keys
+
+`PUT /websites/{website_id}/openclaw/provider_keys`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$openclawProviderKeys` | `OpenclawProviderKeys` | yes |
+
+```php
+use GoSuccess\Enhance\DTO\OpenclawProviderKeys;
+
+$openclawProviderKeys = new OpenclawProviderKeys();
+$openclawProviderKeys->anthropic = 'example';
+// ... set further properties as needed
+
+$result = $enhance->apps->setOpenclawProviderKeys('website-id', $openclawProviderKeys);
 ```
 
 ## updateWebsitePersistentApp
