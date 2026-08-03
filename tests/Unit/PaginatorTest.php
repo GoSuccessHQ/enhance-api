@@ -50,6 +50,48 @@ final class PaginatorTest extends TestCase
 
         iterator_to_array(Paginator::items(static fn (): ?object => null, 0));
     }
+
+    public function testRejectsInvalidPageLimit(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        iterator_to_array(Paginator::items(static fn (): ?object => null, 10, 0));
+    }
+
+    public function testGivesUpOnAListingThatNeverEnds(): void
+    {
+        $calls = 0;
+
+        // Reports no total and ignores the offset, so every page looks full.
+        $fetch = static function (int $offset, int $limit) use (&$calls): object {
+            $calls++;
+            $page = new PaginatorTestListing();
+            $page->items = array_fill(0, $limit, 'x');
+
+            return $page;
+        };
+
+        $this->expectException(\RuntimeException::class);
+
+        try {
+            iterator_to_array(Paginator::items($fetch, 10, 3), false);
+        } finally {
+            self::assertSame(3, $calls);
+        }
+    }
+
+    public function testAPageLimitThatIsNotReachedChangesNothing(): void
+    {
+        $fetch = static function (int $offset, int $limit): object {
+            $page = new PaginatorTestListing();
+            $page->items = array_slice(range(1, 15), $offset, $limit);
+            $page->total = 15;
+
+            return $page;
+        };
+
+        self::assertSame(range(1, 15), iterator_to_array(Paginator::items($fetch, 10, 3), false));
+    }
 }
 
 class PaginatorTestListing

@@ -61,6 +61,34 @@ final class ResourceRequestTest extends TestCase
         self::assertSame('/orgs/OTHER-ORG/websites', $client->calls[0]['endpoint']);
     }
 
+    public function testAnOrgScopedEndpointRejectsAMissingOrgId(): void
+    {
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', '', 'token'), new SpyHttpClient());
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('scoped to an organization');
+
+        $enhance->websites->getWebsites();
+    }
+
+    public function testAnOrgLessEndpointWorksWithoutAnOrgId(): void
+    {
+        $client = new SpyHttpClient(new Response(200, '12.25.4', '"12.25.4"'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', '', 'token'), $client);
+
+        self::assertSame('12.25.4', $enhance->install->orchdVersion());
+    }
+
+    public function testAnExplicitOrgIdSatisfiesTheRequirement(): void
+    {
+        $client = new SpyHttpClient(new Response(200, ['items' => []], '{}'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', '', 'token'), $client);
+
+        $enhance->websites->getWebsites(orgId: 'OTHER-ORG');
+
+        self::assertSame('/orgs/OTHER-ORG/websites', $client->calls[0]['endpoint']);
+    }
+
     public function testOpenclawSsoReturnsTheRedirectTarget(): void
     {
         $client = new SpyHttpClient(new Response(302, null, '', ['location' => 'https://openclaw.example/sso?t=abc']));

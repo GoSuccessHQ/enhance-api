@@ -20,9 +20,23 @@ abstract class AbstractResource
 
     /**
      * Resolve the organization id, falling back to the configured default.
+     *
+     * Validated here rather than on the Configuration so that the endpoints
+     * which are not scoped to an organization stay usable without one.
+     *
+     * @throws \InvalidArgumentException When neither an explicit nor a configured id is available
      */
     protected function orgId(?string $orgId): string
     {
-        return $orgId ?? $this->config->orgId;
+        $resolved = $orgId ?? $this->config->orgId;
+
+        if (trim($resolved) === '') {
+            throw new \InvalidArgumentException(
+                'This endpoint is scoped to an organization, but no organization id was given: '
+                . 'pass one to the method or configure a default one.',
+            );
+        }
+
+        return $resolved;
     }
 }

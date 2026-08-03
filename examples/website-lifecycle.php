@@ -26,7 +26,7 @@ if (getenv('ENHANCE_ALLOW_WRITE') !== '1') {
     exit(1);
 }
 
-$suffix = (string) time();
+$suffix = (string)time();
 $customerOrgId = null;
 $websiteId = null;
 
@@ -52,7 +52,7 @@ try {
     echo "Created website {$websiteId} ({$newWebsite->domain})\n";
 
     // 4) List the customer's websites.
-    $websites = $enhance->websites->getWebsites(orgId: $customerOrgId)?->items ?? [];
+    $websites = $enhance->websites->getWebsites(orgId: $customerOrgId)->items ?? [];
     echo 'Customer now has ' . count($websites) . " website(s)\n";
 } catch (ApiException $e) {
     echo 'API error: ' . $e::class . " (HTTP {$e->getCode()}): {$e->getMessage()}\n";

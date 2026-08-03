@@ -343,10 +343,19 @@ final class ApiClient implements HttpClientInterface
     }
 
     /**
-     * Wait before the next retry. Honors a Retry-After header (seconds or an
-     * HTTP date) on 429 responses, otherwise uses exponential backoff.
+     * Wait before the next retry.
      */
     private function wait(int $attempt, ?Response $response): void
+    {
+        usleep($this->retryDelay($attempt, $response));
+    }
+
+    /**
+     * Delay before the next retry, in microseconds. Honors a Retry-After
+     * header (seconds or an HTTP date), capped at a minute; without a usable
+     * one it falls back to exponential backoff.
+     */
+    private function retryDelay(int $attempt, ?Response $response): int
     {
         $retryAfter = $response?->header('retry-after');
 
@@ -356,13 +365,11 @@ final class ApiClient implements HttpClientInterface
                 : max(0, ((int)strtotime($retryAfter)) - time());
 
             if ($seconds > 0) {
-                sleep(min($seconds, 60));
-
-                return;
+                return min($seconds, 60) * 1_000_000;
             }
         }
 
         // Exponential backoff: 100ms, 200ms, 400ms, ...
-        usleep((int)(100_000 * 2 ** ($attempt - 1)));
+        return (int)(100_000 * 2 ** ($attempt - 1));
     }
 }
