@@ -66,6 +66,45 @@ final class ResponseHandlingTest extends TestCase
         $this->handle(new Response(418, null, ''));
     }
 
+    public function testExtraHeadersAreAppendedToTheDefaults(): void
+    {
+        self::assertSame(
+            [
+                'Accept: application/json',
+                'Authorization: Bearer token',
+                'User-Agent: agent',
+                'Address: info@example.test',
+                'Password: s3cret',
+            ],
+            $this->buildHeaders(['Address' => 'info@example.test', 'Password' => 's3cret']),
+        );
+    }
+
+    public function testExtraHeadersReplaceADefaultRegardlessOfCase(): void
+    {
+        self::assertSame(
+            [
+                'Accept: application/json',
+                'authorization: Bearer other',
+                'User-Agent: agent',
+            ],
+            $this->buildHeaders(['authorization' => 'Bearer other']),
+        );
+    }
+
+    /**
+     * @param array<string, string> $extraHeaders
+     * @return list<string>
+     */
+    private function buildHeaders(array $extraHeaders): array
+    {
+        $config = new Configuration('https://example.test/api', 'org', 'token');
+        $config->userAgent = 'agent';
+
+        /** @var list<string> */
+        return new ReflectionMethod(ApiClient::class, 'buildHeaders')->invoke(new ApiClient($config), $extraHeaders);
+    }
+
     private function handle(Response $response): Response
     {
         $client = new ApiClient(new Configuration('https://example.test/api', 'org', 'token'));

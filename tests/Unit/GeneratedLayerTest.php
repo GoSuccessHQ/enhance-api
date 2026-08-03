@@ -114,6 +114,7 @@ final class GeneratedLayerTest extends TestCase
                 array $query = [],
                 mixed $body = null,
                 ?string $contentType = null,
+                array $headers = [],
             ): Response {
                 return new Response(200, [], '{}');
             }

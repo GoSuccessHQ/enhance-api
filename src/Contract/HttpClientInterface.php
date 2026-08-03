@@ -24,6 +24,7 @@ interface HttpClientInterface
      * @param array<string, scalar|\BackedEnum|array<int, scalar|\BackedEnum>|null> $query Query string parameters (null values are skipped)
      * @param mixed $body Request body: a DTO, array, or scalar for JSON; raw payload for other content types
      * @param string|null $contentType Override request content type (e.g. 'multipart/form-data', 'application/gzip')
+     * @param array<string, string> $headers Additional request headers, overriding the defaults on name collision
      * @throws ApiException When the request fails or the API returns an error status
      */
     public function request(
@@ -32,5 +33,6 @@ interface HttpClientInterface
         array $query = [],
         mixed $body = null,
         ?string $contentType = null,
+        array $headers = [],
     ): Response;
 }

@@ -83,6 +83,19 @@ final class ResourceRequestTest extends TestCase
         self::assertFalse($call['body']);
     }
 
+    public function testEmailClientSendsMailboxCredentialsAsHeaders(): void
+    {
+        $client = new SpyHttpClient(new Response(200, ['ip' => '203.0.113.7'], '{}'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        $enhance->emailClient->GetEmailPublicIp('info@example.test', 's3cret');
+
+        self::assertSame(
+            ['Address' => 'info@example.test', 'Password' => 's3cret'],
+            $client->calls[0]['headers'],
+        );
+    }
+
     public function testBareBooleanResponseIsDecoded(): void
     {
         $client = new SpyHttpClient(new Response(200, false, 'false'));
@@ -97,7 +110,7 @@ final class ResourceRequestTest extends TestCase
  */
 final class SpyHttpClient implements HttpClientInterface
 {
-    /** @var list<array{method: HttpMethod, endpoint: string, query: array<string, mixed>, body: mixed, contentType: string|null}> */
+    /** @var list<array{method: HttpMethod, endpoint: string, query: array<string, mixed>, body: mixed, contentType: string|null, headers: array<string, string>}> */
     public array $calls = [];
 
     private Response $response;
@@ -113,8 +126,9 @@ final class SpyHttpClient implements HttpClientInterface
         array $query = [],
         mixed $body = null,
         ?string $contentType = null,
+        array $headers = [],
     ): Response {
-        $this->calls[] = compact('method', 'endpoint', 'query', 'body', 'contentType');
+        $this->calls[] = compact('method', 'endpoint', 'query', 'body', 'contentType', 'headers');
 
         return $this->response;
     }

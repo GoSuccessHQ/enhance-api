@@ -48,6 +48,7 @@ final class ApiClient implements HttpClientInterface
         array $query = [],
         mixed $body = null,
         ?string $contentType = null,
+        array $headers = [],
     ): Response {
         $url = $this->config->host . $endpoint;
         $queryString = $this->buildQuery($query);
@@ -61,7 +62,7 @@ final class ApiClient implements HttpClientInterface
         while (true) {
             $attempt++;
 
-            [$response, $curlError] = $this->execute($method, $url, $body, $contentType);
+            [$response, $curlError] = $this->execute($method, $url, $body, $contentType, $headers);
 
             if ($curlError === null && $response instanceof Response && ! $this->isRetryable($response->statusCode)) {
                 return $this->handle($response);
@@ -89,19 +90,16 @@ final class ApiClient implements HttpClientInterface
     /**
      * Execute a single request attempt.
      *
+     * @param array<string, string> $extraHeaders
      * @return array{0: Response|null, 1: string|null} Tuple of response and cURL error message
      */
-    private function execute(HttpMethod $method, string $url, mixed $body, ?string $contentType): array
+    private function execute(HttpMethod $method, string $url, mixed $body, ?string $contentType, array $extraHeaders): array
     {
         if ($url === '') {
             throw new RequestException('Request URL must not be empty');
         }
 
-        $headers = [
-            'Accept: application/json',
-            'Authorization: Bearer ' . $this->config->accessToken,
-            'User-Agent: ' . $this->config->userAgent,
-        ];
+        $headers = $this->buildHeaders($extraHeaders);
 
         $options = [
             CURLOPT_RETURNTRANSFER => true,
@@ -146,6 +144,28 @@ final class ApiClient implements HttpClientInterface
             new Response($statusCode, $this->decode($rawBody), $rawBody, $this->parseHeaders($rawHeaders)),
             null,
         ];
+    }
+
+    /**
+     * Build the request header lines, letting caller-supplied headers replace
+     * the defaults rather than being sent alongside them.
+     *
+     * @param array<string, string> $extraHeaders
+     * @return list<string>
+     */
+    private function buildHeaders(array $extraHeaders): array
+    {
+        $byName = [
+            'accept' => 'Accept: application/json',
+            'authorization' => 'Authorization: Bearer ' . $this->config->accessToken,
+            'user-agent' => 'User-Agent: ' . $this->config->userAgent,
+        ];
+
+        foreach ($extraHeaders as $name => $value) {
+            $byName[strtolower($name)] = $name . ': ' . $value;
+        }
+
+        return array_values($byName);
     }
 
     /**
