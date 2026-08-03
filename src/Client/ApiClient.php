@@ -28,6 +28,9 @@ final class ApiClient implements HttpClientInterface
 {
     /**
      * Reused cURL handle, enabling connection keep-alive across requests.
+     *
+     * Since PHP 8.0 this is a \CurlHandle object that is closed automatically
+     * once it goes out of scope, so no explicit teardown is required.
      */
     private ?\CurlHandle $handle = null;
 
@@ -36,13 +39,6 @@ final class ApiClient implements HttpClientInterface
     ) {
         if (! \extension_loaded('curl')) {
             throw new RequestException('The cURL extension is required but not loaded');
-        }
-    }
-
-    public function __destruct()
-    {
-        if ($this->handle instanceof \CurlHandle) {
-            curl_close($this->handle);
         }
     }
 
