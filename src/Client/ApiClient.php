@@ -313,7 +313,8 @@ final class ApiClient implements HttpClientInterface
     /**
      * Decide whether a failed attempt may be safely retried.
      *
-     * A 429 is always safe (the request was rejected, not processed). Transport
+     * A 429 is always safe (the request was rejected, not processed), unless the
+     * caller turned retrying it off. Transport
      * errors and 5xx responses are only retried for idempotent methods, so that
      * a POST/PATCH that may already have been applied is never repeated.
      */
@@ -328,7 +329,7 @@ final class ApiClient implements HttpClientInterface
         }
 
         if ($response->statusCode === 429) {
-            return true;
+            return $this->config->retryOnRateLimit;
         }
 
         return $response->statusCode >= 500 && $this->isIdempotent($method);

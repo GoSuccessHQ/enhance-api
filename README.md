@@ -116,9 +116,15 @@ $config = new Configuration('https://cp.example.com/api', 'org-uuid', 'access-to
 $config->timeout = 60;     // request timeout in seconds (default 30)
 $config->maxRetries = 3;   // retries for transient failures (default 2)
 $config->verifySsl = true; // TLS verification (enabled by default)
+$config->retryOnRateLimit = true; // false: a 429 throws at once instead of waiting
 
 $enhance = new Enhance($config);
 ```
+
+A `429` is retried after `Retry-After` (capped at a minute) unless
+`retryOnRateLimit` is off; then it throws the `RateLimitException` right away,
+while transport errors and `5xx` responses of `GET`, `PUT` and `DELETE` are
+still retried. That suits callers with a deadline of their own.
 
 ## Error handling
 

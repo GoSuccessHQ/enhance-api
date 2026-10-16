@@ -46,4 +46,29 @@ final class RetryPolicyTest extends TestCase
 
         self::assertSame($expected, $decision->invoke($client, $method, $response, $curlError));
     }
+
+    /**
+     * @return iterable<string, array{HttpMethod, ?int, ?string, bool}>
+     */
+    public static function casesWithoutRateLimitRetries(): iterable
+    {
+        yield 'GET on 429 fails at once' => [HttpMethod::GET, 429, null, false];
+        yield 'POST on 429 fails at once' => [HttpMethod::POST, 429, null, false];
+        yield 'GET on 503 still retries' => [HttpMethod::GET, 503, null, true];
+        yield 'GET transport error still retries' => [HttpMethod::GET, null, 'timeout', true];
+        yield 'POST on 500 still does not retry' => [HttpMethod::POST, 500, null, false];
+    }
+
+    #[DataProvider('casesWithoutRateLimitRetries')]
+    public function testRetryDecisionWithoutRateLimitRetries(HttpMethod $method, ?int $status, ?string $curlError, bool $expected): void
+    {
+        $config = new Configuration('https://example.test/api', 'org', 'token');
+        $config->retryOnRateLimit = false;
+        $client = new ApiClient($config);
+        $response = $status === null ? null : new Response($status, null, '');
+
+        $decision = new ReflectionMethod($client, 'shouldRetry');
+
+        self::assertSame($expected, $decision->invoke($client, $method, $response, $curlError));
+    }
 }

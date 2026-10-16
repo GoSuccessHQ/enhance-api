@@ -84,6 +84,14 @@ final class Configuration
     }
 
     /**
+     * Whether a 429 is retried after Retry-After. Off, a 429 throws the
+     * RateLimitException at once, while transport errors and 5xx responses of
+     * idempotent requests are still retried; for callers that must answer
+     * within a deadline of their own.
+     */
+    public bool $retryOnRateLimit = true;
+
+    /**
      * Whether to verify the peer's TLS certificate. Enabled by default.
      */
     public bool $verifySsl = true;
