@@ -161,11 +161,38 @@ Redirects are never followed and are not treated as errors: the SSO endpoints
 document a 3xx as their success case, so the response is returned and its
 target can be read from `Response::$location`.
 
+## Custom transport
+
+`ApiClient` builds the request (URL, query, headers, JSON body), retries
+transient failures and maps the response to typed exceptions. The bytes go
+over the wire through a `GoSuccess\Enhance\Http\Transport`; the default is
+`CurlTransport`. Pass your own to route the requests through your
+application's HTTP stack, fake them in tests or limit the response size,
+while keeping the retry policy and the error mapping:
+
+```php
+use GoSuccess\Enhance\Client\Configuration;
+use GoSuccess\Enhance\Enum\HttpMethod;
+use GoSuccess\Enhance\Http\RawResponse;
+use GoSuccess\Enhance\Http\Transport;
+
+final class MyTransport implements Transport
+{
+    public function send(HttpMethod $method, string $url, array $headers, string|array|null $payload, Configuration $config): RawResponse
+    {
+        // $headers are complete lines ("Accept: application/json"); an array payload is a multipart form.
+        // Throw GoSuccess\Enhance\Exception\TransportException on connection errors and timeouts,
+        // return HTTP error statuses as a normal RawResponse, never follow redirects.
+    }
+}
+
+$enhance = new Enhance($config, transport: new MyTransport());
+```
+
 ## Custom HTTP client
 
-The client talks to the API through `GoSuccess\Enhance\Contract\HttpClientInterface`.
-The default implementation (`ApiClient`) uses cURL, but you can inject your own —
-useful for testing or custom transports:
+To replace the whole client instead (no retries, no error mapping), implement
+`GoSuccess\Enhance\Contract\HttpClientInterface`:
 
 ```php
 $enhance = new Enhance($config, $myHttpClient);
@@ -178,7 +205,7 @@ src/
   Enhance.php          Entry point, one resource per API section
   Client/              Configuration and the cURL ApiClient
   Contract/            HttpClientInterface
-  Http/                Immutable Response
+  Http/                Response, RawResponse, Transport and CurlTransport
   Resource/            33 resources (482 methods)
   DTO/                 364 hydratable data transfer objects
   Enum/                67 enums + HttpMethod/HttpStatusCode

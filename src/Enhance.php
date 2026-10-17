@@ -7,6 +7,7 @@ namespace GoSuccess\Enhance;
 use GoSuccess\Enhance\Client\ApiClient;
 use GoSuccess\Enhance\Client\Configuration;
 use GoSuccess\Enhance\Contract\HttpClientInterface;
+use GoSuccess\Enhance\Http\Transport;
 use GoSuccess\Enhance\Resource\AppsResource;
 use GoSuccess\Enhance\Resource\BackupsResource;
 use GoSuccess\Enhance\Resource\BrandingResource;
@@ -125,10 +126,10 @@ final class Enhance
 
     public readonly WordpressResource $wordpress;
 
-    public function __construct(Configuration $config, ?HttpClientInterface $client = null)
+    public function __construct(Configuration $config, ?HttpClientInterface $client = null, ?Transport $transport = null)
     {
         $this->config = $config;
-        $this->client = $client ?? new ApiClient($config);
+        $this->client = $client ?? new ApiClient($config, $transport);
 
         $this->apps = new AppsResource($this->client, $this->config);
         $this->backups = new BackupsResource($this->client, $this->config);

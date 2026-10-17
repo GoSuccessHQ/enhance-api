@@ -8,6 +8,7 @@ use GoSuccess\Enhance\Client\ApiClient;
 use GoSuccess\Enhance\Client\Configuration;
 use GoSuccess\Enhance\Enum\PhpVersion;
 use GoSuccess\Enhance\Enum\ServerRole;
+use GoSuccess\Enhance\Http\CurlTransport;
 use GoSuccess\Enhance\Http\Response;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -86,20 +87,20 @@ final class ApiClientTest extends TestCase
 
         self::assertSame(
             ['content-type' => 'application/json', 'location' => 'https://example.test/sso'],
-            $this->call('parseHeaders', $raw),
+            self::parseHeaders($raw),
         );
     }
 
     public function testParseHeadersKeepsColonsInTheValue(): void
     {
-        $headers = $this->call('parseHeaders', "Location: https://example.test:8443/a\r\n");
+        $headers = self::parseHeaders("Location: https://example.test:8443/a\r\n");
 
         self::assertSame(['location' => 'https://example.test:8443/a'], $headers);
     }
 
     public function testParseHeadersIgnoresLinesWithoutAColon(): void
     {
-        self::assertSame([], $this->call('parseHeaders', "HTTP/1.1 200 OK\r\n\r\n"));
+        self::assertSame([], self::parseHeaders("HTTP/1.1 200 OK\r\n\r\n"));
     }
 
     // ----------------------------------------------------------------- body
@@ -256,6 +257,15 @@ final class ApiClientTest extends TestCase
     private function client(): ApiClient
     {
         return new ApiClient(new Configuration('https://example.test/api', 'org', 'token'));
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function parseHeaders(string $raw): array
+    {
+        /** @var array<string, string> */
+        return new ReflectionMethod(CurlTransport::class, 'parseHeaders')->invoke(null, $raw);
     }
 
     private function call(string $method, mixed ...$args): mixed

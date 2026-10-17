@@ -14,8 +14,11 @@ use GoSuccess\Enhance\Exception\NotFoundException;
 use GoSuccess\Enhance\Exception\RateLimitException;
 use GoSuccess\Enhance\Exception\RequestException;
 use GoSuccess\Enhance\Exception\ServerException;
+use GoSuccess\Enhance\Exception\TransportException;
 use GoSuccess\Enhance\Exception\UnauthorizedException;
+use GoSuccess\Enhance\Http\CurlTransport;
 use GoSuccess\Enhance\Http\Response;
+use GoSuccess\Enhance\Http\Transport;
 
 /**
  * cURL-based HTTP client for the Enhance API.
@@ -26,20 +29,13 @@ use GoSuccess\Enhance\Http\Response;
  */
 final class ApiClient implements HttpClientInterface
 {
-    /**
-     * Reused cURL handle, enabling connection keep-alive across requests.
-     *
-     * Since PHP 8.0 this is a \CurlHandle object that is closed automatically
-     * once it goes out of scope, so no explicit teardown is required.
-     */
-    private ?\CurlHandle $handle = null;
+    private readonly Transport $transport;
 
     public function __construct(
         private readonly Configuration $config,
+        ?Transport $transport = null,
     ) {
-        if (! \extension_loaded('curl')) {
-            throw new RequestException('The cURL extension is required but not loaded');
-        }
+        $this->transport = $transport ?? new CurlTransport();
     }
 
     public function request(
@@ -91,7 +87,7 @@ final class ApiClient implements HttpClientInterface
      * Execute a single request attempt.
      *
      * @param array<string, string> $extraHeaders
-     * @return array{0: Response|null, 1: string|null} Tuple of response and cURL error message
+     * @return array{0: Response|null, 1: string|null} Tuple of response and transport error message
      */
     private function execute(HttpMethod $method, string $url, mixed $body, ?string $contentType, array $extraHeaders): array
     {
@@ -100,50 +96,15 @@ final class ApiClient implements HttpClientInterface
         }
 
         $headers = $this->buildHeaders($extraHeaders);
-
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_ENCODING => '',
-            CURLOPT_CONNECTTIMEOUT => $this->config->connectTimeout,
-            CURLOPT_TIMEOUT => $this->config->timeout,
-            CURLOPT_SSL_VERIFYPEER => $this->config->verifySsl,
-            CURLOPT_SSL_VERIFYHOST => $this->config->verifySsl ? 2 : 0,
-            CURLOPT_URL => $url,
-            CURLOPT_CUSTOMREQUEST => $method->value,
-            CURLOPT_HEADER => true,
-        ];
-
         $payload = $this->encodeBody($body, $contentType, $headers);
 
-        if ($payload !== null) {
-            $options[CURLOPT_POSTFIELDS] = $payload;
+        try {
+            $raw = $this->transport->send($method, $url, $headers, $payload, $this->config);
+        } catch (TransportException $e) {
+            return [null, $e->getMessage()];
         }
 
-        $options[CURLOPT_HTTPHEADER] = $headers;
-
-        // Reuse the handle across requests so cURL can keep the connection alive.
-        $ch = $this->handle ??= curl_init();
-        curl_reset($ch);
-        curl_setopt_array($ch, $options);
-
-        $raw = curl_exec($ch);
-        $errno = curl_errno($ch);
-        $error = curl_error($ch);
-        $statusCode = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        $headerSize = (int)curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-
-        if ($errno !== 0 || ! \is_string($raw)) {
-            return [null, $error !== '' ? $error : 'unknown cURL error'];
-        }
-
-        $rawHeaders = substr($raw, 0, $headerSize);
-        $rawBody = substr($raw, $headerSize);
-
-        return [
-            new Response($statusCode, $this->decode($rawBody), $rawBody, $this->parseHeaders($rawHeaders)),
-            null,
-        ];
+        return [new Response($raw->status, $this->decode($raw->body), $raw->body, $raw->headers), null];
     }
 
     /**
@@ -208,27 +169,6 @@ final class ApiClient implements HttpClientInterface
             // Some endpoints return a bare, unquoted string (e.g. a version number).
             return trim($rawBody, "\" \n\r\t");
         }
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function parseHeaders(string $rawHeaders): array
-    {
-        $headers = [];
-
-        foreach (explode("\r\n", $rawHeaders) as $line) {
-            $position = strpos($line, ':');
-
-            if ($position === false) {
-                continue;
-            }
-
-            $name = strtolower(trim(substr($line, 0, $position)));
-            $headers[$name] = trim(substr($line, $position + 1));
-        }
-
-        return $headers;
     }
 
     /**
