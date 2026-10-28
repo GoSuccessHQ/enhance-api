@@ -39,4 +39,6 @@ enum ResourceName: string
     case DnsRecords = 'dnsRecords';
 
     case PostgresqlDbs = 'postgresqlDbs';
+
+    case Processes = 'processes';
 }
