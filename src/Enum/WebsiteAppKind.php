@@ -14,4 +14,6 @@ enum WebsiteAppKind: string
     case Joomla = 'joomla';
 
     case Openclaw = 'openclaw';
+
+    case N8n = 'n8n';
 }

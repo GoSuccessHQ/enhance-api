@@ -40,7 +40,7 @@ final class GeneratedLayerTest extends TestCase
             $wired++;
         }
 
-        self::assertGreaterThanOrEqual(33, $wired, 'Expected every API section to be wired as a resource');
+        self::assertGreaterThanOrEqual(34, $wired, 'Expected every API section to be wired as a resource');
     }
 
     /**

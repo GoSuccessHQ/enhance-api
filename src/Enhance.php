@@ -34,6 +34,7 @@ use GoSuccess\Enhance\Resource\OwnerResource;
 use GoSuccess\Enhance\Resource\PlansResource;
 use GoSuccess\Enhance\Resource\PostgresqlResource;
 use GoSuccess\Enhance\Resource\ReportsResource;
+use GoSuccess\Enhance\Resource\ResourceUsageResource;
 use GoSuccess\Enhance\Resource\ServersResource;
 use GoSuccess\Enhance\Resource\SettingsResource;
 use GoSuccess\Enhance\Resource\SslResource;
@@ -112,6 +113,8 @@ final class Enhance
 
     public readonly ReportsResource $reports;
 
+    public readonly ResourceUsageResource $resourceUsage;
+
     public readonly ServersResource $servers;
 
     public readonly SettingsResource $settings;
@@ -157,6 +160,7 @@ final class Enhance
         $this->plans = new PlansResource($this->client, $this->config);
         $this->postgresql = new PostgresqlResource($this->client, $this->config);
         $this->reports = new ReportsResource($this->client, $this->config);
+        $this->resourceUsage = new ResourceUsageResource($this->client, $this->config);
         $this->servers = new ServersResource($this->client, $this->config);
         $this->settings = new SettingsResource($this->client, $this->config);
         $this->ssl = new SslResource($this->client, $this->config);

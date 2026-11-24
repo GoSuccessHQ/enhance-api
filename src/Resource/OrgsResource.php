@@ -7,8 +7,11 @@ namespace GoSuccess\Enhance\Resource;
 use GoSuccess\Enhance\Base\AbstractResource;
 use GoSuccess\Enhance\DTO\ActivitiesListing;
 use GoSuccess\Enhance\DTO\CloudFlareApiKey;
+use GoSuccess\Enhance\DTO\GithubRepositoryInfo;
+use GoSuccess\Enhance\DTO\GitRepositoryRefs;
 use GoSuccess\Enhance\DTO\NewCloudFlareToken;
 use GoSuccess\Enhance\DTO\Org;
+use GoSuccess\Enhance\DTO\OrgGitHubApp;
 use GoSuccess\Enhance\DTO\OrgUpdate;
 use GoSuccess\Enhance\DTO\ResourceCountByInterval;
 use GoSuccess\Enhance\DTO\UpdateCloudFlareApiKey;
@@ -340,5 +343,83 @@ final class OrgsResource extends AbstractResource
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/stats/customers/added", $query);
 
         return array_map(static fn (array $item): ResourceCountByInterval => ResourceCountByInterval::fromArray($item), (array)($response->decoded ?? []));
+    }
+
+    /**
+     * Get an organisation's registered GitHub app
+     *
+     * @link https://apidocs.enhance.com/#/orgs/getOrgGithubApp
+     * GET /orgs/{org_id}/github/app
+     *
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return OrgGitHubApp|null
+     */
+    public function getOrgGithubApp(?string $orgId = null): ?OrgGitHubApp
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/github/app");
+
+        return \is_array($response->decoded) ? OrgGitHubApp::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Delete an organisation's GitHub app connection
+     *
+     * Idempotent.
+     *
+     * @link https://apidocs.enhance.com/#/orgs/deleteOrgGithubApp
+     * DELETE /orgs/{org_id}/github/app
+     *
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function deleteOrgGithubApp(?string $orgId = null): bool
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/github/app");
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Get the repositories of the registered GitHub app
+     *
+     * Lists the repositories the organization's GitHub app can access.
+     *
+     * @link https://apidocs.enhance.com/#/orgs/getOrgGithubAppInfo
+     * GET /orgs/{org_id}/github/repos
+     *
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return GithubRepositoryInfo[]
+     */
+    public function getOrgGithubAppInfo(?string $orgId = null): array
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/github/repos");
+
+        return array_map(static fn (array $item): GithubRepositoryInfo => GithubRepositoryInfo::fromArray($item), (array)($response->decoded ?? []));
+    }
+
+    /**
+     * List the tags and branches for a given repository
+     *
+     * @link https://apidocs.enhance.com/#/orgs/getOrgGithubRepoRefs
+     * GET /orgs/{org_id}/github/repositories/{repo_owner}/{repo_name}/refs
+     *
+     * @param string $repoOwner The owner of a git repository.
+     * @param string $repoName The name of a git repository.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return GitRepositoryRefs|null
+     */
+    public function getOrgGithubRepoRefs(string $repoOwner, string $repoName, ?string $orgId = null): ?GitRepositoryRefs
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/github/repositories/{$repoOwner}/{$repoName}/refs");
+
+        return \is_array($response->decoded) ? GitRepositoryRefs::fromArray($response->decoded) : null;
     }
 }

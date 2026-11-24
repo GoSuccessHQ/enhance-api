@@ -15,6 +15,7 @@ use GoSuccess\Enhance\DTO\DomainMappingsFullListing;
 use GoSuccess\Enhance\DTO\DomainMappingUpdate;
 use GoSuccess\Enhance\DTO\FsQuotaInfo;
 use GoSuccess\Enhance\DTO\FsQuotaLimit;
+use GoSuccess\Enhance\DTO\GitDeployInfo;
 use GoSuccess\Enhance\DTO\LsphpSettings;
 use GoSuccess\Enhance\DTO\NewMappedDomain;
 use GoSuccess\Enhance\DTO\NewPassword;
@@ -40,6 +41,7 @@ use GoSuccess\Enhance\DTO\WebsiteCloneFullListing;
 use GoSuccess\Enhance\DTO\WebsiteCloneLogEntry;
 use GoSuccess\Enhance\DTO\WebsiteCloneRequest;
 use GoSuccess\Enhance\DTO\WebsiteCloneResponse;
+use GoSuccess\Enhance\DTO\WebsiteGithubConnection;
 use GoSuccess\Enhance\DTO\WebsiteOperationValidation;
 use GoSuccess\Enhance\DTO\WebsiteServerDomains;
 use GoSuccess\Enhance\DTO\WebsitesListing;
@@ -1697,6 +1699,157 @@ final class WebsitesResource extends AbstractResource
     public function setContainerCronEnabledStatus(string $websiteId, bool $value): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/container_cron_enabled", [], $value);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Get website GitHub repo info
+     *
+     * Returns a 404 if Git is not configured for this website.
+     *
+     * @link https://apidocs.enhance.com/#/websites/getWebsiteGitInfo
+     * GET /orgs/{org_id}/websites/{website_id}/git
+     *
+     * @param string $websiteId The id of the website.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return WebsiteGithubConnection|null
+     */
+    public function getWebsiteGitInfo(string $websiteId, ?string $orgId = null): ?WebsiteGithubConnection
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git");
+
+        return \is_array($response->decoded) ? WebsiteGithubConnection::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Deploy the currently configured branch/tag now
+     *
+     * Initiates a new deployment in the background.
+     *
+     * @link https://apidocs.enhance.com/#/websites/deployWebsiteGithubNow
+     * POST /orgs/{org_id}/websites/{website_id}/git
+     *
+     * @param string $websiteId The id of the website.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function deployWebsiteGithubNow(string $websiteId, ?string $orgId = null): bool
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/git");
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Connect a website to a git repository
+     *
+     * The repository must be reachable with the Git connection owned by the current organisation.
+     *
+     * @link https://apidocs.enhance.com/#/websites/connectWebsiteGit
+     * PUT /orgs/{org_id}/websites/{website_id}/git
+     *
+     * @param string $websiteId The id of the website.
+     * @param WebsiteGithubConnection $websiteGithubConnection Repository, branch or tag, and build settings.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function connectWebsiteGit(
+        string $websiteId,
+        WebsiteGithubConnection $websiteGithubConnection,
+        ?string $orgId = null,
+    ): bool {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/websites/{$websiteId}/git", [], $websiteGithubConnection);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Disconnect a website from GitHub
+     *
+     * @link https://apidocs.enhance.com/#/websites/deleteWebsiteGit
+     * DELETE /orgs/{org_id}/websites/{website_id}/git
+     *
+     * @param string $websiteId The id of the website.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function deleteWebsiteGit(string $websiteId, ?string $orgId = null): bool
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::DELETE, "/orgs/{$orgId}/websites/{$websiteId}/git");
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Get website GitHub deployment history
+     *
+     * Lists the Git deployments made for this website through the GitHub integration.
+     *
+     * @link https://apidocs.enhance.com/#/websites/getWebsiteGitDeploys
+     * GET /orgs/{org_id}/websites/{website_id}/git/deploys
+     *
+     * @param string $websiteId The id of the website.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return GitDeployInfo[]
+     */
+    public function getWebsiteGitDeploys(string $websiteId, ?string $orgId = null): array
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys");
+
+        return array_map(static fn (array $item): GitDeployInfo => GitDeployInfo::fromArray($item), (array)($response->decoded ?? []));
+    }
+
+    /**
+     * Get website GitHub deployment log
+     *
+     * Returns the full log of a deployment as plain text.
+     *
+     * @link https://apidocs.enhance.com/#/websites/getWebsiteGitDeploymentLog
+     * GET /orgs/{org_id}/websites/{website_id}/git/deploys/{deployment_id}
+     *
+     * @param string $websiteId The id of the website.
+     * @param string $deploymentId The id of a git deployment.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string|null
+     */
+    public function getWebsiteGitDeploymentLog(string $websiteId, string $deploymentId, ?string $orgId = null): ?string
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys/{$deploymentId}");
+
+        return $response->decoded === null ? null : (string)$response->decoded;
+    }
+
+    /**
+     * Cancel a running website GitHub deployment
+     *
+     * The running command (clone, node install or build) is terminated and the deployment is recorded as failed without activating the checkout.
+     *
+     * @link https://apidocs.enhance.com/#/websites/cancelWebsiteGitDeploy
+     * POST /orgs/{org_id}/websites/{website_id}/git/deploys/{deploy_id}/cancel
+     *
+     * @param string $websiteId The id of the website.
+     * @param string $deployId The id of a running git deployment.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function cancelWebsiteGitDeploy(string $websiteId, string $deployId, ?string $orgId = null): bool
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys/{$deployId}/cancel");
 
         return $response->isSuccess;
     }

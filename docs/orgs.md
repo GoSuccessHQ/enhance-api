@@ -8,11 +8,15 @@ Accessed via `$enhance->orgs`.
 | [`deleteCloudflareApiKey`](#deletecloudflareapikey) | `DELETE /orgs/{org_id}/cloudflare/{cloudflare_key}` |
 | [`deleteOrg`](#deleteorg) | `DELETE /orgs/{org_id}` |
 | [`deleteOrgAvatar`](#deleteorgavatar) | `DELETE /orgs/{org_id}/avatar` |
+| [`deleteOrgGithubApp`](#deleteorggithubapp) | `DELETE /orgs/{org_id}/github/app` |
 | [`getCloudFlareKeyAffectedDomains`](#getcloudflarekeyaffecteddomains) | `GET /orgs/{org_id}/cloudflare/{cloudflare_key}` |
 | [`getCloudflareApiKeys`](#getcloudflareapikeys) | `GET /orgs/{org_id}/cloudflare` |
 | [`getCustomersAdded`](#getcustomersadded) | `GET /orgs/{org_id}/stats/customers/added` |
 | [`getOrg`](#getorg) | `GET /orgs/{org_id}` |
 | [`getOrgActivities`](#getorgactivities) | `GET /v2/orgs/{org_id}/activities` |
+| [`getOrgGithubApp`](#getorggithubapp) | `GET /orgs/{org_id}/github/app` |
+| [`getOrgGithubAppInfo`](#getorggithubappinfo) | `GET /orgs/{org_id}/github/repos` |
+| [`getOrgGithubRepoRefs`](#getorggithubreporefs) | `GET /orgs/{org_id}/github/repositories/{repo_owner}/{repo_name}/refs` |
 | [`getWebsitesAdded`](#getwebsitesadded) | `GET /orgs/{org_id}/stats/websites/added` |
 | [`setOrgAvatar`](#setorgavatar) | `PUT /orgs/{org_id}/avatar` |
 | [`updateCloudflareApiKey`](#updatecloudflareapikey) | `PUT /orgs/{org_id}/cloudflare/{cloudflare_key}` |
@@ -79,6 +83,20 @@ Remove org avatar
 
 ```php
 $result = $enhance->orgs->deleteOrgAvatar();
+```
+
+## deleteOrgGithubApp
+
+Delete an organisation's GitHub app connection
+
+`DELETE /orgs/{org_id}/github/app`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->orgs->deleteOrgGithubApp();
 ```
 
 ## getCloudFlareKeyAffectedDomains
@@ -159,6 +177,50 @@ Get organization's activity log.
 
 ```php
 $result = $enhance->orgs->getOrgActivities();
+```
+
+## getOrgGithubApp
+
+Get an organisation's registered GitHub app
+
+`GET /orgs/{org_id}/github/app`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->orgs->getOrgGithubApp();
+```
+
+## getOrgGithubAppInfo
+
+Get the repositories of the registered GitHub app
+
+`GET /orgs/{org_id}/github/repos`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->orgs->getOrgGithubAppInfo();
+```
+
+## getOrgGithubRepoRefs
+
+List the tags and branches for a given repository
+
+`GET /orgs/{org_id}/github/repositories/{repo_owner}/{repo_name}/refs`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$repoOwner` | `string` | yes |
+| `$repoName` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->orgs->getOrgGithubRepoRefs('repo-owner', 'repo-name');
 ```
 
 ## getWebsitesAdded

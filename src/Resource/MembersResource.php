@@ -256,4 +256,27 @@ final class MembersResource extends AbstractResource
 
         return $response->isSuccess;
     }
+
+    /**
+     * Create member session token
+     *
+     * Creates a session token for a member as if they logged in, and returns it instead of issuing a session cookie.
+     * The client can then send the session token as a bearer token. The caller must have write access to the member's organization.
+     * Treat the token like a password. It must be used within 60 seconds; once used, the session is extended according to the configured session timeout.
+     *
+     * @link https://apidocs.enhance.com/#/members/createMemberSession
+     * POST /orgs/{org_id}/members/{member_id}/session
+     *
+     * @param string $memberId The id of the member.
+     * @param string|null $orgId Organization id (defaults to the configured organization)
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string|null The session token
+     */
+    public function createMemberSession(string $memberId, ?string $orgId = null): ?string
+    {
+        $orgId = $this->orgId($orgId);
+        $response = $this->client->request(HttpMethod::POST, "/orgs/{$orgId}/members/{$memberId}/session");
+
+        return $response->decoded === null ? null : (string)$response->decoded;
+    }
 }

@@ -6,9 +6,16 @@ namespace GoSuccess\Enhance\Tests\Unit;
 
 use GoSuccess\Enhance\Client\Configuration;
 use GoSuccess\Enhance\Contract\HttpClientInterface;
+use GoSuccess\Enhance\DTO\GitDeployInfo;
 use GoSuccess\Enhance\DTO\NewResourceUuid;
 use GoSuccess\Enhance\DTO\NewWebsite;
+use GoSuccess\Enhance\DTO\ResourceSample;
+use GoSuccess\Enhance\DTO\ResourceSampleIoDevice;
+use GoSuccess\Enhance\DTO\WebsiteGithubConnection;
+use GoSuccess\Enhance\DTO\WebsiteResourceUsageFullListing;
 use GoSuccess\Enhance\Enhance;
+use GoSuccess\Enhance\Enum\GitDeployState;
+use GoSuccess\Enhance\Enum\GitDeployTrigger;
 use GoSuccess\Enhance\Enum\HttpMethod;
 use GoSuccess\Enhance\Enum\PhpVersion;
 use GoSuccess\Enhance\Enum\WebsiteKind;
@@ -130,6 +137,103 @@ final class ResourceRequestTest extends TestCase
         $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
 
         self::assertFalse($enhance->websites->getContainerCronEnabledStatus('website-id'));
+    }
+
+    public function testGitDeploysAreHydratedWithTheirEnums(): void
+    {
+        $payload = [[
+            'deployId' => 'deploy-1',
+            'state' => 'running',
+            'timeStamp' => 1764000000,
+            'branchOrTagName' => 'main',
+            'repositoryName' => 'site',
+            'commitMessage' => 'Release',
+            'percentageComplete' => 40,
+            'trigger' => 'automatic',
+        ]];
+        $client = new SpyHttpClient(new Response(200, $payload, (string)json_encode($payload)));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        $deploys = $enhance->websites->getWebsiteGitDeploys('website-id');
+
+        self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/git/deploys', $client->calls[0]['endpoint']);
+        self::assertCount(1, $deploys);
+        self::assertInstanceOf(GitDeployInfo::class, $deploys[0]);
+        self::assertSame(GitDeployState::Running, $deploys[0]->state);
+        self::assertSame(GitDeployTrigger::Automatic, $deploys[0]->trigger);
+        self::assertSame(40.0, $deploys[0]->percentageComplete);
+    }
+
+    public function testConnectWebsiteGitSendsTheConnection(): void
+    {
+        $client = new SpyHttpClient(new Response(200, null, ''));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        $connection = new WebsiteGithubConnection();
+        $connection->repoOwner = 'acme';
+        $connection->repoName = 'site';
+        $connection->branchOrTagName = 'main';
+        $connection->autoDeploy = true;
+        $connection->refKind = 'branch';
+
+        self::assertTrue($enhance->websites->connectWebsiteGit('website-id', $connection));
+
+        $call = $client->calls[0];
+        self::assertSame(HttpMethod::PUT, $call['method']);
+        self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/git', $call['endpoint']);
+        self::assertInstanceOf(WebsiteGithubConnection::class, $call['body']);
+        self::assertSame(
+            ['repoOwner' => 'acme', 'repoName' => 'site', 'branchOrTagName' => 'main', 'autoDeploy' => true, 'refKind' => 'branch'],
+            $call['body']->jsonSerialize(),
+        );
+    }
+
+    public function testResourceUsageSendsTheWindowAndHydratesTheSamples(): void
+    {
+        $payload = ['items' => [[
+            'datetime' => 1764000000,
+            'cpuUsec' => 123456789,
+            'memoryBytes' => 1048576,
+            'swapBytes' => 0,
+            'pids' => 12,
+            'ioDevices' => [['device' => '253:0', 'readBytes' => 1, 'writeBytes' => 2, 'readOps' => 3, 'writeOps' => 4, 'mountPoints' => ['/']]],
+        ]]];
+        $client = new SpyHttpClient(new Response(200, $payload, (string)json_encode($payload)));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        $usage = $enhance->resourceUsage->getWebsiteResourceUsage('website-id', start: '2026-11-23T00:00:00Z');
+
+        $call = $client->calls[0];
+        self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/resource_usage', $call['endpoint']);
+        self::assertSame('2026-11-23T00:00:00Z', $call['query']['start']);
+        self::assertInstanceOf(WebsiteResourceUsageFullListing::class, $usage);
+        self::assertNotNull($usage->items);
+        $sample = $usage->items[0];
+        self::assertInstanceOf(ResourceSample::class, $sample);
+        self::assertSame(123456789, $sample->cpuUsec);
+        self::assertNull($sample->memoryLimitBytes);
+        self::assertNotNull($sample->ioDevices);
+        self::assertInstanceOf(ResourceSampleIoDevice::class, $sample->ioDevices[0]);
+        self::assertSame(['/'], $sample->ioDevices[0]->mountPoints);
+    }
+
+    public function testPossibleNodeVersionsAreAListOfStrings(): void
+    {
+        $client = new SpyHttpClient(new Response(200, ['v22.11.0', 'v24.1.0'], '["v22.11.0","v24.1.0"]'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', '', 'token'), $client);
+
+        self::assertSame(['v22.11.0', 'v24.1.0'], $enhance->apps->getGlobalPossibleNodeVersions());
+        self::assertSame('/utils/possible_node_versions', $client->calls[0]['endpoint']);
+    }
+
+    public function testCreateMemberSessionReturnsTheToken(): void
+    {
+        $client = new SpyHttpClient(new Response(201, 'session-token', '"session-token"'));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        self::assertSame('session-token', $enhance->members->createMemberSession('member-id'));
+        self::assertSame(HttpMethod::POST, $client->calls[0]['method']);
+        self::assertSame('/orgs/ORG-DEFAULT/members/member-id/session', $client->calls[0]['endpoint']);
     }
 }
 

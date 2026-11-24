@@ -6,6 +6,7 @@ Accessed via `$enhance->members`.
 | ------ | ----- |
 | [`createAccessToken`](#createaccesstoken) | `POST /orgs/{org_id}/access_tokens` |
 | [`createMember`](#createmember) | `POST /orgs/{org_id}/members` |
+| [`createMemberSession`](#createmembersession) | `POST /orgs/{org_id}/members/{member_id}/session` |
 | [`deleteAccessToken`](#deleteaccesstoken) | `DELETE /orgs/{org_id}/access_tokens/{token_id}` |
 | [`deleteMember`](#deletemember) | `DELETE /orgs/{org_id}/members/{member_id}` |
 | [`getAccessTokens`](#getaccesstokens) | `GET /orgs/{org_id}/access_tokens` |
@@ -54,6 +55,21 @@ $newMember = new NewMember();
 $newMember->loginId = 'login-id';
 
 $result = $enhance->members->createMember($newMember);
+```
+
+## createMemberSession
+
+Create member session token
+
+`POST /orgs/{org_id}/members/{member_id}/session`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$memberId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->members->createMemberSession('member-id');
 ```
 
 ## deleteAccessToken
