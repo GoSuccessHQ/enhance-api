@@ -218,14 +218,29 @@ src/
 
 The `Resource`, `DTO`, and `Enum` classes were originally derived from the
 Enhance OpenAPI specification and are now maintained by hand. They follow
-version 12.28.0 of the specification.
+version 12.28.0 of the specification, a snapshot of which is kept in
+[`resources/specs/oas3-api.yaml`](resources/specs/oas3-api.yaml).
 
 ```bash
 composer cs:fix       # apply coding standards
 composer analyse      # PHPStan
 composer test         # PHPUnit
 composer check        # all of the above
+composer specs        # refresh the specification snapshot
 ```
+
+### Specification drift
+
+Enhance publishes changes to its API without notice. A scheduled workflow
+([`spec-drift.yml`](.github/workflows/spec-drift.yml), Mondays and on manual
+dispatch, never on pushes) downloads the published specification and fails
+when it differs from the snapshot.
+
+To follow a change, run `composer specs`, review the diff of the snapshot and
+run `composer test`: `tests/Unit/SpecTest.php` names every operation, route,
+query parameter, schema property and enum case the client does not match yet.
+Update the client and the docs until it passes, then commit the snapshot with
+the change.
 
 ## License
 
