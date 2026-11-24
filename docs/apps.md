@@ -10,7 +10,9 @@ Accessed via `$enhance->apps`.
 | [`deleteWebsiteApp`](#deletewebsiteapp) | `DELETE /orgs/{org_id}/websites/{website_id}/apps/{app_id}` |
 | [`deleteWebsitePersistentApp`](#deletewebsitepersistentapp) | `DELETE /websites/{website_id}/apps/persistent/{app_id}` |
 | [`getGlobalInstallableApps`](#getglobalinstallableapps) | `GET /utils/installable-apps` |
+| [`getGlobalPossibleNodeVersions`](#getglobalpossiblenodeversions) | `GET /utils/possible_node_versions` |
 | [`getInstallableApps`](#getinstallableapps) | `GET /orgs/{org_id}/subscriptions/{subscription_id}/installable-apps` |
+| [`getN8nAdminCredentials`](#getn8nadmincredentials) | `GET /websites/{website_id}/n8n/admin_credentials` |
 | [`getOpenclawProviderKeys`](#getopenclawproviderkeys) | `GET /websites/{website_id}/openclaw/provider_keys` |
 | [`getPossibleNodeVersions`](#getpossiblenodeversions) | `GET /websites/{website_id}/apps/node/possible_versions` |
 | [`getWebsiteApps`](#getwebsiteapps) | `GET /orgs/{org_id}/websites/{website_id}/apps` |
@@ -24,6 +26,9 @@ Accessed via `$enhance->apps`.
 | [`openclawSso`](#openclawsso) | `GET /websites/{website_id}/openclaw/sso` |
 | [`rotateOpenclawAuthToken`](#rotateopenclawauthtoken) | `POST /websites/{website_id}/openclaw/rotate_token` |
 | [`setDefaultNodeVersion`](#setdefaultnodeversion) | `PUT /websites/{website_id}/apps/node/versions/default` |
+| [`setN8nAdminCredentials`](#setn8nadmincredentials) | `PUT /websites/{website_id}/n8n/admin_credentials` |
+| [`setN8nAdminEmail`](#setn8nadminemail) | `PUT /websites/{website_id}/n8n/admin_email` |
+| [`setN8nAdminPassword`](#setn8nadminpassword) | `PUT /websites/{website_id}/n8n/admin_password` |
 | [`setOpenclawDeviceAuth`](#setopenclawdeviceauth) | `PUT /websites/{website_id}/openclaw/device_auth_enabled` |
 | [`setOpenclawProviderKeys`](#setopenclawproviderkeys) | `PUT /websites/{website_id}/openclaw/provider_keys` |
 | [`updateWebsitePersistentApp`](#updatewebsitepersistentapp) | `PATCH /websites/{website_id}/apps/persistent/{app_id}` |
@@ -134,6 +139,16 @@ Get all installable applications
 $result = $enhance->apps->getGlobalInstallableApps();
 ```
 
+## getGlobalPossibleNodeVersions
+
+Get possible versions of node to install from nvm
+
+`GET /utils/possible_node_versions`
+
+```php
+$result = $enhance->apps->getGlobalPossibleNodeVersions();
+```
+
 ## getInstallableApps
 
 Get installable website applications
@@ -147,6 +162,20 @@ Get installable website applications
 
 ```php
 $result = $enhance->apps->getInstallableApps(1.0);
+```
+
+## getN8nAdminCredentials
+
+Get the n8n instance owner
+
+`GET /websites/{website_id}/n8n/admin_credentials`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+
+```php
+$result = $enhance->apps->getN8nAdminCredentials('website-id');
 ```
 
 ## getOpenclawProviderKeys
@@ -336,6 +365,67 @@ Set default node version
 
 ```php
 $result = $enhance->apps->setDefaultNodeVersion('website-id', 'example');
+```
+
+## setN8nAdminCredentials
+
+Set the n8n instance owner
+
+`PUT /websites/{website_id}/n8n/admin_credentials`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$n8nAdminCredentialsBody` | `N8nAdminCredentialsBody` | yes |
+
+```php
+use GoSuccess\Enhance\DTO\N8nAdminCredentialsBody;
+
+$n8nAdminCredentialsBody = new N8nAdminCredentialsBody();
+$n8nAdminCredentialsBody->adminEmail = 'owner@example.com';
+$n8nAdminCredentialsBody->adminPassword = 'a-long-password';
+
+$result = $enhance->apps->setN8nAdminCredentials('website-id', $n8nAdminCredentialsBody);
+```
+
+## setN8nAdminEmail
+
+Change the n8n instance owner's email
+
+`PUT /websites/{website_id}/n8n/admin_email`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$n8nAdminEmailBody` | `N8nAdminEmailBody` | yes |
+
+```php
+use GoSuccess\Enhance\DTO\N8nAdminEmailBody;
+
+$n8nAdminEmailBody = new N8nAdminEmailBody();
+$n8nAdminEmailBody->adminEmail = 'owner@example.com';
+
+$result = $enhance->apps->setN8nAdminEmail('website-id', $n8nAdminEmailBody);
+```
+
+## setN8nAdminPassword
+
+Change the n8n instance owner's password
+
+`PUT /websites/{website_id}/n8n/admin_password`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$n8nAdminPasswordBody` | `N8nAdminPasswordBody` | yes |
+
+```php
+use GoSuccess\Enhance\DTO\N8nAdminPasswordBody;
+
+$n8nAdminPasswordBody = new N8nAdminPasswordBody();
+$n8nAdminPasswordBody->adminPassword = 'a-long-password';
+
+$result = $enhance->apps->setN8nAdminPassword('website-id', $n8nAdminPasswordBody);
 ```
 
 ## setOpenclawDeviceAuth

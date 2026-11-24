@@ -7,8 +7,10 @@ Accessed via `$enhance->websites`.
 | [`addDomainNginxFastCgiExcludedPath`](#adddomainnginxfastcgiexcludedpath) | `POST /v2/domains/{domain_id}/nginx_fastcgi_excluded_paths` |
 | [`authorizeWebsiteSshKey`](#authorizewebsitesshkey) | `POST /orgs/{org_id}/websites/{website_id}/ssh/keys` |
 | [`authorizeWebsiteSshPassword`](#authorizewebsitesshpassword) | `POST /orgs/{org_id}/websites/{website_id}/ssh/password` |
+| [`cancelWebsiteGitDeploy`](#cancelwebsitegitdeploy) | `POST /orgs/{org_id}/websites/{website_id}/git/deploys/{deploy_id}/cancel` |
 | [`clearDomainNginxFastCgi`](#cleardomainnginxfastcgi) | `DELETE /v2/domains/{domain_id}/nginx_fastcgi` |
 | [`cloneWebsite`](#clonewebsite) | `POST /orgs/{org_id}/websites/clone` |
+| [`connectWebsiteGit`](#connectwebsitegit) | `PUT /orgs/{org_id}/websites/{website_id}/git` |
 | [`createPreviewDomain`](#createpreviewdomain) | `POST /orgs/{org_id}/websites/{website_id}/preview` |
 | [`createWebsite`](#createwebsite) | `POST /orgs/{org_id}/websites` |
 | [`createWebsiteMappedDomain`](#createwebsitemappeddomain) | `POST /orgs/{org_id}/websites/{website_id}/domains` |
@@ -17,8 +19,10 @@ Accessed via `$enhance->websites`.
 | [`deleteUserCrontab`](#deleteusercrontab) | `DELETE /orgs/{org_id}/websites/{website_id}/crontab` |
 | [`deleteWebsite`](#deletewebsite) | `DELETE /orgs/{org_id}/websites/{website_id}` |
 | [`deleteWebsiteDomainMapping`](#deletewebsitedomainmapping) | `DELETE /orgs/{org_id}/websites/{website_id}/domains/{domain_id}` |
+| [`deleteWebsiteGit`](#deletewebsitegit) | `DELETE /orgs/{org_id}/websites/{website_id}/git` |
 | [`deleteWebsiteSetting`](#deletewebsitesetting) | `DELETE /orgs/{org_id}/websites/{website_id}/settings/{setting_kind}/{setting_key}` |
 | [`deleteWebsites`](#deletewebsites) | `DELETE /orgs/{org_id}/websites` |
+| [`deployWebsiteGithubNow`](#deploywebsitegithubnow) | `POST /orgs/{org_id}/websites/{website_id}/git` |
 | [`disableWebsitePhpExtension`](#disablewebsitephpextension) | `DELETE /websites/{website_id}/php_extensions` |
 | [`enableWebsitePhpExtension`](#enablewebsitephpextension) | `POST /websites/{website_id}/php_extensions` |
 | [`getBuiltInPhpExtensions`](#getbuiltinphpextensions) | `GET /websites/{website_id}/built_in_php_extensions` |
@@ -44,6 +48,9 @@ Accessed via `$enhance->websites`.
 | [`getWebsiteDomainMappings`](#getwebsitedomainmappings) | `GET /orgs/{org_id}/websites/{website_id}/domains` |
 | [`getWebsiteEnabledPhpExtensions`](#getwebsiteenabledphpextensions) | `GET /websites/{website_id}/php_extensions` |
 | [`getWebsiteFsQuotaLimits`](#getwebsitefsquotalimits) | `GET /orgs/{org_id}/websites/{website_id}/fs_quota_limits` |
+| [`getWebsiteGitDeploymentLog`](#getwebsitegitdeploymentlog) | `GET /orgs/{org_id}/websites/{website_id}/git/deploys/{deployment_id}` |
+| [`getWebsiteGitDeploys`](#getwebsitegitdeploys) | `GET /orgs/{org_id}/websites/{website_id}/git/deploys` |
+| [`getWebsiteGitInfo`](#getwebsitegitinfo) | `GET /orgs/{org_id}/websites/{website_id}/git` |
 | [`getWebsiteHtaccessIpsRule`](#getwebsitehtaccessipsrule) | `GET /orgs/{org_id}/websites/{website_id}/htaccess/ips` |
 | [`getWebsiteHtaccessRewrites`](#getwebsitehtaccessrewrites) | `GET /orgs/{org_id}/websites/{website_id}/htaccess` |
 | [`getWebsiteIoncubeStatus`](#getwebsiteioncubestatus) | `GET /v2/websites/{website_id}/ioncube` |
@@ -137,6 +144,22 @@ $newPassword->newPassword = 's3cret';
 $result = $enhance->websites->authorizeWebsiteSshPassword('website-id', $newPassword);
 ```
 
+## cancelWebsiteGitDeploy
+
+Cancel a running website GitHub deployment
+
+`POST /orgs/{org_id}/websites/{website_id}/git/deploys/{deploy_id}/cancel`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$deployId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->cancelWebsiteGitDeploy('website-id', 'deploy-id');
+```
+
 ## clearDomainNginxFastCgi
 
 Clear FastCGI cache for domain
@@ -172,6 +195,31 @@ $websiteCloneRequest->destWebsiteId = 'destWebsite-id';
 // ... set further properties as needed
 
 $result = $enhance->websites->cloneWebsite($websiteCloneRequest);
+```
+
+## connectWebsiteGit
+
+Connect a website to a git repository
+
+`PUT /orgs/{org_id}/websites/{website_id}/git`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$websiteGithubConnection` | `WebsiteGithubConnection` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+use GoSuccess\Enhance\DTO\WebsiteGithubConnection;
+
+$websiteGithubConnection = new WebsiteGithubConnection();
+$websiteGithubConnection->repoOwner = 'acme';
+$websiteGithubConnection->repoName = 'website';
+$websiteGithubConnection->branchOrTagName = 'main';
+$websiteGithubConnection->refKind = 'branch';
+$websiteGithubConnection->autoDeploy = true;
+
+$result = $enhance->websites->connectWebsiteGit('website-id', $websiteGithubConnection);
 ```
 
 ## createPreviewDomain
@@ -314,6 +362,21 @@ Delete website domain mapping
 $result = $enhance->websites->deleteWebsiteDomainMapping('website-id', 'example.com');
 ```
 
+## deleteWebsiteGit
+
+Disconnect a website from GitHub
+
+`DELETE /orgs/{org_id}/websites/{website_id}/git`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->deleteWebsiteGit('website-id');
+```
+
 ## deleteWebsiteSetting
 
 Delete a single override setting
@@ -350,6 +413,21 @@ use GoSuccess\Enhance\DTO\UuidListing;
 $uuidListing = new UuidListing();
 
 $result = $enhance->websites->deleteWebsites($uuidListing);
+```
+
+## deployWebsiteGithubNow
+
+Deploy the currently configured branch/tag now
+
+`POST /orgs/{org_id}/websites/{website_id}/git`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->deployWebsiteGithubNow('website-id');
 ```
 
 ## disableWebsitePhpExtension
@@ -724,6 +802,52 @@ Get the active FS quoa limits for a website
 
 ```php
 $result = $enhance->websites->getWebsiteFsQuotaLimits('website-id');
+```
+
+## getWebsiteGitDeploymentLog
+
+Get website GitHub deployment log
+
+`GET /orgs/{org_id}/websites/{website_id}/git/deploys/{deployment_id}`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$deploymentId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->getWebsiteGitDeploymentLog('website-id', 'deployment-id');
+```
+
+## getWebsiteGitDeploys
+
+Get website GitHub deployment history
+
+`GET /orgs/{org_id}/websites/{website_id}/git/deploys`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->getWebsiteGitDeploys('website-id');
+```
+
+## getWebsiteGitInfo
+
+Get website GitHub repo info
+
+`GET /orgs/{org_id}/websites/{website_id}/git`
+
+| Parameter | Type | Required |
+| --------- | ---- | -------- |
+| `$websiteId` | `string` | yes |
+| `$orgId` | `?string` | no |
+
+```php
+$result = $enhance->websites->getWebsiteGitInfo('website-id');
 ```
 
 ## getWebsiteHtaccessIpsRule

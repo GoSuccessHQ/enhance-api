@@ -7,6 +7,10 @@ namespace GoSuccess\Enhance\Resource;
 use GoSuccess\Enhance\Base\AbstractResource;
 use GoSuccess\Enhance\DTO\InstallableWebsiteAppsFullListing;
 use GoSuccess\Enhance\DTO\ListedPersistentApp;
+use GoSuccess\Enhance\DTO\N8nAdminCredentials;
+use GoSuccess\Enhance\DTO\N8nAdminCredentialsBody;
+use GoSuccess\Enhance\DTO\N8nAdminEmailBody;
+use GoSuccess\Enhance\DTO\N8nAdminPasswordBody;
 use GoSuccess\Enhance\DTO\NewResourceUuid;
 use GoSuccess\Enhance\DTO\NewWebsiteApp;
 use GoSuccess\Enhance\DTO\OpenclawDeviceList;
@@ -468,6 +472,99 @@ final class AppsResource extends AbstractResource
     public function setOpenclawProviderKeys(string $websiteId, OpenclawProviderKeys $openclawProviderKeys): bool
     {
         $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/openclaw/provider_keys", [], $openclawProviderKeys);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Get possible versions of node to install from nvm
+     *
+     * @link https://apidocs.enhance.com/#/apps/getGlobalPossibleNodeVersions
+     * GET /utils/possible_node_versions
+     *
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return string[]
+     */
+    public function getGlobalPossibleNodeVersions(): array
+    {
+        $response = $this->client->request(HttpMethod::GET, '/utils/possible_node_versions');
+
+        return array_values(array_map('strval', (array)($response->decoded ?? [])));
+    }
+
+    /**
+     * Get the n8n instance owner
+     *
+     * Returns the email of the n8n instance owner. The password is never returned.
+     *
+     * @link https://apidocs.enhance.com/#/apps/getN8nAdminCredentials
+     * GET /websites/{website_id}/n8n/admin_credentials
+     *
+     * @param string $websiteId The id of the website.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return N8nAdminCredentials|null
+     */
+    public function getN8nAdminCredentials(string $websiteId): ?N8nAdminCredentials
+    {
+        $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/n8n/admin_credentials");
+
+        return \is_array($response->decoded) ? N8nAdminCredentials::fromArray($response->decoded) : null;
+    }
+
+    /**
+     * Set the n8n instance owner
+     *
+     * @link https://apidocs.enhance.com/#/apps/setN8nAdminCredentials
+     * PUT /websites/{website_id}/n8n/admin_credentials
+     *
+     * @param string $websiteId The id of the website.
+     * @param N8nAdminCredentialsBody $n8nAdminCredentialsBody The n8n instance owner's email and new password.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setN8nAdminCredentials(string $websiteId, N8nAdminCredentialsBody $n8nAdminCredentialsBody): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/n8n/admin_credentials", [], $n8nAdminCredentialsBody);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Change the n8n instance owner's email
+     *
+     * The stored password hash is kept as is.
+     *
+     * @link https://apidocs.enhance.com/#/apps/setN8nAdminEmail
+     * PUT /websites/{website_id}/n8n/admin_email
+     *
+     * @param string $websiteId The id of the website.
+     * @param N8nAdminEmailBody $n8nAdminEmailBody The new instance owner's email.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setN8nAdminEmail(string $websiteId, N8nAdminEmailBody $n8nAdminEmailBody): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/n8n/admin_email", [], $n8nAdminEmailBody);
+
+        return $response->isSuccess;
+    }
+
+    /**
+     * Change the n8n instance owner's password
+     *
+     * The stored email is kept as is.
+     *
+     * @link https://apidocs.enhance.com/#/apps/setN8nAdminPassword
+     * PUT /websites/{website_id}/n8n/admin_password
+     *
+     * @param string $websiteId The id of the website.
+     * @param N8nAdminPasswordBody $n8nAdminPasswordBody The new instance owner's password.
+     * @throws \GoSuccess\Enhance\Exception\ApiException
+     * @return bool True on success
+     */
+    public function setN8nAdminPassword(string $websiteId, N8nAdminPasswordBody $n8nAdminPasswordBody): bool
+    {
+        $response = $this->client->request(HttpMethod::PUT, "/websites/{$websiteId}/n8n/admin_password", [], $n8nAdminPasswordBody);
 
         return $response->isSuccess;
     }

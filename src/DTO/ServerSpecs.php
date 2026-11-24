@@ -20,4 +20,6 @@ class ServerSpecs extends AbstractDto
     public ?string $architecture = null;
 
     public ?string $os = null;
+
+    public ?string $kernelVersion = null;
 }

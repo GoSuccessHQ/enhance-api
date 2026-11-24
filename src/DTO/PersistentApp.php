@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GoSuccess\Enhance\DTO;
 
 use GoSuccess\Enhance\Base\AbstractDto;
+use GoSuccess\Enhance\Enum\PersistentAppKind;
 use GoSuccess\Enhance\Enum\PersistentAppStartMode;
 
 /**
@@ -22,4 +23,6 @@ class PersistentApp extends AbstractDto
 
     /** @var array<string, mixed> */
     public ?array $nodeVersion = null;
+
+    public ?PersistentAppKind $appKind = null;
 }
