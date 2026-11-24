@@ -4,6 +4,7 @@ parameters:
         - src
         - tests
         - examples
+        - tools
     excludePaths:
         - vendor
     reportUnmatchedIgnoredErrors: false

@@ -1,0 +1,44 @@
+name: Specification drift
+
+# Enhance changes its published OpenAPI specification without notice. This job
+# fetches it weekly and fails when the committed snapshot no longer matches, so
+# the change is reviewed and the client updated (see "Specification drift" in
+# the README). It never runs on pushes or pull requests.
+
+on:
+  schedule:
+    # Mondays, 05:23 UTC.
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    name: Snapshot matches the published specification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress --prefer-dist
+
+      - name: Fetch the specification
+        run: composer specs
+
+      - name: Fail if the specification changed
+        run: |
+          if ! git diff --exit-code --stat -- resources/specs; then
+            git diff -- resources/specs | head -n 400
+            echo "::error::The Enhance specification changed. Run 'composer specs' and 'composer test', update the client and commit the snapshot."
+            exit 1
+          fi
