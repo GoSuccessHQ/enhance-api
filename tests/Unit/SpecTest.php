@@ -144,6 +144,11 @@ final class SpecTest extends TestCase
 
         $types = self::phpTypes($response);
         $accepted = array_map(static fn (string $type): string => \in_array($type, ['array', 'mixed'], true) ? $type : "?{$type}", $types);
+
+        if (self::itemSchema($response) === null) {
+            // Lists come back as arrays; any other object without a DTO stays mixed.
+            $accepted = array_values(array_diff($accepted, ['array'])) ?: ['mixed'];
+        }
         self::assertContains($returns, $accepted, "Return type of {$operationId}");
 
         $source = self::source($function);
