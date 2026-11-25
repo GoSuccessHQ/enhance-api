@@ -236,11 +236,23 @@ Enhance publishes changes to its API without notice. A scheduled workflow
 dispatch, never on pushes) downloads the published specification and fails
 when it differs from the snapshot.
 
+GitHub disables scheduled workflows after 60 days without activity in the
+repository. The Actions tab then shows the workflow as disabled, and it can be
+enabled again there.
+
 To follow a change, run `composer specs`, review the diff of the snapshot and
-run `composer test`: `tests/Unit/SpecTest.php` names every operation, route,
-query parameter, schema property and enum case the client does not match yet.
+run `composer test`. `tests/Unit/SpecTest.php` reports where the client no
+longer matches the snapshot:
+
+- an operation without a method, or a method whose request differs in HTTP
+  method, path, query keys, body or content type;
+- a method whose return type does not fit the response;
+- a schema without a DTO or enum, a property with a different name or type,
+  an array of the wrong items, or an enum with different cases.
+
 Update the client and the docs until it passes, then commit the snapshot with
-the change.
+the change. The test reads the client's code, not its behavior, so new
+methods still need a request test of their own.
 
 ## License
 

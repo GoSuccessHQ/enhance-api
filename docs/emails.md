@@ -296,6 +296,9 @@ SSO to Roundcube
 
 `GET /orgs/{org_id}/websites/{website_id}/emails/{email_address}/sso`
 
+The redirect is not followed; the generated SSO URL is returned from the
+response's `Location` header.
+
 | Parameter | Type | Required |
 | --------- | ---- | -------- |
 | `$websiteId` | `string` | yes |
@@ -303,7 +306,7 @@ SSO to Roundcube
 | `$orgId` | `?string` | no |
 
 ```php
-$result = $enhance->emails->ssoToRoundcube('website-id', 'user@example.com');
+$ssoUrl = $enhance->emails->ssoToRoundcube('website-id', 'user@example.com');
 ```
 
 ## updateDomainEmailAuth

@@ -513,7 +513,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/my-cnf");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**
@@ -995,7 +995,7 @@ final class ServersResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/v2/servers/{$serverId}/modsec_conf");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**

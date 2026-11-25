@@ -1574,7 +1574,7 @@ final class WebsitesResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/php_error_log");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**
@@ -1829,7 +1829,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys/{$deploymentId}");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**

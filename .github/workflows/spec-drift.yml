@@ -4,6 +4,10 @@ name: Specification drift
 # fetches it weekly and fails when the committed snapshot no longer matches, so
 # the change is reviewed and the client updated (see "Specification drift" in
 # the README). It never runs on pushes or pull requests.
+#
+# GitHub disables scheduled workflows after 60 days without activity in the
+# repository. When that happens, the Actions tab says so and the workflow can
+# be enabled again there.
 
 on:
   schedule:

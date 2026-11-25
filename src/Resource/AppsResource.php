@@ -202,7 +202,7 @@ final class AppsResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/apps/persistent/{$appId}");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**
