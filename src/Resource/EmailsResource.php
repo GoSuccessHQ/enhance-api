@@ -455,6 +455,9 @@ final class EmailsResource extends AbstractResource
      *
      * Generate an SSO token for Roundcube and redirect the user
      *
+     * The redirect is not followed, so the generated SSO URL is returned from
+     * the response's Location header.
+     *
      * @link https://apidocs.enhance.com/#/emails/ssoToRoundcube
      * GET /orgs/{org_id}/websites/{website_id}/emails/{email_address}/sso
      *
@@ -462,14 +465,14 @@ final class EmailsResource extends AbstractResource
      * @param string $emailAddress The address of the email.
      * @param string|null $orgId Organization id (defaults to the configured organization)
      * @throws \GoSuccess\Enhance\Exception\ApiException
-     * @return bool True on success
+     * @return string|null The SSO URL, or null if the response carried no Location header
      */
-    public function ssoToRoundcube(string $websiteId, string $emailAddress, ?string $orgId = null): bool
+    public function ssoToRoundcube(string $websiteId, string $emailAddress, ?string $orgId = null): ?string
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/emails/{$emailAddress}/sso");
 
-        return $response->isSuccess;
+        return $response->location;
     }
 
     /**

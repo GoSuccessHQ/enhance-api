@@ -1829,7 +1829,12 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys/{$deploymentId}");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        if ($response->rawBody === '') {
+            return null;
+        }
+
+        // The log is plain text; take it verbatim unless it arrives as a JSON string.
+        return str_starts_with($response->rawBody, '"') && \is_string($response->decoded) ? $response->decoded : $response->rawBody;
     }
 
     /**

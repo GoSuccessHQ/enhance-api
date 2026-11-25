@@ -7,8 +7,10 @@ namespace GoSuccess\Enhance\Tests\Unit;
 use GoSuccess\Enhance\Client\Configuration;
 use GoSuccess\Enhance\Contract\HttpClientInterface;
 use GoSuccess\Enhance\DTO\GitDeployInfo;
+use GoSuccess\Enhance\DTO\ListedPersistentApp;
 use GoSuccess\Enhance\DTO\NewResourceUuid;
 use GoSuccess\Enhance\DTO\NewWebsite;
+use GoSuccess\Enhance\DTO\PersistentApp;
 use GoSuccess\Enhance\DTO\ResourceSample;
 use GoSuccess\Enhance\DTO\ResourceSampleIoDevice;
 use GoSuccess\Enhance\DTO\WebsiteGithubConnection;
@@ -23,6 +25,7 @@ use GoSuccess\Enhance\Http\Response;
 use GoSuccess\Enhance\Resource\PlansResource;
 use GoSuccess\Enhance\Resource\ServersResource;
 use GoSuccess\Enhance\Resource\WebsitesResource;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ResourceRequestTest extends TestCase
@@ -103,6 +106,40 @@ final class ResourceRequestTest extends TestCase
 
         self::assertSame('https://openclaw.example/sso?t=abc', $enhance->apps->openclawSso('website-id'));
         self::assertSame('/websites/website-id/openclaw/sso', $client->calls[0]['endpoint']);
+    }
+
+    public function testSsoToRoundcubeReturnsTheRedirectTarget(): void
+    {
+        $client = new SpyHttpClient(new Response(302, null, '', ['location' => 'https://mail.example/sso?t=abc']));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        self::assertSame('https://mail.example/sso?t=abc', $enhance->emails->ssoToRoundcube('website-id', 'user@example.com'));
+        self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/emails/user@example.com/sso', $client->calls[0]['endpoint']);
+    }
+
+    /**
+     * @return iterable<string, array{mixed, string, string}>
+     */
+    public static function deploymentLogs(): iterable
+    {
+        yield 'plain text' => ["\"step\"\n", " \"step\"\n", " \"step\"\n"];
+        yield 'plain text that is valid JSON' => [[1], '[1]', '[1]'];
+        yield 'JSON string' => ["line 1\nline 2", '"line 1\nline 2"', "line 1\nline 2"];
+    }
+
+    #[DataProvider('deploymentLogs')]
+    public function testTheDeploymentLogComesBackVerbatim(mixed $decoded, string $rawBody, string $expected): void
+    {
+        $client = new SpyHttpClient(new Response(200, $decoded, $rawBody));
+        $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
+
+        self::assertSame($expected, $enhance->websites->getWebsiteGitDeploymentLog('website-id', 'deploy-id'));
+    }
+
+    public function testTheNodeVersionOfAPersistentAppIsAString(): void
+    {
+        self::assertSame('default', PersistentApp::fromArray(['nodeVersion' => 'default'])->nodeVersion);
+        self::assertSame('22.11.0', ListedPersistentApp::fromArray(['nodeVersion' => '22.11.0'])->nodeVersion);
     }
 
     public function testScalarBodyIsSentVerbatim(): void

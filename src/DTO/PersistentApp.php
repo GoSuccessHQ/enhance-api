@@ -21,8 +21,7 @@ class PersistentApp extends AbstractDto
 
     public ?string $workingDirectory = null;
 
-    /** @var array<string, mixed> */
-    public ?array $nodeVersion = null;
+    public ?string $nodeVersion = null;
 
     public ?PersistentAppKind $appKind = null;
 }
