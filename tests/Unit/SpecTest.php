@@ -113,14 +113,30 @@ final class SpecTest extends TestCase
             return;
         }
 
-        self::assertSame($body['contentType'] === 'multipart/form-data', $call['multipart'], "Content type of the body of {$operationId}");
-        // A multipart body is built from the file and its name, not sent as a DTO.
-        $type = self::phpTypes($body['schema'])[0];
+        self::assertSame($body['contentType'], $call['contentType'], "Content type of the body of {$operationId}");
 
-        if (str_starts_with($type, self::DTO) && ! $call['multipart']) {
-            $types = array_map(static fn ($parameter): string => self::typeName($parameter->getType()), $method['function']->getParameters());
-            self::assertContains($type, $types, "{$operationId} takes a {$type} as body");
+        if ($body['contentType'] === 'multipart/form-data') {
+            // A multipart body is built from the file and its name, not sent as a DTO.
+            return;
         }
+
+        $parameter = null;
+
+        foreach ($method['function']->getParameters() as $candidate) {
+            if ($call['body'] === '$' . $candidate->getName()) {
+                $parameter = $candidate;
+            }
+        }
+
+        self::assertNotNull($parameter, "{$operationId} sends a parameter as body, not {$call['body']}");
+        $types = self::phpTypes($body['schema']);
+
+        if ($types === ['float']) {
+            // A number sent as body may be an id; an int keeps it from being encoded as 1.0.
+            $types[] = 'int';
+        }
+
+        self::assertContains(self::typeName($parameter->getType()), $types, "Type of the body of {$operationId}");
     }
 
     #[DataProvider('operations')]
@@ -370,7 +386,7 @@ final class SpecTest extends TestCase
      * The request call of a method: HTTP method, path with its placeholders
      * named after the variables, and the query and body arguments.
      *
-     * @return array{method: string, path: string, query: string|null, body: string|null, multipart: bool}
+     * @return array{method: string, path: string, query: string|null, body: string|null, contentType: string}
      */
     private static function requestCall(ReflectionMethod $function): array
     {
@@ -386,7 +402,7 @@ final class SpecTest extends TestCase
             'path' => $path,
             'query' => \in_array($arguments[0] ?? 'null', ['[]', 'null'], true) ? null : $arguments[0],
             'body' => \in_array($arguments[1] ?? 'null', ['null'], true) ? null : $arguments[1],
-            'multipart' => ($arguments[2] ?? null) === "'multipart/form-data'",
+            'contentType' => \in_array($arguments[2] ?? 'null', ['null'], true) ? 'application/json' : trim($arguments[2], '\'"'),
         ];
     }
 

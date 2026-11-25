@@ -388,11 +388,11 @@ Set WP user as the default SSO user for that website.
 | --------- | ---- | -------- |
 | `$websiteId` | `string` | yes |
 | `$appId` | `string` | yes |
-| `$body` | `mixed` | yes |
+| `$body` | `int` | yes |
 | `$orgId` | `?string` | no |
 
 ```php
-$result = $enhance->wordpress->setDefaultWpSsoUser('website-id', 'app-id', null);
+$result = $enhance->wordpress->setDefaultWpSsoUser('website-id', 'app-id', 1);
 ```
 
 ## setWordPressMaintenanceMode

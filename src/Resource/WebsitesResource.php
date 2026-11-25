@@ -1574,7 +1574,7 @@ final class WebsitesResource extends AbstractResource
     {
         $response = $this->client->request(HttpMethod::GET, "/websites/{$websiteId}/php_error_log");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**
@@ -1829,12 +1829,7 @@ final class WebsitesResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/git/deploys/{$deploymentId}");
 
-        if ($response->rawBody === '') {
-            return null;
-        }
-
-        // The log is plain text; take it verbatim unless it arrives as a JSON string.
-        return str_starts_with($response->rawBody, '"') && \is_string($response->decoded) ? $response->decoded : $response->rawBody;
+        return $response->text;
     }
 
     /**

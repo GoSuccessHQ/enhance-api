@@ -25,7 +25,6 @@ use GoSuccess\Enhance\Http\Response;
 use GoSuccess\Enhance\Resource\PlansResource;
 use GoSuccess\Enhance\Resource\ServersResource;
 use GoSuccess\Enhance\Resource\WebsitesResource;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ResourceRequestTest extends TestCase
@@ -117,23 +116,13 @@ final class ResourceRequestTest extends TestCase
         self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/emails/user@example.com/sso', $client->calls[0]['endpoint']);
     }
 
-    /**
-     * @return iterable<string, array{mixed, string, string}>
-     */
-    public static function deploymentLogs(): iterable
+    public function testTheDeploymentLogComesBackAsText(): void
     {
-        yield 'plain text' => ["\"step\"\n", " \"step\"\n", " \"step\"\n"];
-        yield 'plain text that is valid JSON' => [[1], '[1]', '[1]'];
-        yield 'JSON string' => ["line 1\nline 2", '"line 1\nline 2"', "line 1\nline 2"];
-    }
-
-    #[DataProvider('deploymentLogs')]
-    public function testTheDeploymentLogComesBackVerbatim(mixed $decoded, string $rawBody, string $expected): void
-    {
-        $client = new SpyHttpClient(new Response(200, $decoded, $rawBody));
+        $client = new SpyHttpClient(new Response(200, 'npm" exited with code 1', "\"npm\" exited with code 1\n"));
         $enhance = new Enhance(new Configuration('https://cp.example.com/api', 'ORG-DEFAULT', 'token'), $client);
 
-        self::assertSame($expected, $enhance->websites->getWebsiteGitDeploymentLog('website-id', 'deploy-id'));
+        self::assertSame("\"npm\" exited with code 1\n", $enhance->websites->getWebsiteGitDeploymentLog('website-id', 'deploy-id'));
+        self::assertSame('/orgs/ORG-DEFAULT/websites/website-id/git/deploys/deploy-id', $client->calls[0]['endpoint']);
     }
 
     public function testTheNodeVersionOfAPersistentAppIsAString(): void

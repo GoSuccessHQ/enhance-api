@@ -43,6 +43,29 @@ final class Response
     }
 
     /**
+     * The body as text, for endpoints that return a log or a file.
+     *
+     * A body that is a JSON string is decoded; any other body is returned
+     * verbatim, so plain text keeps its quotes and whitespace. Null when the
+     * body is empty.
+     */
+    public ?string $text {
+        get {
+            if ($this->rawBody === '') {
+                return null;
+            }
+
+            try {
+                $value = json_decode($this->rawBody, false, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                return $this->rawBody;
+            }
+
+            return \is_string($value) ? $value : $this->rawBody;
+        }
+    }
+
+    /**
      * @param int $statusCode HTTP status code
      * @param mixed $decoded JSON-decoded response body (array, scalar, or null)
      * @param string $rawBody Raw response body

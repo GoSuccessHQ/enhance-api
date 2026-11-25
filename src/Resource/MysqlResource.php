@@ -165,7 +165,7 @@ final class MysqlResource extends AbstractResource
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::GET, "/orgs/{$orgId}/websites/{$websiteId}/mysql-dbs/{$dbName}/sql");
 
-        return $response->decoded === null ? null : (string)$response->decoded;
+        return $response->text;
     }
 
     /**

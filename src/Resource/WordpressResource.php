@@ -403,12 +403,12 @@ final class WordpressResource extends AbstractResource
      *
      * @param string $websiteId The id of the website.
      * @param string $appId The id of the app.
-     * @param mixed $body
+     * @param int $body The id of the WordPress user.
      * @param string|null $orgId Organization id (defaults to the configured organization)
      * @throws \GoSuccess\Enhance\Exception\ApiException
      * @return bool True on success
      */
-    public function setDefaultWpSsoUser(string $websiteId, string $appId, mixed $body, ?string $orgId = null): bool
+    public function setDefaultWpSsoUser(string $websiteId, string $appId, int $body, ?string $orgId = null): bool
     {
         $orgId = $this->orgId($orgId);
         $response = $this->client->request(HttpMethod::PUT, "/orgs/{$orgId}/websites/{$websiteId}/apps/{$appId}/wordpress/users/default", [], $body);

@@ -33,6 +33,26 @@ final class ResponseHandlingTest extends TestCase
     }
 
     /**
+     * @return iterable<string, array{string, string|null}>
+     */
+    public static function textBodies(): iterable
+    {
+        yield 'empty' => ['', null];
+        yield 'JSON string' => ['"line 1\\nline 2"', "line 1\nline 2"];
+        yield 'JSON string after whitespace' => ["\n\"line\"", 'line'];
+        yield 'plain text' => ["first line\n  indented\n", "first line\n  indented\n"];
+        yield 'plain text starting with a quote' => ["\"npm\" exited with code 1\n", "\"npm\" exited with code 1\n"];
+        yield 'plain text that is a JSON array' => ['[1]', '[1]'];
+        yield 'plain text that is a JSON boolean' => ['true', 'true'];
+    }
+
+    #[DataProvider('textBodies')]
+    public function testTextDecodesOnlyJsonStrings(string $rawBody, ?string $expected): void
+    {
+        self::assertSame($expected, new Response(200, null, $rawBody)->text);
+    }
+
+    /**
      * @return iterable<string, array{int}>
      */
     public static function passedThroughStatuses(): iterable
